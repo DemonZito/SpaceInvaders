@@ -43,7 +43,7 @@ CLevel::CLevel()
 , m_iHeight(0)
 , m_fpsCounter(0)
 {
-	bBulletExists = false;
+	bBulletExists = true;
 }
 
 CLevel::~CLevel()
@@ -60,7 +60,7 @@ CLevel::~CLevel()
     delete m_pPlayer;
     m_pPlayer = 0;
 
-	if (bBulletExists == false)
+	if (bBulletExists == true)
 	{
 		delete m_pBullet;
 		m_pBullet = 0;
@@ -88,8 +88,8 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_pBackground->SetX((float)m_iWidth / 2);
 	m_pBackground->SetY((float)m_iHeight / 2);
 
-	m_pBullet = new CBullet();
-    VALIDATE(m_pBullet->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelY));
+	/*m_pBall = new CBullet();
+    VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));*/
 
     m_pPlayer = new CPlayer();
     VALIDATE(m_pPlayer->Initialise(m_iWidth));
@@ -157,6 +157,13 @@ void
 CLevel::Process(float _fDeltaTick)
 {
 	m_pBackground->Process(_fDeltaTick);
+	m_pBullet = m_pPlayer->GetBullet();
+
+	if (m_pBullet != nullptr)
+	{
+		bBulletExists = false;
+	}
+
 	if (bBulletExists == false)
 	{
 		m_pBullet->Process(_fDeltaTick);
@@ -166,12 +173,19 @@ CLevel::Process(float _fDeltaTick)
 
 	if (bBulletExists == false)
 	{
+		bBulletExists = ProcessBulletWallCollision();
+		//ProcessPaddleWallCollison();
+	
+		if (bBulletExists == false)
+		{
+			//ProcessBallPaddleCollision();
+			bBulletExists = ProcessBulletEnemyCollision();
+			ProcessCheckForWin();
+			ProcessBulletBounds();
+		}
 
-		bBulletExists = ProcessBulletEnemyCollision();
 
-
-		ProcessCheckForWin();
-		ProcessBulletBounds();
+		
 	}
 
     for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
@@ -189,6 +203,58 @@ CLevel::GetPaddle() const
 {
     return (m_pPlayer);
 }
+
+bool 
+CLevel::ProcessBulletWallCollision()
+{
+    float fBallX = m_pBullet->GetX();
+    float fBallY = m_pBullet->GetY();
+    float fBallW = m_pBullet->GetWidth();
+    float fBallH = m_pBullet->GetHeight();
+
+    float fHalfBallW = fBallW / 2;
+	float fHalfBallH = fBallH / 2;
+
+	if (fBallY < fHalfBallH) //represents the situation when the ball has hit the top wall
+    {
+		delete m_pBullet;
+		m_pPlayer->SetBullet(nullptr);
+		bBulletExists = false;
+		SetEnemiesRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
+		return true;
+    }
+	else
+	{
+		return false;
+	}
+}
+
+
+
+
+//void
+//CLevel::ProcessBallPaddleCollision()
+//{
+//    float fBallR = m_pBullet->GetRadius();
+//
+//    float fBallX = m_pBullet->GetX();
+//    float fBallY = m_pBullet->GetY();
+//
+//    float fPaddleX = m_pPlayer->GetX();
+//    float fPaddleY = m_pPlayer->GetY();
+//
+//    float fPaddleH = m_pPlayer->GetHeight();
+//    float fPaddleW = m_pPlayer->GetWidth();
+//
+//    if ((fBallX + fBallR > fPaddleX - fPaddleW / 2) && //ball.right > paddle.left
+//        (fBallX - fBallR < fPaddleX + fPaddleW / 2) && //ball.left < paddle.right
+//        (fBallY + fBallR > fPaddleY - fPaddleH / 2) && //ball.bottom > paddle.top
+//        (fBallY - fBallR < fPaddleY + fPaddleH / 2))  //ball.top < paddle.bottom
+//    {
+//		m_pBullet->SetY((fPaddleY - fPaddleH / 2) - fBallR);  //Set the ball.bottom = paddle.top; to prevent the ball from going through the paddle!
+//		m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1); //Reverse ball's Y direction
+//    }
+//}
 
 bool
 CLevel::ProcessBulletEnemyCollision()
@@ -219,6 +285,8 @@ CLevel::ProcessBulletEnemyCollision()
                 m_vecEnemies[i]->SetHit(true);
 				
 				delete m_pBullet;
+				m_pPlayer->SetBullet(nullptr);
+				bBulletExists = false;
                 SetEnemiesRemaining(GetBricksRemaining() - 1);
 				return true;
             }

@@ -51,8 +51,12 @@ public:
     int GetBricksRemaining() const;
 
 protected:
-	void ProcessPlayerWallCollison();
-	bool ProcessBulletEnemyCollision();
+    bool ProcessBulletWallCollision();
+	//void ProcessPaddleWallCollison();
+    void ProcessBallPaddleCollision();
+    bool ProcessBulletEnemyCollision();
+	//void ProcessPlayerWallCollison();
+//	bool ProcessBulletEnemyCollision();
 
     void ProcessCheckForWin();
 

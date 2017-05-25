@@ -22,6 +22,7 @@
 // Local Includes
 #include "entity.h"
 #include "Sprite.h"
+#include "bullet.h"
 
 // Types
 
@@ -40,6 +41,9 @@ public:
     virtual void Draw();
     virtual void Process(float _fDeltaTick);
 
+	CBullet* GetBullet();
+	void SetBullet(CBullet*);
+
 
 protected:
 
@@ -54,6 +58,7 @@ public:
 protected:
 
 private:
+	CBullet* m_pBullet = nullptr;
 
 };
 

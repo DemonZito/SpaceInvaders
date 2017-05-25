@@ -76,7 +76,7 @@ CPlayer::Process(float _fDeltaTick)
 		}
 		
 	}
-	if (m_fX - fHalfPaddleW <= 0)
+	if (m_fX - fHalfPlayerW <= 0)
 	{
 		m_fX = fHalfPlayerW;
 	}

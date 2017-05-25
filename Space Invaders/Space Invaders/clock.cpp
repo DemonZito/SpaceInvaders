@@ -108,6 +108,11 @@ CClock::GetDeltaTick()
 	return static_cast<float>(m_fDeltaTime);
 }
 
+double CClock::GetCurTime()
+{
+	return m_fCurrentTime;
+}
+
 
 //int
 //CClock::CountFramesPerSecond(float m_fDeltaTime)

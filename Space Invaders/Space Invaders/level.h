@@ -53,7 +53,7 @@ public:
 protected:
     bool ProcessBulletWallCollision();
 	//void ProcessPaddleWallCollison();
-    void ProcessBallPaddleCollision();
+   // void ProcessBallPaddleCollision();
     bool ProcessBulletEnemyCollision();
 	//void ProcessPlayerWallCollison();
 //	bool ProcessBulletEnemyCollision();

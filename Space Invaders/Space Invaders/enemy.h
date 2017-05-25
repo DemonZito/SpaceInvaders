@@ -21,6 +21,7 @@
 
 // Local Includes
 #include "entity.h"
+#include "clock.h"
 
 // Types
 
@@ -43,6 +44,8 @@ public:
     void SetHit(bool _b);
     bool IsHit() const;
 
+	void Movement(float _fDeltaTick);
+
 protected:
 
 private:
@@ -51,11 +54,15 @@ private:
 
     // Member Variables
 public:
-
+	int m_iSpeed;
+	int m_iDirection;
+	bool m_bWallHit;
 protected:
     bool m_bHit;
 
 private:
+	float m_fTime;
+	CClock* clock;
 
 };
 

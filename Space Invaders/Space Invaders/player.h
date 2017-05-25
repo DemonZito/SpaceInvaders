@@ -35,7 +35,7 @@ public:
     CPlayer();
     virtual ~CPlayer();
 
-    virtual bool Initialise();
+    virtual bool Initialise(const int _iScreenWidth);
 
     virtual void Draw();
     virtual void Process(float _fDeltaTick);
@@ -46,6 +46,7 @@ protected:
 private:
     CPlayer(const CPlayer& _kr);
     CPlayer& operator= (const CPlayer& _kr);
+	int m_iScreenWidth;
 
     // Member Variables
 public:

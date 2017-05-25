@@ -38,10 +38,10 @@ CPlayer::~CPlayer()
 }
 
 bool
-CPlayer::Initialise()
+CPlayer::Initialise(const int _iScreenWidth)
 {
-    VALIDATE(CEntity::Initialise(IDB_PADDLESPRITE, IDB_PADDLEMASK));
-
+	VALIDATE(CEntity::Initialise(IDB_PADDLESPRITE, IDB_PADDLEMASK));
+	m_iScreenWidth = _iScreenWidth;
     return (true);
 }
 
@@ -69,9 +69,9 @@ CPlayer::Process(float _fDeltaTick)
 	{
 		m_fX = fHalfPlayerW;
 	}
-	else if (m_fX + fHalfPlayerW >= 800)
+	else if (m_fX + fHalfPlayerW >= m_iScreenWidth)
 	{
-		m_fX = 800-fHalfPlayerW;
+		m_fX = m_iScreenWidth - fHalfPlayerW;
 	}
 	
 	CEntity::Process(_fDeltaTick);

@@ -92,7 +92,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
     VALIDATE(m_pBullet->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelY));
 
     m_pPlayer = new CPlayer();
-    VALIDATE(m_pPlayer->Initialise());
+    VALIDATE(m_pPlayer->Initialise(m_iWidth));
 
     // Set the paddle's position to be centered on the x, 
     // and a little bit up from the bottom of the window.

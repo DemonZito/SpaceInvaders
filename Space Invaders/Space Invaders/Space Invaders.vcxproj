@@ -142,7 +142,46 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="backbuffer.cpp" />
+    <ClCompile Include="background.cpp" />
+    <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="clock.cpp" />
+    <ClCompile Include="entity.cpp" />
+    <ClCompile Include="framecounter.cpp" />
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="level.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="sprite.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="backbuffer.h" />
+    <ClInclude Include="background.h" />
+    <ClInclude Include="bullet.h" />
+    <ClInclude Include="enemy.h" />
+    <ClInclude Include="clock.h" />
+    <ClInclude Include="entity.h" />
+    <ClInclude Include="framecounter.h" />
+    <ClInclude Include="game.h" />
+    <ClInclude Include="level.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="sprite.h" />
+    <ClInclude Include="utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Breakout.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Sprites\Background.bmp" />
+    <Image Include="Sprites\BackgroundMask.bmp" />
+    <Image Include="Sprites\BallMask.bmp" />
+    <Image Include="Sprites\BallSprite.bmp" />
+    <Image Include="Sprites\BrickMask.bmp" />
+    <Image Include="Sprites\BrickSprite.bmp" />
+    <Image Include="Sprites\PaddleMask.bmp" />
+    <Image Include="Sprites\PaddleSprite.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

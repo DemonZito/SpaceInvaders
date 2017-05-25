@@ -51,20 +51,18 @@ public:
     int GetBricksRemaining() const;
 
 protected:
-    void ProcessBallWallCollision();
-	void ProcessPaddleWallCollison();
-    void ProcessBallPaddleCollision();
-    bool ProcessBallBrickCollision();
+	void ProcessPlayerWallCollison();
+	bool ProcessBulletEnemyCollision();
 
     void ProcessCheckForWin();
 
-    void ProcessBallBounds();
+    void ProcessBulletBounds();
 
     void UpdateScoreText();
     void DrawScore();
 	void DrawFPS();
 
-    void SetBricksRemaining(int _i);
+    void SetEnemiesRemaining(int _i);
 
 private:
     CLevel(const CLevel& _kr);
@@ -75,15 +73,15 @@ public:
 
 protected:
 	CBackGround* m_pBackground;
-    CBullet* m_pBall;
-    CPlayer* m_pPaddle;
-    std::vector<IEnemy*> m_vecBricks;
+    CBullet* m_pBullet;
+    CPlayer* m_pPlayer;
+    std::vector<IEnemy*> m_vecEnemies;
 	CFPSCounter* m_fpsCounter;
 
     int m_iWidth;
     int m_iHeight;
 
-    int m_iBricksRemaining;
+    int m_iEnemyRemaining;
 
     std::string m_strScore;
 

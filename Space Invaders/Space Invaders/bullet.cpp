@@ -28,8 +28,7 @@
 // Implementation
 
 CBullet::CBullet()
-: m_fVelocityX(0.0f)
-, m_fVelocityY(0.0f)
+: m_fVelocityY(0.0f)
 {
 
 }
@@ -40,14 +39,13 @@ CBullet::~CBullet()
 }
 
 bool
-CBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityX, float _fVelocityY)
+CBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
 {
     VALIDATE(CEntity::Initialise(IDB_BALLSPRITE, IDB_BALLMASK));
     
     m_fX = _fPosX;
     m_fY = _fPosY;
 
-    m_fVelocityX = _fVelocityX;
     m_fVelocityY = _fVelocityY;
 
     return (true);
@@ -69,21 +67,9 @@ CBullet::Process(float _fDeltaTick)
 }
 
 float 
-CBullet::GetVelocityX() const
-{
-    return (m_fVelocityX);
-}
-
-float 
 CBullet::GetVelocityY() const
 {
     return (m_fVelocityY);
-}
-
-void 
-CBullet::SetVelocityX(float _fX)
-{
-    m_fVelocityX = _fX;
 }
 
 void 

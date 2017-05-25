@@ -36,14 +36,12 @@ public:
     CBullet();
     virtual ~CBullet();
 
-    virtual bool Initialise(float _fPosX, float _fPosY, float _fVelocityX, float _fVelocityY);
+    virtual bool Initialise(float _fPosX, float _fPosY, float _fVelocityY);
 
     virtual void Draw();
     virtual void Process(float _fDeltaTick);
 
-    float GetVelocityX() const;
     float GetVelocityY() const;
-    void SetVelocityX(float _fX);
     void SetVelocityY(float _fY);
 
     float GetRadius() const;
@@ -58,7 +56,6 @@ private:
 public:
 
 protected:
-    float m_fVelocityX;
     float m_fVelocityY;
 
 private:

@@ -99,9 +99,9 @@ CLevel::Initialise(int _iWidth, int _iHeight)
     m_pPlayer->SetX(_iWidth / 2.0f);
     m_pPlayer->SetY(_iHeight - ( 1.5 * m_pPlayer->GetHeight()));
 
-    const int kiNumBricks = 36;
+    const int kiNumBricks = 60;
     const int kiStartX = 20;
-    const int kiGap = 5;
+    const int kiGap = 15;
 
     int iCurrentX = kiStartX;
     int iCurrentY = kiStartX;
@@ -116,10 +116,10 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
         iCurrentX += static_cast<int>(pBrick->GetWidth()) + kiGap;
 
-        if (iCurrentX > _iWidth)
+        if (iCurrentX > (_iWidth - 150))
         {
             iCurrentX = kiStartX;
-            iCurrentY += 20;
+            iCurrentY += 30;
         }
 
         m_vecEnemies.push_back(pBrick);

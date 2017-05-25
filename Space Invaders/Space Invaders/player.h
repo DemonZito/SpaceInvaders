@@ -57,7 +57,7 @@ public:
 protected:
 
 private:
-	CBullet* m_pBall = nullptr;
+	CBullet* m_pBullet = nullptr;
 
 };
 

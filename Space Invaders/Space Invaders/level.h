@@ -52,11 +52,11 @@ public:
 
 protected:
     bool ProcessBulletWallCollision();
-	void ProcessPaddleWallCollison();
+	//void ProcessPaddleWallCollison();
     void ProcessBallPaddleCollision();
-    bool ProcessBallBrickCollision();
-	void ProcessPlayerWallCollison();
-	bool ProcessBulletEnemyCollision();
+    bool ProcessBulletEnemyCollision();
+	//void ProcessPlayerWallCollison();
+//	bool ProcessBulletEnemyCollision();
 
     void ProcessCheckForWin();
 

@@ -69,10 +69,10 @@ CPlayer::Process(float _fDeltaTick)
 	}
 	else if (GetAsyncKeyState(VK_UP) & 0x8000)
 	{
-		if(m_pBall == nullptr)
+		if(m_pBullet == nullptr)
 		{
-			m_pBall = new CBullet();
-			m_pBall->Initialise(m_fX, m_fY - 15, 0, -260.0);
+			m_pBullet = new CBullet();
+			m_pBullet->Initialise(m_fX, m_fY - 15, -260.0);
 		}
 		
 	}
@@ -91,10 +91,10 @@ CPlayer::Process(float _fDeltaTick)
 
 CBullet * CPlayer::GetBullet()
 {
-	return m_pBall;
+	return m_pBullet;
 }
 
 void CPlayer::SetBullet(CBullet * _pBullet)
 {
-	m_pBall = _pBullet;
+	m_pBullet = _pBullet;
 }

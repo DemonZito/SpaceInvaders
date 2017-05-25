@@ -157,9 +157,9 @@ void
 CLevel::Process(float _fDeltaTick)
 {
 	m_pBackground->Process(_fDeltaTick);
-	m_pBall = m_pPaddle->GetBullet();
+	m_pBullet = m_pPlayer->GetBullet();
 
-	if (m_pBall != nullptr)
+	if (m_pBullet != nullptr)
 	{
 		bBulletExists = false;
 	}
@@ -178,17 +178,17 @@ CLevel::Process(float _fDeltaTick)
 	
 		if (bBulletExists == false)
 		{
-			ProcessBallPaddleCollision();
-			bBulletExists = ProcessBallBrickCollision();
+			//ProcessBallPaddleCollision();
+			bBulletExists = ProcessBulletEnemyCollision();
 			ProcessCheckForWin();
-			ProcessBallBounds();
+			ProcessBulletBounds();
 		}
 
 
 		
 	}
 
-    for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
+    for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
     {
         m_vecEnemies[i]->Process(_fDeltaTick);
     }
@@ -201,26 +201,26 @@ CLevel::Process(float _fDeltaTick)
 CPlayer* 
 CLevel::GetPaddle() const
 {
-    return (m_pPaddle);
+    return (m_pPlayer);
 }
 
 bool 
 CLevel::ProcessBulletWallCollision()
 {
-    float fBallX = m_pBall->GetX();
-    float fBallY = m_pBall->GetY();
-    float fBallW = m_pBall->GetWidth();
-    float fBallH = m_pBall->GetHeight();
+    float fBallX = m_pBullet->GetX();
+    float fBallY = m_pBullet->GetY();
+    float fBallW = m_pBullet->GetWidth();
+    float fBallH = m_pBullet->GetHeight();
 
     float fHalfBallW = fBallW / 2;
 	float fHalfBallH = fBallH / 2;
 
 	if (fBallY < fHalfBallH) //represents the situation when the ball has hit the top wall
     {
-		delete m_pBall;
-		m_pPaddle->SetBullet(nullptr);
+		delete m_pBullet;
+		m_pPlayer->SetBullet(nullptr);
 		bBulletExists = false;
-		SetBricksRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
+		SetEnemiesRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
 		return true;
     }
 	else
@@ -232,29 +232,29 @@ CLevel::ProcessBulletWallCollision()
 
 
 
-void
-CLevel::ProcessBallPaddleCollision()
-{
-    float fBallR = m_pBall->GetRadius();
-
-    float fBallX = m_pBall->GetX();
-    float fBallY = m_pBall->GetY(); 
-
-    float fPaddleX = m_pPaddle->GetX();
-    float fPaddleY = m_pPaddle->GetY();
-
-    float fPaddleH = m_pPaddle->GetHeight();
-    float fPaddleW = m_pPaddle->GetWidth();
-
-    if ((fBallX + fBallR > fPaddleX - fPaddleW / 2) && //ball.right > paddle.left
-        (fBallX - fBallR < fPaddleX + fPaddleW / 2) && //ball.left < paddle.right
-        (fBallY + fBallR > fPaddleY - fPaddleH / 2) && //ball.bottom > paddle.top
-        (fBallY - fBallR < fPaddleY + fPaddleH / 2))  //ball.top < paddle.bottom
-    {
-        m_pBall->SetY((fPaddleY - fPaddleH / 2) - fBallR);  //Set the ball.bottom = paddle.top; to prevent the ball from going through the paddle!
-        m_pBall->SetVelocityY(m_pBall->GetVelocityY() * -1); //Reverse ball's Y direction
-    }
-}
+//void
+//CLevel::ProcessBallPaddleCollision()
+//{
+//    float fBallR = m_pBullet->GetRadius();
+//
+//    float fBallX = m_pBullet->GetX();
+//    float fBallY = m_pBullet->GetY();
+//
+//    float fPaddleX = m_pPlayer->GetX();
+//    float fPaddleY = m_pPlayer->GetY();
+//
+//    float fPaddleH = m_pPlayer->GetHeight();
+//    float fPaddleW = m_pPlayer->GetWidth();
+//
+//    if ((fBallX + fBallR > fPaddleX - fPaddleW / 2) && //ball.right > paddle.left
+//        (fBallX - fBallR < fPaddleX + fPaddleW / 2) && //ball.left < paddle.right
+//        (fBallY + fBallR > fPaddleY - fPaddleH / 2) && //ball.bottom > paddle.top
+//        (fBallY - fBallR < fPaddleY + fPaddleH / 2))  //ball.top < paddle.bottom
+//    {
+//		m_pBullet->SetY((fPaddleY - fPaddleH / 2) - fBallR);  //Set the ball.bottom = paddle.top; to prevent the ball from going through the paddle!
+//		m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1); //Reverse ball's Y direction
+//    }
+//}
 
 bool
 CLevel::ProcessBulletEnemyCollision()
@@ -284,10 +284,10 @@ CLevel::ProcessBulletEnemyCollision()
                 m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
                 m_vecEnemies[i]->SetHit(true);
 				
-				delete m_pBall;
-				m_pPaddle->SetBullet(nullptr);
+				delete m_pBullet;
+				m_pPlayer->SetBullet(nullptr);
 				bBulletExists = false;
-                SetBricksRemaining(GetBricksRemaining() - 1);
+                SetEnemiesRemaining(GetBricksRemaining() - 1);
 				return true;
             }
         }

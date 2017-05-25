@@ -43,7 +43,7 @@ CLevel::CLevel()
 , m_iHeight(0)
 , m_fpsCounter(0)
 {
-	bBulletExists = false;
+	bBulletExists = true;
 }
 
 CLevel::~CLevel()
@@ -60,7 +60,7 @@ CLevel::~CLevel()
     delete m_pPaddle;
     m_pPaddle = 0;
 
-	if (bBulletExists)
+	if (bBulletExists == true)
 	{
 		delete m_pBall;
 		m_pBall = 0;
@@ -89,8 +89,8 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_pBackground->SetX((float)m_iWidth / 2);
 	m_pBackground->SetY((float)m_iHeight / 2);
 
-	m_pBall = new CBullet();
-    VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));
+	/*m_pBall = new CBullet();
+    VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));*/
 
     m_pPaddle = new CPlayer();
     VALIDATE(m_pPaddle->Initialise());
@@ -158,6 +158,13 @@ void
 CLevel::Process(float _fDeltaTick)
 {
 	m_pBackground->Process(_fDeltaTick);
+	m_pBall = m_pPaddle->GetBullet();
+
+	if (m_pBall != nullptr)
+	{
+		bBulletExists = false;
+	}
+
 	if (bBulletExists == false)
 	{
 		m_pBall->Process(_fDeltaTick);
@@ -167,15 +174,19 @@ CLevel::Process(float _fDeltaTick)
 
 	if (bBulletExists == false)
 	{
-		ProcessBallWallCollision();
+		bBulletExists = ProcessBulletWallCollision();
 		//ProcessPaddleWallCollison();
-		ProcessBallPaddleCollision();
+	
+		if (bBulletExists == false)
+		{
+			ProcessBallPaddleCollision();
+			bBulletExists = ProcessBallBrickCollision();
+			ProcessCheckForWin();
+			ProcessBallBounds();
+		}
 
-		bBulletExists = ProcessBallBrickCollision();
 
-
-		ProcessCheckForWin();
-		ProcessBallBounds();
+		
 	}
 
     for (unsigned int i = 0; i < m_vecBricks.size(); ++i)
@@ -194,8 +205,8 @@ CLevel::GetPaddle() const
     return (m_pPaddle);
 }
 
-void 
-CLevel::ProcessBallWallCollision()
+bool 
+CLevel::ProcessBulletWallCollision()
 {
     float fBallX = m_pBall->GetX();
     float fBallY = m_pBall->GetY();
@@ -205,26 +216,18 @@ CLevel::ProcessBallWallCollision()
     float fHalfBallW = fBallW / 2;
 	float fHalfBallH = fBallH / 2;
 
-    if (fBallX < fHalfBallW) //represents the situation when the ball has hit the left wall
-    {
-        m_pBall->SetVelocityX(m_pBall->GetVelocityX() * -1); //reverse the ball's x velocity
-    }
-    else if (fBallX > m_iWidth - fHalfBallW) //represents the situation when the ball has hit the right wall
-    {
-        m_pBall->SetVelocityX(m_pBall->GetVelocityX() * -1); //reverse the ball's x velocity direction
-    }
-
 	if (fBallY < fHalfBallH) //represents the situation when the ball has hit the top wall
     {
-        m_pBall->SetVelocityY(m_pBall->GetVelocityY() * -1); //reverse the ball's y velocity
+		delete m_pBall;
+		m_pPaddle->SetBullet(nullptr);
+		bBulletExists = false;
+		SetBricksRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
+		return true;
     }
-
-#ifdef CHEAT_BOUNCE_ON_BACK_WALL
-	if (fBallY  > m_iHeight - fHalfBallH)  //represents the situation when the ball has hit the bottom wall
-    {
-        m_pBall->SetVelocityY(m_pBall->GetVelocityY() * -1); //reverse the ball's y velocity
-    }
-#endif //CHEAT_BOUNCE_ON_BACK_WALL
+	else
+	{
+		return false;
+	}
 }
 
 
@@ -283,6 +286,8 @@ CLevel::ProcessBallBrickCollision()
                 m_vecBricks[i]->SetHit(true);
 				
 				delete m_pBall;
+				m_pPaddle->SetBullet(nullptr);
+				bBulletExists = false;
                 SetBricksRemaining(GetBricksRemaining() - 1);
 				return true;
             }

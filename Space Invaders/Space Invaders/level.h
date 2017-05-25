@@ -51,7 +51,7 @@ public:
     int GetBricksRemaining() const;
 
 protected:
-    void ProcessBallWallCollision();
+    bool ProcessBulletWallCollision();
 	void ProcessPaddleWallCollison();
     void ProcessBallPaddleCollision();
     bool ProcessBallBrickCollision();

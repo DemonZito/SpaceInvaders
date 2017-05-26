@@ -91,7 +91,6 @@ protected:
 
 private:
 	bool bBulletExists;
-	bool hitwall;
 };
 
 #endif    // __LEVEL_H__

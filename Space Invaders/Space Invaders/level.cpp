@@ -67,6 +67,15 @@ CLevel::~CLevel()
 		m_pBullet = 0;
 	}
 
+	while (m_vecpEnemyBullets.size() > 0)
+	{
+		CBullet* pEnemyBullet = m_vecpEnemyBullets[m_vecpEnemyBullets.size() - 1];
+
+		m_vecpEnemyBullets.pop_back();
+
+		delete pEnemyBullet;
+	}
+
 	delete m_fpsCounter;
 	m_fpsCounter = 0;
 
@@ -141,7 +150,7 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 			if ((m_vecEnemies.at(j) != nullptr) && (j % 12 == _iStack))
 			{
 				
-				m_vecEnemies.at(j)->shoot(&m_vecEnemyBullets);
+				m_vecEnemies.at(j)->shoot(&m_vecpEnemyBullets);
 				
 				return true;
 			}
@@ -167,11 +176,11 @@ CLevel::Draw()
 		m_pBullet->Draw();
 	}
 
-	for (int i = 0; i < m_vecEnemyBullets.size(); i++)
+	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
 	{
-		if (m_vecEnemyBullets.empty() == false)
+		if (m_vecpEnemyBullets.empty() == false)
 		{
-			m_vecEnemyBullets[i]->Draw();
+			m_vecpEnemyBullets[i]->Draw();
 		}
 	}
 
@@ -197,9 +206,9 @@ CLevel::Process(float _fDeltaTick)
 		m_pBullet->Process(_fDeltaTick);
 	}
 
-	for (int i = 0; i < m_vecEnemyBullets.size(); i++)
+	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
 	{
-		m_vecEnemyBullets[i]->Process(_fDeltaTick);
+		m_vecpEnemyBullets[i]->Process(_fDeltaTick);
 	}
 
 	m_pPlayer->Process(_fDeltaTick);

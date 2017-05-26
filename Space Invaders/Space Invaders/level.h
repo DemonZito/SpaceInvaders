@@ -82,7 +82,7 @@ protected:
 	CPlayer* m_pPlayer;
 	std::vector<IEnemy*> m_vecEnemies;
 	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
-	std::vector<CEnemyBullet*> m_vecEnemyBullets;
+	std::vector<CEnemyBullet*> m_vecpEnemyBullets;
 	CFPSCounter* m_fpsCounter;
 
 	int m_iWidth;

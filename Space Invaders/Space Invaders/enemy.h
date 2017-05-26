@@ -22,7 +22,6 @@
 // Local Includes
 #include "entity.h"
 #include "clock.h"
-#include "bullet.h"
 
 // Types
 
@@ -44,7 +43,6 @@ public:
 
     void SetHit(bool _b);
     bool IsHit() const;
-	void shoot();
 
 	void Movement(float _fDeltaTick);
 	void Shoot(float _fDeltaTick);
@@ -60,17 +58,12 @@ public:
 	float m_fSpeed;
 	int m_iDirection;
 	bool m_bWallHit;
-
-
-	CBullet* GetBullet();
-	void SetBullet(CBullet*);
 protected:
     bool m_bHit;
 
 private:
 	float m_fTime;
 	CClock* clock;
-	CBullet* m_pBullet = nullptr;
 
 };
 

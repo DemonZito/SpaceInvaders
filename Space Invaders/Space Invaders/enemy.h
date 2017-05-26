@@ -22,6 +22,7 @@
 // Local Includes
 #include "entity.h"
 #include "clock.h"
+#include "bullet.h"
 
 // Types
 
@@ -31,39 +32,44 @@
 
 class IEnemy : public CEntity
 {
-    // Member Functions
+	// Member Functions
 public:
-    IEnemy();
-    virtual ~IEnemy();
+	IEnemy();
+	virtual ~IEnemy();
 
-    virtual bool Initialise();
+	virtual bool Initialise();
 
-    virtual void Draw();
-    virtual void Process(float _fDeltaTick);
+	virtual void Draw();
+	virtual void Process(float _fDeltaTick);
 
-    void SetHit(bool _b);
-    bool IsHit() const;
+	void SetHit(bool _b);
+	bool IsHit() const;
+	CBullet* shoot(float _fDeltaTick);
 
 	void Movement(float _fDeltaTick);
-	void Shoot(float _fDeltaTick);
 
 protected:
 
 private:
-    IEnemy(const IEnemy& _kr);
-    IEnemy& operator= (const IEnemy& _kr);
+	IEnemy(const IEnemy& _kr);
+	IEnemy& operator= (const IEnemy& _kr);
 
-    // Member Variables
+	// Member Variables
 public:
 	float m_fSpeed;
 	int m_iDirection;
 	bool m_bWallHit;
+
+	void MoveDown(float _fDeltaTick);
+	CBullet* GetBullet();
+	void SetBullet(CBullet*);
 protected:
-    bool m_bHit;
+	bool m_bHit;
 
 private:
 	float m_fTime;
 	CClock* clock;
+	CBullet* m_pBullet = nullptr;
 
 };
 

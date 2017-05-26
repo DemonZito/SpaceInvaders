@@ -36,61 +36,64 @@ class CBackGround;
 
 class CLevel
 {
-    // Member Functions
+	// Member Functions
 public:
-    CLevel();
-    virtual ~CLevel();
+	CLevel();
+	virtual ~CLevel();
 
-    virtual bool Initialise(int _iWidth, int _iHeight);
+	virtual bool Initialise(int _iWidth, int _iHeight);
 
-    virtual void Draw();
-    virtual void Process(float _fDeltaTick);
+	virtual void Draw();
+	virtual void Process(float _fDeltaTick);
 
-    CPlayer* GetPaddle() const;
+	CPlayer* GetPaddle() const;
 
-    int GetBricksRemaining() const;
+	int GetBricksRemaining() const;
 
 protected:
-    bool ProcessBulletWallCollision();
+	bool ProcessBulletWallCollision();
 	//void ProcessPaddleWallCollison();
-   // void ProcessBallPaddleCollision();
-    bool ProcessBulletEnemyCollision();
+	// void ProcessBallPaddleCollision();
+	bool ProcessBulletEnemyCollision();
 	//void ProcessPlayerWallCollison();
-//	bool ProcessBulletEnemyCollision();
+	//	bool ProcessBulletEnemyCollision();
 
-    void ProcessCheckForWin();
+	void ProcessCheckForWin();
 
-    void ProcessBulletBounds();
+	void ProcessBulletBounds();
 
-    void UpdateScoreText();
-    void DrawScore();
+	void UpdateScoreText();
+	void DrawScore();
 	void DrawFPS();
 
-    void SetEnemiesRemaining(int _i);
+	void SetEnemiesRemaining(int _i);
 
 private:
-    CLevel(const CLevel& _kr);
-    CLevel& operator= (const CLevel& _kr);
+	CLevel(const CLevel& _kr);
+	CLevel& operator= (const CLevel& _kr);
 
-    // Member Variables
+	// Member Variables
 public:
-
+	CBullet* m_pBullet;
 protected:
 	CBackGround* m_pBackground;
-    CBullet* m_pBullet;
-    CPlayer* m_pPlayer;
-    std::vector<IEnemy*> m_vecEnemies;
+	
+	CPlayer* m_pPlayer;
+	std::vector<IEnemy*> m_vecEnemies;
+	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
 	CFPSCounter* m_fpsCounter;
 
-    int m_iWidth;
-    int m_iHeight;
+	int m_iWidth;
+	int m_iHeight;
 
-    int m_iEnemyRemaining;
+	int m_iEnemyRemaining;
 
-    std::string m_strScore;
+	std::string m_strScore;
 
 private:
 	bool bBulletExists;
+	bool AlienShoot(int _iStack, float _fDeltaTick);
+	float m_fTime;
 };
 
 #endif    // __LEVEL_H__

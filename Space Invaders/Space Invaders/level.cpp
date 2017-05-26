@@ -165,7 +165,10 @@ CLevel::Draw()
 	m_pBackground->Draw();
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
-		m_vecEnemies[i]->Draw();
+		if (m_vecEnemies[i] != nullptr)
+		{
+			m_vecEnemies[i]->Draw();
+		}
 	}
 
 	m_pPlayer->Draw();
@@ -236,7 +239,7 @@ CLevel::Process(float _fDeltaTick)
 		{
 			hitwall = true;
 		}*/
-		if (m_vecEnemies[j]->m_iDirection > 0) // Move left
+		if (m_vecEnemies[j] != nullptr && m_vecEnemies[j]->m_iDirection > 0) // Move left
 		{
 			if (m_vecEnemies[j]->GetX() + (10) + m_vecEnemies[j]->GetWidth() / 2 >= m_iWidth)
 			{
@@ -244,7 +247,7 @@ CLevel::Process(float _fDeltaTick)
 			}
 		
 		}
-		else if (m_vecEnemies[j]->m_iDirection < 0)
+		else if (m_vecEnemies[j] != nullptr && m_vecEnemies[j]->m_iDirection < 0)
 		{
 			if (m_vecEnemies[j]->GetX() + (10) - m_vecEnemies[j]->GetWidth() <= 0)
 			{
@@ -261,8 +264,11 @@ CLevel::Process(float _fDeltaTick)
 			{
 				for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 				{
-					m_vecEnemies[i]->m_iDirection *= -1;
-					m_vecEnemies[i]->MoveDown(_fDeltaTick);
+					if (m_vecEnemies[i] != nullptr)
+					{
+						m_vecEnemies[i]->m_iDirection *= -1;
+						m_vecEnemies[i]->MoveDown(_fDeltaTick);
+					}
 				}
 				hitwall = false;
 			}
@@ -271,8 +277,11 @@ CLevel::Process(float _fDeltaTick)
 		{
 			for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 			{
-				m_vecEnemies[i]->Process(_fDeltaTick);
+				if (m_vecEnemies[i] != nullptr)
+				{
+					m_vecEnemies[i]->Process(_fDeltaTick);
 
+				}
 			}
 		}
 
@@ -305,7 +314,6 @@ CLevel::ProcessBulletWallCollision()
 		delete m_pBullet;
 		m_pPlayer->SetBullet(nullptr);
 		bBulletExists = false;
-		//SetEnemiesRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
 		return true;
 	}
 	else
@@ -343,7 +351,7 @@ CLevel::ProcessBulletEnemyCollision()
 {
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
-		if (!m_vecEnemies[i]->IsHit())
+		if (m_vecEnemies[i] != nullptr && !m_vecEnemies[i]->IsHit())
 		{
 			float fBallR = m_pBullet->GetRadius();
 
@@ -367,7 +375,9 @@ CLevel::ProcessBulletEnemyCollision()
 				
 				//IEnemy* pEnemy = m_vecEnemies[i];
 
-				m_vecEnemies.erase(m_vecEnemies.begin() + i);
+				//m_vecEnemies.erase(m_vecEnemies.begin() + i);
+
+				m_vecEnemies[i] = nullptr;
 
 				//delete pEnemy;
 
@@ -377,7 +387,10 @@ CLevel::ProcessBulletEnemyCollision()
 				SetEnemiesRemaining(GetBricksRemaining() - 1);
 				for (unsigned int j = 0; j < m_vecEnemies.size(); j++)
 				{
-					m_vecEnemies[j]->m_fSpeed *= 0.95;
+					if (m_vecEnemies[j] != nullptr)
+					{
+						m_vecEnemies[j]->m_fSpeed *= 0.95;
+					}
 				}
 				return true;
 			}
@@ -392,7 +405,7 @@ CLevel::ProcessCheckForWin()
 {
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
-		if (!m_vecEnemies[i]->IsHit())
+		if (m_vecEnemies[i] != nullptr && !m_vecEnemies[i]->IsHit())
 		{
 			return;
 		}

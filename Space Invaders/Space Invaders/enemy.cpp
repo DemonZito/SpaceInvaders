@@ -30,7 +30,7 @@
 IEnemy::IEnemy()
 	: m_bHit(false),
 	m_fTime(0),
-	m_iSpeed(10),
+	m_fSpeed(1.0f),
 	m_iDirection(1),
 	m_bWallHit(false)
 {
@@ -64,7 +64,7 @@ IEnemy::Process(float _fDeltaTick)
 {
     if (!m_bHit)
     {
-		Movement(_fDeltaTick);
+		//Movement(_fDeltaTick);
 
 		//_fTime = clock->GetCurTime();
 
@@ -88,21 +88,29 @@ void IEnemy::Movement(float _fDeltaTick)
 {
 	m_fTime += _fDeltaTick;
 
-	if (m_fTime >= 1.0)
+
+
+	if (m_fTime >= m_fSpeed)
 	{
 		if (m_bWallHit == true)
 		{
 			m_fY += 20;
 			m_fTime = 0;
 			m_bWallHit = false;
+			m_iDirection *= -1;
 		}
 		else
 		{
-			m_fX += m_iSpeed * m_iDirection;
+			m_fX += 10 * m_iDirection;
 			m_fTime = 0;
 		}
 		
 	}
 	
+}
+
+void IEnemy::Shoot(float _fDeltaTick)
+{
+
 }
 

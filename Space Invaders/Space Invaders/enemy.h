@@ -45,6 +45,7 @@ public:
     bool IsHit() const;
 
 	void Movement(float _fDeltaTick);
+	void Shoot(float _fDeltaTick);
 
 protected:
 
@@ -54,7 +55,7 @@ private:
 
     // Member Variables
 public:
-	int m_iSpeed;
+	float m_fSpeed;
 	int m_iDirection;
 	bool m_bWallHit;
 protected:

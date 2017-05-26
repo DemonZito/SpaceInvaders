@@ -13,6 +13,7 @@
 //
 
 // Library Includes
+#include <stack>
 
 // Local Includes
 #include "Game.h"
@@ -42,6 +43,7 @@ CLevel::CLevel()
 , m_iWidth(0)
 , m_iHeight(0)
 , m_fpsCounter(0)
+, hitwall(false)
 {
 	bBulletExists = true;
 }
@@ -60,7 +62,7 @@ CLevel::~CLevel()
     delete m_pPlayer;
     m_pPlayer = 0;
 
-	if (bBulletExists == true)
+	if (bBulletExists == false)
 	{
 		delete m_pBullet;
 		m_pBullet = 0;
@@ -103,16 +105,26 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
     int iCurrentX = kiStartX;
     int iCurrentY = kiStartX;
+	int _iStackCount = 0;
 
     for (int i = 0; i < kiNumBricks; ++i)
     {
-        IEnemy* pBrick = new IEnemy();
+		++_iStackCount;
+		IEnemy* pBrick = new IEnemy();
         VALIDATE(pBrick->Initialise());
+		pBrick->SetHit(false);
 
         pBrick->SetX(static_cast<float>(iCurrentX));
         pBrick->SetY(static_cast<float>(iCurrentY));
 
         iCurrentX += static_cast<int>(pBrick->GetWidth()) + kiGap;
+
+
+
+		if (_iStackCount == 12)
+		{
+			_iStackCount = 0;
+		}
 
         if (iCurrentX > (_iWidth - 150))
         {
@@ -157,6 +169,8 @@ CLevel::Process(float _fDeltaTick)
 	m_pBackground->Process(_fDeltaTick);
 	m_pBullet = m_pPlayer->GetBullet();
 
+	
+
 	if (m_pBullet != nullptr)
 	{
 		bBulletExists = false;
@@ -184,39 +198,11 @@ CLevel::Process(float _fDeltaTick)
 		}
 	}
 
-	bool hitwall = false;
-
-	for (int j = 0; j < m_vecEnemies.size(); j++)
+	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
-		if (m_vecEnemies[j]->GetX() + (m_vecEnemies[j]->m_iSpeed*m_vecEnemies[j]->m_iDirection) + (m_vecEnemies[j]->GetWidth()/2) >= m_iWidth|| m_vecEnemies[j]->GetX() + (m_vecEnemies[j]->m_iSpeed*m_vecEnemies[j]->m_iDirection) <= 0)
-		{
-			hitwall = true;
-		}
+		m_vecEnemies[i]->Process(_fDeltaTick);
 	}
 
-	if (hitwall == true)
-	{
-		for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
-		{
-			m_vecEnemies[i]->m_bWallHit = true;
-			m_vecEnemies[i]->m_iDirection = m_vecEnemies[i]->m_iDirection * -1;
-			m_vecEnemies[i]->Process(_fDeltaTick);
-		}
-		hitwall = false;
-	}
-	else
-	{
-		for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
-		{
-			//m_vecEnemies[i]->m_bWallHit = false;
-			m_vecEnemies[i]->Process(_fDeltaTick);
-		}
-	}
-    
-	
-	
-   
-    
 	m_fpsCounter->CountFramesPerSecond(_fDeltaTick);
 }
 
@@ -242,7 +228,7 @@ CLevel::ProcessBulletWallCollision()
 		delete m_pBullet;
 		m_pPlayer->SetBullet(nullptr);
 		bBulletExists = false;
-		SetEnemiesRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
+		//SetEnemiesRemaining(GetBricksRemaining() - 1); //reverse the ball's y velocity
 		return true;
     }
 	else
@@ -251,32 +237,6 @@ CLevel::ProcessBulletWallCollision()
 	}
 }
 
-
-
-
-//void
-//CLevel::ProcessBallPaddleCollision()
-//{
-//    float fBallR = m_pBullet->GetRadius();
-//
-//    float fBallX = m_pBullet->GetX();
-//    float fBallY = m_pBullet->GetY();
-//
-//    float fPaddleX = m_pPlayer->GetX();
-//    float fPaddleY = m_pPlayer->GetY();
-//
-//    float fPaddleH = m_pPlayer->GetHeight();
-//    float fPaddleW = m_pPlayer->GetWidth();
-//
-//    if ((fBallX + fBallR > fPaddleX - fPaddleW / 2) && //ball.right > paddle.left
-//        (fBallX - fBallR < fPaddleX + fPaddleW / 2) && //ball.left < paddle.right
-//        (fBallY + fBallR > fPaddleY - fPaddleH / 2) && //ball.bottom > paddle.top
-//        (fBallY - fBallR < fPaddleY + fPaddleH / 2))  //ball.top < paddle.bottom
-//    {
-//		m_pBullet->SetY((fPaddleY - fPaddleH / 2) - fBallR);  //Set the ball.bottom = paddle.top; to prevent the ball from going through the paddle!
-//		m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1); //Reverse ball's Y direction
-//    }
-//}
 
 bool
 CLevel::ProcessBulletEnemyCollision()
@@ -304,12 +264,19 @@ CLevel::ProcessBulletEnemyCollision()
                 //Hit the front side of the brick...
                 m_pBullet->SetY((fBrickY + fBrickH / 2.0f) + fBallR);
                 m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
+
                 m_vecEnemies[i]->SetHit(true);
+				m_vecEnemies[i]->m_bWallHit = false;
 				
 				delete m_pBullet;
 				m_pPlayer->SetBullet(nullptr);
 				bBulletExists = false;
                 SetEnemiesRemaining(GetBricksRemaining() - 1);
+				for (unsigned int j = 0; j < m_vecEnemies.size(); j++)
+				{
+					m_vecEnemies[j]->m_fSpeed *= 0.95;
+				}
+				
 				return true;
             }
         }

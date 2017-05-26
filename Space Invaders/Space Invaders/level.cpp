@@ -88,8 +88,6 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_pBackground->SetX((float)m_iWidth / 2);
 	m_pBackground->SetY((float)m_iHeight / 2);
 
-	/*m_pBall = new CBullet();
-    VALIDATE(m_pBall->Initialise(m_iWidth / 2.0f, m_iHeight / 2.0f, fBallVelX, fBallVelY));*/
 
     m_pPlayer = new CPlayer();
     VALIDATE(m_pPlayer->Initialise(m_iWidth));
@@ -168,6 +166,7 @@ CLevel::Process(float _fDeltaTick)
 	{
 		m_pBullet->Process(_fDeltaTick);
 	}
+
 	m_pPlayer->Process(_fDeltaTick);
 
 
@@ -183,15 +182,38 @@ CLevel::Process(float _fDeltaTick)
 			ProcessCheckForWin();
 			ProcessBulletBounds();
 		}
-
-
-		
 	}
 
-    for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
-    {
-        m_vecEnemies[i]->Process(_fDeltaTick);
-    }
+	bool hitwall = false;
+
+	for (int j = 0; j < m_vecEnemies.size(); j++)
+	{
+		if (m_vecEnemies[j]->GetX() + (m_vecEnemies[j]->m_iSpeed*m_vecEnemies[j]->m_iDirection) + (m_vecEnemies[j]->GetWidth()/2) >= m_iWidth|| m_vecEnemies[j]->GetX() + (m_vecEnemies[j]->m_iSpeed*m_vecEnemies[j]->m_iDirection) <= 0)
+		{
+			hitwall = true;
+		}
+	}
+
+	if (hitwall == true)
+	{
+		for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
+		{
+			m_vecEnemies[i]->m_bWallHit = true;
+			m_vecEnemies[i]->m_iDirection = m_vecEnemies[i]->m_iDirection * -1;
+			m_vecEnemies[i]->Process(_fDeltaTick);
+		}
+		hitwall = false;
+	}
+	else
+	{
+		for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
+		{
+			//m_vecEnemies[i]->m_bWallHit = false;
+			m_vecEnemies[i]->Process(_fDeltaTick);
+		}
+	}
+    
+	
 	
    
     

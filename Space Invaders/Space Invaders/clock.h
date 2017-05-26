@@ -40,6 +40,8 @@ public:
 
     float GetDeltaTick();
 
+	double GetCurTime();
+
 	int CountFramesPerSecond(float _DeltaTick);
 
 protected:

@@ -28,9 +28,13 @@
 // Implementation
 
 IEnemy::IEnemy()
-: m_bHit(false)
+	: m_bHit(false),
+	m_fTime(0),
+	m_iSpeed(10),
+	m_iDirection(1),
+	m_bWallHit(false)
 {
-
+	
 }
 
 IEnemy::~IEnemy()
@@ -60,6 +64,10 @@ IEnemy::Process(float _fDeltaTick)
 {
     if (!m_bHit)
     {
+		Movement(_fDeltaTick);
+
+		//_fTime = clock->GetCurTime();
+
         CEntity::Process(_fDeltaTick);
     }
 }
@@ -74,5 +82,27 @@ bool
 IEnemy::IsHit() const
 {
     return (m_bHit);
+}
+
+void IEnemy::Movement(float _fDeltaTick)
+{
+	m_fTime += _fDeltaTick;
+
+	if (m_fTime >= 1.0)
+	{
+		if (m_bWallHit == true)
+		{
+			m_fY += 20;
+			m_fTime = 0;
+			m_bWallHit = false;
+		}
+		else
+		{
+			m_fX += m_iSpeed * m_iDirection;
+			m_fTime = 0;
+		}
+		
+	}
+	
 }
 

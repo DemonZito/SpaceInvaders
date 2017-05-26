@@ -18,11 +18,13 @@
 #define __ENEMY_H__
 
 // Library Includes
-
+#include <vector>
 // Local Includes
 #include "entity.h"
 #include "clock.h"
 #include "bullet.h"
+#include "EnemyBullet.h"
+
 
 // Types
 
@@ -44,7 +46,7 @@ public:
 
 	void SetHit(bool _b);
 	bool IsHit() const;
-	CBullet* shoot(float _fDeltaTick);
+	void shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets);
 
 	void Movement(float _fDeltaTick);
 
@@ -61,15 +63,15 @@ public:
 	bool m_bWallHit;
 
 	void MoveDown(float _fDeltaTick);
-	CBullet* GetBullet();
-	void SetBullet(CBullet*);
+	CEnemyBullet* GetBullet();
+	void SetBullet(CEnemyBullet*);
 protected:
 	bool m_bHit;
 
 private:
 	float m_fTime;
 	CClock* clock;
-	CBullet* m_pBullet = nullptr;
+	std::vector<CEnemyBullet*> m_vecBullet;
 
 };
 

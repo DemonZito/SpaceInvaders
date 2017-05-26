@@ -13,13 +13,14 @@
 //
 
 // Library Includes
-
+#include <vector>
 // Local Includes
 #include "resource.h"
 #include "utils.h"
 
 // This Include
 #include "enemy.h"
+#include "EnemyBullet.h"
 
 // Static Variables
 
@@ -84,12 +85,11 @@ IEnemy::IsHit() const
 	return (m_bHit);
 }
 
-CBullet* IEnemy::shoot(float _fDeltaTick)
+void IEnemy::shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets)
 {
-	m_pBullet = new CBullet();
-	m_pBullet->Initialise(m_fX, m_fY + 15, 260.0);
-	//CEntity::Process(_fDeltaTick);
-	return m_pBullet;
+	m_vecBullet.push_back(new CEnemyBullet());
+	m_vecBullet.back()->Initialise(m_fX, m_fY + 15, 260.0);
+	_vecEnemyBullets->push_back(m_vecBullet.back());
 }
 
 void IEnemy::Movement(float _fDeltaTick)
@@ -113,14 +113,14 @@ void IEnemy::MoveDown(float _fDeltaTick)
 	}
 }
 
-CBullet * IEnemy::GetBullet()
+CEnemyBullet * IEnemy::GetBullet()
 {
-	return m_pBullet;
+	return m_vecBullet.back();
 }
 
-void IEnemy::SetBullet(CBullet * _pBullet)
+void IEnemy::SetBullet(CEnemyBullet * _pBullet)
 {
-	m_pBullet = _pBullet;
+	m_vecBullet.push_back(_pBullet);
 }
 
 

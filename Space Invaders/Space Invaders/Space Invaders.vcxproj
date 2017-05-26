@@ -147,6 +147,7 @@
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="clock.cpp" />
+    <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="framecounter.cpp" />
     <ClCompile Include="game.cpp" />
@@ -161,6 +162,7 @@
     <ClInclude Include="bullet.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="clock.h" />
+    <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="framecounter.h" />
     <ClInclude Include="game.h" />

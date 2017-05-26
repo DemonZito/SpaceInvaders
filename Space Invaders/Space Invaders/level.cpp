@@ -140,12 +140,9 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 		{
 			if ((m_vecEnemies.at(j) != nullptr) && (j % 12 == _iStack))
 			{
-				if (m_pBullet == nullptr)
-				{
-					m_pBullet = m_vecEnemies.at(j)->shoot(_fDeltaTick);
-					bBulletExists = false;
-
-				}
+				
+				m_vecEnemies.at(j)->shoot(&m_vecEnemyBullets);
+				
 				return true;
 			}
 		}
@@ -170,6 +167,14 @@ CLevel::Draw()
 		m_pBullet->Draw();
 	}
 
+	for (int i = 0; i < m_vecEnemyBullets.size(); i++)
+	{
+		if (m_vecEnemyBullets.empty() == false)
+		{
+			m_vecEnemyBullets[i]->Draw();
+		}
+	}
+
 	DrawScore();
 	DrawFPS();
 }
@@ -190,6 +195,11 @@ CLevel::Process(float _fDeltaTick)
 	if (bBulletExists == false)
 	{
 		m_pBullet->Process(_fDeltaTick);
+	}
+
+	for (int i = 0; i < m_vecEnemyBullets.size(); i++)
+	{
+		m_vecEnemyBullets[i]->Process(_fDeltaTick);
 	}
 
 	m_pPlayer->Process(_fDeltaTick);
@@ -236,6 +246,8 @@ CLevel::Process(float _fDeltaTick)
 	
 		if (hitwall == true)
 		{
+			AlienShoot(1, _fDeltaTick);
+
 			if (m_fTime >= 1.0)
 			{
 				for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
@@ -250,8 +262,8 @@ CLevel::Process(float _fDeltaTick)
 		{
 			for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 			{
-				//AlienShoot(1,_fDeltaTick);
 				m_vecEnemies[i]->Process(_fDeltaTick);
+
 			}
 		}
 

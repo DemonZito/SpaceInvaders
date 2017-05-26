@@ -29,6 +29,7 @@
 
 // Prototypes
 class CBullet;
+class CEnemyBullet;
 class CPlayer;
 class IEnemy;
 class CFPSCounter;
@@ -81,6 +82,7 @@ protected:
 	CPlayer* m_pPlayer;
 	std::vector<IEnemy*> m_vecEnemies;
 	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
+	std::vector<CEnemyBullet*> m_vecEnemyBullets;
 	CFPSCounter* m_fpsCounter;
 
 	int m_iWidth;

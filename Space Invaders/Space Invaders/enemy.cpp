@@ -84,6 +84,11 @@ IEnemy::IsHit() const
     return (m_bHit);
 }
 
+void IEnemy::shoot() {
+	m_pBullet = new CBullet();
+	m_pBullet->Initialise(m_fX, m_fY + 15, 260.0);
+}
+
 void IEnemy::Movement(float _fDeltaTick)
 {
 	m_fTime += _fDeltaTick;
@@ -105,4 +110,15 @@ void IEnemy::Movement(float _fDeltaTick)
 	}
 	
 }
+
+CBullet * IEnemy::GetBullet()
+{
+	return m_pBullet;
+}
+
+void IEnemy::SetBullet(CBullet * _pBullet)
+{
+	m_pBullet = _pBullet;
+}
+
 

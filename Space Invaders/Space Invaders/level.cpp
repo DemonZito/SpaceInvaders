@@ -130,6 +130,23 @@ CLevel::Initialise(int _iWidth, int _iHeight)
     return (true);
 }
 
+bool
+CLevel::AlienShoot(int _iStack)
+{
+	if ((m_vecbAlienColumns.at(_iStack) == true))
+	{
+		for (int j = (m_vecEnemies.size() - 1); j >= 0; --j)
+		{
+			if ((m_vecEnemies.at(j) != nullptr) && (j % 12 == _iStack))
+			{
+				m_vecEnemies.at(j)->shoot();
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
 void
 CLevel::Draw()
 {
@@ -196,6 +213,8 @@ CLevel::Process(float _fDeltaTick)
 
 	if (hitwall == true)
 	{
+		AlienShoot(1);
+
 		for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 		{
 			m_vecEnemies[i]->m_bWallHit = true;

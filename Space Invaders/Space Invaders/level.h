@@ -80,6 +80,7 @@ protected:
     CBullet* m_pBullet;
     CPlayer* m_pPlayer;
     std::vector<IEnemy*> m_vecEnemies;
+	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
 	CFPSCounter* m_fpsCounter;
 
     int m_iWidth;
@@ -91,6 +92,7 @@ protected:
 
 private:
 	bool bBulletExists;
+	bool AlienShoot(int _iStack);
 };
 
 #endif    // __LEVEL_H__

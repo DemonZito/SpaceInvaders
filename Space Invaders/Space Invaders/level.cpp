@@ -240,7 +240,9 @@ CLevel::Process(float _fDeltaTick)
 	if (s_iShootFrameBuffer <= 0)
 	{
 		s_iShootFrameBuffer = rand() % 1000 + 500;
-		AlienShoot((rand() % 12), _fDeltaTick);
+		if (AlienShoot((rand() % 12), _fDeltaTick) == false) {
+			s_iShootFrameBuffer = 1;
+		}
 	}
 
 	--s_iShootFrameBuffer;

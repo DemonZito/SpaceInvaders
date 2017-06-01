@@ -272,6 +272,10 @@ CLevel::Process(float _fDeltaTick)
 			ProcessCheckForWin();
 			ProcessBulletBounds();
 		}
+		if (bBulletExists == false)
+		{
+			bBulletExists = ProcessBulletMotherShipCollision();
+		}
 	}
 
 	//handles aliens shooting
@@ -432,6 +436,42 @@ CLevel::ProcessEnemyBulletWallCollision()
 //		m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1); //Reverse ball's Y direction
 //    }
 //}
+
+bool
+CLevel::ProcessBulletMotherShipCollision()
+{
+	if (bMotherShipExists == true && !m_pMotherShip->IsHit())
+	{
+		float fBallR = m_pBullet->GetRadius();
+		float fBallX = m_pBullet->GetX();
+		float fBallY = m_pBullet->GetY();
+
+		float fMotherX = m_pMotherShip->GetX();
+		float fMotherY = m_pMotherShip->GetY();
+
+		float fMotherH = m_pMotherShip->GetHeight();
+		float fMotherW = m_pMotherShip->GetWidth();
+
+		if ((fBallX + fBallR > fMotherX - fMotherW / 2) &&
+			(fBallX - fBallR < fMotherX + fMotherW / 2) &&
+			(fBallY + fBallR > fMotherX - fMotherH / 2) &&
+			(fBallY - fBallR < fMotherX + fMotherH / 2))
+		{
+			m_pBullet->SetY((fMotherX + fMotherH / 2.0f) + fBallR);
+			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
+
+			delete m_pMotherShip;
+			m_pMotherShip = nullptr;
+			m_pPlayer->SetBullet(nullptr);
+			bBulletExists = false;
+
+			bMotherShipExists = false;
+
+			return true;
+		}
+	}
+	return false;
+}
 
 bool
 CLevel::ProcessBulletEnemyCollision()

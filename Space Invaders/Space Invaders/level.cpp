@@ -53,6 +53,9 @@ CLevel::CLevel()
 	srand(time(NULL));
 	bBulletExists = true;
 	bMotherShipExists = false;
+	m_iScore = 0;
+	m_fSpeedModifier = 1.0f;
+	m_fAlienShootMod = 0;
 }
 
 CLevel::~CLevel()
@@ -130,13 +133,15 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	for (int i = 0; i < kiNumBricks; ++i)
 	{
-		IEnemy* pBrick = new IEnemy();
-		VALIDATE(pBrick->Initialise());
+		IEnemy* pEnemy = new IEnemy();
+		VALIDATE(pEnemy->Initialise());
 
-		pBrick->SetX(static_cast<float>(iCurrentX));
-		pBrick->SetY(static_cast<float>(iCurrentY));
+		pEnemy->SetX(static_cast<float>(iCurrentX));
+		pEnemy->SetY(static_cast<float>(iCurrentY));
 
-	iCurrentX += static_cast<int>(pBrick->GetWidth()) + kiGap;
+		pEnemy->SetSpeed(m_fSpeedModifier);
+
+	iCurrentX += static_cast<int>(pEnemy->GetWidth()) + kiGap;
 
 	if (iCurrentX > (_iWidth - 150))
 	{
@@ -144,12 +149,14 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		iCurrentY += 30;
 	}
 
-	m_vecEnemies.push_back(pBrick);
+	m_vecEnemies.push_back(pEnemy);
 	}
 
-	SetEnemiesRemaining(kiNumBricks);
+	//SetEnemiesRemaining(0)
+	//m_iScore = 0;
 	m_fpsCounter = new CFPSCounter();
 	VALIDATE(m_fpsCounter->Initialise());
+	UpdateScoreText();
 
 	return (true);
 }
@@ -289,7 +296,7 @@ CLevel::Process(float _fDeltaTick)
 	//handles aliens shooting
 	if (s_iShootFrameBuffer <= 0)
 	{
-		s_iShootFrameBuffer = rand() % 1000 + 500;
+		s_iShootFrameBuffer = rand() % (5000 - m_fAlienShootMod*10) + 500;
 		if (AlienShoot((rand() % 12), _fDeltaTick) == false) {
 			s_iShootFrameBuffer = 1;
 		}
@@ -514,7 +521,7 @@ CLevel::ProcessBulletMotherShipCollision()
 			delete m_pMotherShip;
 			m_pMotherShip = nullptr;
 			m_pPlayer->SetBullet(nullptr);
-
+			SetScore(GetScore()+ ((rand() % 3)+1)*100);
 			bMotherShipExists = false;
 
 			return true;
@@ -560,7 +567,7 @@ CLevel::ProcessBulletEnemyCollision()
 
 				delete m_pBullet;
 				m_pPlayer->SetBullet(nullptr);
-				SetEnemiesRemaining(GetBricksRemaining() - 1);
+				SetScore(m_vecEnemies[i]->GetPoints() + GetScore());
 				for (unsigned int j = 0; j < m_vecEnemies.size(); j++)
 				{
 					if (m_vecEnemies[j] != nullptr)
@@ -587,7 +594,9 @@ CLevel::ProcessCheckForWin()
 		}
 	}
 
-	CGame::GetInstance().GameOverWon();
+	CLevel::Initialise(m_iWidth, m_iHeight);
+	m_fSpeedModifier *= 0.5;
+	m_fAlienShootMod += 10;
 }
 
 void
@@ -624,10 +633,15 @@ CLevel::GetBricksRemaining() const
 }
 
 void
-CLevel::SetEnemiesRemaining(int _i)
+CLevel::SetScore(int _i)
 {
-	m_iEnemyRemaining = _i;
+	m_iScore = _i;
 	UpdateScoreText();
+}
+
+int CLevel::GetScore()
+{
+	return m_iScore;
 }
 
 void
@@ -647,9 +661,9 @@ CLevel::DrawScore()
 void
 CLevel::UpdateScoreText()
 {
-	m_strScore = "Bricks Remaining: ";
+	m_strScore = "Score: ";
 
-	m_strScore += ToString(GetBricksRemaining());
+	m_strScore += ToString(m_iScore);
 }
 
 

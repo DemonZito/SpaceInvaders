@@ -47,7 +47,6 @@ bool
 IEnemy::Initialise()
 {
 	VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
-
 	return (true);
 }
 
@@ -114,6 +113,16 @@ void IEnemy::Movement(float _fDeltaTick)
 
 	}
 
+}
+
+int IEnemy::GetPoints()
+{
+	return 10;
+}
+
+void IEnemy::SetSpeed(float _fSpeed)
+{
+	m_fSpeed = _fSpeed;
 }
 
 void IEnemy::MoveDown(float _fDeltaTick)

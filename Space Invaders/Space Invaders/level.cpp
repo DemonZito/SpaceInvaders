@@ -266,6 +266,7 @@ CLevel::Process(float _fDeltaTick)
 	m_pPlayer->Process(_fDeltaTick);
 
 	ProcessEnemyBulletWallCollision();
+	ProcessBulletPlayerCollision();
 
 	if (bBulletExists == false)
 	{
@@ -418,6 +419,49 @@ CLevel::ProcessEnemyBulletWallCollision()
 			delete pBullet;
 		}
 	}
+}
+
+bool CLevel::ProcessBulletPlayerCollision() {
+	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
+	{
+		if (m_vecpEnemyBullets[i] != nullptr && !m_pPlayer->IsHit())
+		{
+			float fBallR = m_vecpEnemyBullets[i]->GetRadius();
+
+			float fBallX = m_vecpEnemyBullets[i]->GetX();
+			float fBallY = m_vecpEnemyBullets[i]->GetY();
+
+			float fBrickX = m_pPlayer->GetX();
+			float fBrickY = m_pPlayer->GetY();
+
+			float fBrickH = m_pPlayer->GetHeight();
+			float fBrickW = m_pPlayer->GetWidth();
+
+			if ((fBallX + fBallR > fBrickX - fBrickW / 2) &&
+				(fBallX - fBallR < fBrickX + fBrickW / 2) &&
+				(fBallY + fBallR > fBrickY - fBrickH / 2) &&
+				(fBallY - fBallR < fBrickY + fBrickH / 2))
+			{
+				//Hit the front side of the brick...
+				m_vecpEnemyBullets[i]->SetY((fBrickY + fBrickH / 2.0f) + fBallR);
+				m_vecpEnemyBullets[i]->SetVelocityY(m_vecpEnemyBullets[i]->GetVelocityY() * -1);
+
+				CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
+
+				m_vecpEnemyBullets.erase(m_vecpEnemyBullets.begin() + i);
+
+				//m_vecpEnemyBullets.at(i) = nullptr;
+
+				pBullet = nullptr;
+				delete pBullet;
+				
+				//reduce the player's health
+
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 //void

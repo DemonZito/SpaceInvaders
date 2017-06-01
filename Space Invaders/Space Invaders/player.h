@@ -44,6 +44,8 @@ public:
 	CBullet* GetBullet();
 	void SetBullet(CBullet*);
 
+	void SetHit(bool _b);
+	bool IsHit() const;
 
 protected:
 
@@ -56,6 +58,7 @@ private:
 public:
 
 protected:
+	bool m_bHit;
 
 private:
 	CBullet* m_pBullet = nullptr;

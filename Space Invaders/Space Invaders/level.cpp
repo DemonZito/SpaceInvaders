@@ -477,7 +477,7 @@ CLevel::ProcessBulletMotherShipCollision()
 			delete m_pMotherShip;
 			m_pMotherShip = nullptr;
 			m_pPlayer->SetBullet(nullptr);
-
+			SetScore(GetScore()+ ((rand() % 3)+1)*100);
 			bMotherShipExists = false;
 
 			return true;

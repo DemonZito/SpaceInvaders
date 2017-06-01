@@ -69,8 +69,11 @@ CLevel::~CLevel()
 	delete m_pPlayer;
 	m_pPlayer = 0;
 
-	delete m_pMotherShip;
-	m_pMotherShip = 0;
+	if (bMotherShipExists == true)
+	{
+		delete m_pMotherShip;
+		m_pMotherShip = 0;
+	}
 
 	if (bBulletExists == false)
 	{

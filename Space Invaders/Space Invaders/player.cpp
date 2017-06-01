@@ -29,7 +29,8 @@
 
 // Implementation
 
-CPlayer::CPlayer()
+CPlayer::CPlayer():
+	m_bHit(false)
 {
 	m_iHealth = 3;
 }
@@ -88,6 +89,19 @@ CPlayer::Process(float _fDeltaTick)
 	
 	CEntity::Process(_fDeltaTick);
 }
+
+void
+CPlayer::SetHit(bool _b)
+{
+	m_bHit = _b;
+}
+
+bool
+CPlayer::IsHit() const
+{
+	return (m_bHit);
+}
+
 
 CBullet * CPlayer::GetBullet()
 {

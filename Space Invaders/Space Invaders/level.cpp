@@ -26,6 +26,9 @@
 #include "backbuffer.h"
 #include "framecounter.h"
 #include "background.h"
+#include "CsmallInvader.h"
+#include "MediumInvader.h"
+#include "BigInvader.h"
 
 // This Include
 #include "Level.h"
@@ -133,7 +136,21 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	for (int i = 0; i < kiNumBricks; ++i)
 	{
-		IEnemy* pEnemy = new IEnemy();
+		IEnemy* pEnemy;
+
+		if (i < 12)
+		{
+			pEnemy = new CSmallInvader();
+		}
+		else if(i >= 12 && i<36)
+		{
+			pEnemy = new CMediumInvader();
+		}
+		else
+		{
+			pEnemy = new CBigInvader();
+		}
+		
 		VALIDATE(pEnemy->Initialise());
 
 		pEnemy->SetX(static_cast<float>(iCurrentX));
@@ -141,15 +158,15 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 		pEnemy->SetSpeed(m_fSpeedModifier);
 
-	iCurrentX += static_cast<int>(pEnemy->GetWidth()) + kiGap;
+		iCurrentX += static_cast<int>(pEnemy->GetWidth()) + kiGap;
 
-	if (iCurrentX > (_iWidth - 150))
-	{
-		iCurrentX = kiStartX;
-		iCurrentY += 30;
-	}
+		if (iCurrentX > (_iWidth - 150))
+		{
+			iCurrentX = kiStartX;
+			iCurrentY += 30;
+		}
 
-	m_vecEnemies.push_back(pEnemy);
+		m_vecEnemies.push_back(pEnemy);
 	}
 
 	//SetEnemiesRemaining(0)
@@ -606,13 +623,14 @@ CLevel::ProcessBulletEnemyCollision()
 
 				//m_vecEnemies.erase(m_vecEnemies.begin() + i);
 
+				SetScore(m_vecEnemies[i]->GetPoints() + GetScore());
+
 				m_vecEnemies[i] = nullptr;
 
 				//delete pEnemy;
 
 				delete m_pBullet;
 				m_pPlayer->SetBullet(nullptr);
-				SetScore(m_vecEnemies[i]->GetPoints() + GetScore());
 				for (unsigned int j = 0; j < m_vecEnemies.size(); j++)
 				{
 					if (m_vecEnemies[j] != nullptr)

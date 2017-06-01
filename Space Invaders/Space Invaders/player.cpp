@@ -32,7 +32,7 @@
 CPlayer::CPlayer():
 	m_bHit(false)
 {
-	
+	m_iHealth = 3;
 }
 
 CPlayer::~CPlayer()

@@ -41,15 +41,15 @@ public:
 
 	virtual bool Initialise();
 
-	virtual void Draw();
-	virtual void Process(float _fDeltaTick);
+	void Draw();
+	void Process(float _fDeltaTick);
 
 	void SetHit(bool _b);
 	bool IsHit() const;
 	void shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets);
 
 	void Movement(float _fDeltaTick);
-	int GetPoints();
+	virtual int GetPoints();
 	void SetSpeed(float _fSpeed);
 
 protected:

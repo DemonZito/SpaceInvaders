@@ -428,6 +428,49 @@ CLevel::ProcessEnemyBulletWallCollision()
 	}
 }
 
+bool CLevel::ProcessBulletEnemyBulletCollision() {
+	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
+	{
+		float fEnemyBulletR = m_vecpEnemyBullets[i]->GetRadius();
+
+		float fEnemyBulletX = m_vecpEnemyBullets[i]->GetX();
+		float fEnemyBulletY = m_vecpEnemyBullets[i]->GetY();
+
+		float fBulletX = m_pBullet->GetX();
+		float fBulletY = m_pBullet->GetY();
+
+		float fBulletR = m_pBullet->GetRadius();
+
+		if ((fEnemyBulletX + fEnemyBulletR > fBulletX - fBulletR / 2) &&
+			(fEnemyBulletX - fEnemyBulletR < fBulletX + fBulletR / 2) &&
+			(fEnemyBulletY + fEnemyBulletR > fBulletY - fBulletR / 2) &&
+			(fEnemyBulletY - fEnemyBulletR < fBulletY + fBulletR / 2))
+		{
+			//Hit the front side of the brick...
+			m_vecpEnemyBullets[i]->SetY((fBulletY + fBulletR / 2.0f) + fEnemyBulletR);
+			m_vecpEnemyBullets[i]->SetVelocityY(m_vecpEnemyBullets[i]->GetVelocityY() * -1);
+
+			m_pBullet->SetY((fEnemyBulletY + fEnemyBulletR / 2.0f) + fBulletR);
+			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
+
+			CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
+
+			m_vecpEnemyBullets.erase(m_vecpEnemyBullets.begin() + i);
+
+			//m_vecpEnemyBullets.at(i) = nullptr;
+
+			pBullet = nullptr;
+			delete pBullet;
+
+			//reduce the player's health
+
+			return true;
+		}
+	}
+	return false;
+}
+
+
 bool CLevel::ProcessBulletPlayerCollision() {
 	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
 	{
@@ -457,12 +500,12 @@ bool CLevel::ProcessBulletPlayerCollision() {
 
 				m_vecpEnemyBullets.erase(m_vecpEnemyBullets.begin() + i);
 
-				//m_vecpEnemyBullets.at(i) = nullptr;
-
 				pBullet = nullptr;
 				delete pBullet;
+
+				delete m_pBullet;
+				m_pPlayer->SetBullet(nullptr);
 				
-				//reduce the player's health
 
 				return true;
 			}
@@ -518,6 +561,8 @@ CLevel::ProcessBulletMotherShipCollision()
 			m_pBullet->SetY((fMotherX + fMotherH / 2.0f) + fBallR);
 			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
 
+			delete m_pBullet;
+			m_pPlayer->SetBullet(nullptr);
 			delete m_pMotherShip;
 			m_pMotherShip = nullptr;
 			m_pPlayer->SetBullet(nullptr);

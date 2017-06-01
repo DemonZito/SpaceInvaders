@@ -60,6 +60,7 @@ protected:
 	void ProcessEnemyBulletWallCollision();
 	bool ProcessBulletEnemyCollision();
 	bool ProcessBulletMotherShipCollision();
+	bool ProcessBulletEnemyBulletCollision();
 	//void ProcessPlayerWallCollison();
 	//	bool ProcessBulletEnemyCollision();
 

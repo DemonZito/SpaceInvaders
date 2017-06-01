@@ -56,6 +56,7 @@ protected:
 	bool ProcessBulletWallCollision();
 	//void ProcessPaddleWallCollison();
 	// void ProcessBallPaddleCollision();
+	void ProcessEnemyBulletWallCollision();
 	bool ProcessBulletEnemyCollision();
 	//void ProcessPlayerWallCollison();
 	//	bool ProcessBulletEnemyCollision();

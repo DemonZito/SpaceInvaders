@@ -49,6 +49,8 @@ public:
 	void shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets);
 
 	void Movement(float _fDeltaTick);
+	int GetPoints();
+	void SetSpeed(float _fSpeed);
 
 protected:
 
@@ -73,6 +75,7 @@ private:
 	CClock* clock;
 	//std::vector<CEnemyBullet*> m_vecBullet;
 	CEnemyBullet* m_eneBullet;
+	//int m_iPoints;
 
 };
 

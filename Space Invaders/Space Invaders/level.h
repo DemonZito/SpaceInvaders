@@ -69,7 +69,8 @@ protected:
 	void DrawScore();
 	void DrawFPS();
 
-	void SetEnemiesRemaining(int _i);
+	void SetScore(int _i);
+	int GetScore();
 
 private:
 	CLevel(const CLevel& _kr);
@@ -99,6 +100,9 @@ private:
 	bool bMotherShipExists;
 	bool AlienShoot(int _iStack, float _fDeltaTick);
 	float m_fTime;
+	int m_iScore;
+	float m_fSpeedModifier;
+	int m_fAlienShootMod;
 };
 
 #endif    // __LEVEL_H__

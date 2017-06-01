@@ -13,6 +13,8 @@
 //
 
 // Library Includes
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 
 // Local Includes
 #include "Game.h"
@@ -28,6 +30,7 @@
 #include "Level.h"
 
 // Static Variables
+static int s_iShootFrameBuffer = 10;
 
 // Static Function Prototypes
 
@@ -44,6 +47,8 @@ CLevel::CLevel()
 	, m_fpsCounter(0)
 	, m_fTime(0)
 {
+	/* initialize random seed: */
+	srand(time(NULL));
 	bBulletExists = true;
 }
 
@@ -231,6 +236,15 @@ CLevel::Process(float _fDeltaTick)
 		}
 	}
 
+	//handles aliens shooting
+	if (s_iShootFrameBuffer <= 0)
+	{
+		s_iShootFrameBuffer = rand() % 1000 + 500;
+		AlienShoot((rand() % 12), _fDeltaTick);
+	}
+
+	--s_iShootFrameBuffer;
+
 	bool hitwall = false;
 	for (int j = 0; j < m_vecEnemies.size(); j++)
 	{
@@ -258,7 +272,6 @@ CLevel::Process(float _fDeltaTick)
 	
 		if (hitwall == true)
 		{
-			AlienShoot(1, _fDeltaTick);
 
 			if (m_fTime >= 1.0)
 			{

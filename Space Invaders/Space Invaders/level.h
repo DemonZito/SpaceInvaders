@@ -31,6 +31,7 @@
 class CBullet;
 class CEnemyBullet;
 class CPlayer;
+class CMotherShip;
 class IEnemy;
 class CFPSCounter;
 class CBackGround;
@@ -78,8 +79,8 @@ public:
 	CBullet* m_pBullet;
 protected:
 	CBackGround* m_pBackground;
-	
 	CPlayer* m_pPlayer;
+	CMotherShip* m_pMotherShip;
 	std::vector<IEnemy*> m_vecEnemies;
 	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
 	std::vector<CEnemyBullet*> m_vecpEnemyBullets;
@@ -94,6 +95,7 @@ protected:
 
 private:
 	bool bBulletExists;
+	bool bMotherShipExists;
 	bool AlienShoot(int _iStack, float _fDeltaTick);
 	float m_fTime;
 };

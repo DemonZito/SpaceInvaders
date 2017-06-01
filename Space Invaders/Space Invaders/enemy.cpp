@@ -40,7 +40,7 @@ IEnemy::IEnemy()
 
 IEnemy::~IEnemy()
 {
-
+	
 }
 
 bool

@@ -20,6 +20,7 @@
 #include "Game.h"
 #include "player.h"
 #include "enemy.h"
+#include "mothership.h"
 #include "bullet.h"
 #include "utils.h"
 #include "backbuffer.h"
@@ -31,6 +32,7 @@
 
 // Static Variables
 static int s_iShootFrameBuffer = 10;
+static int s_iMotherShipspawnBuffer = 500;
 
 // Static Function Prototypes
 
@@ -50,6 +52,7 @@ CLevel::CLevel()
 	/* initialize random seed: */
 	srand(time(NULL));
 	bBulletExists = true;
+	bMotherShipExists = false;
 }
 
 CLevel::~CLevel()
@@ -65,6 +68,9 @@ CLevel::~CLevel()
 
 	delete m_pPlayer;
 	m_pPlayer = 0;
+
+	delete m_pMotherShip;
+	m_pMotherShip = 0;
 
 	if (bBulletExists == false)
 	{
@@ -110,14 +116,14 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	// Set the paddle's position to be centered on the x, 
 	// and a little bit up from the bottom of the window.
 	m_pPlayer->SetX(_iWidth / 2.0f);
-	m_pPlayer->SetY(_iHeight - (1.5 * m_pPlayer->GetHeight()));
+	m_pPlayer->SetY(_iHeight - (1.5f * m_pPlayer->GetHeight()));
 
 	const int kiNumBricks = 60;
 	const int kiStartX = 20;
 	const int kiGap = 15;
 
 	int iCurrentX = kiStartX;
-	int iCurrentY = kiStartX;
+	int iCurrentY = kiStartX + 30;
 
 	for (int i = 0; i < kiNumBricks; ++i)
 	{
@@ -127,15 +133,15 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		pBrick->SetX(static_cast<float>(iCurrentX));
 		pBrick->SetY(static_cast<float>(iCurrentY));
 
-iCurrentX += static_cast<int>(pBrick->GetWidth()) + kiGap;
+	iCurrentX += static_cast<int>(pBrick->GetWidth()) + kiGap;
 
-if (iCurrentX > (_iWidth - 150))
-{
-	iCurrentX = kiStartX;
-	iCurrentY += 30;
-}
+	if (iCurrentX > (_iWidth - 150))
+	{
+		iCurrentX = kiStartX;
+		iCurrentY += 30;
+	}
 
-m_vecEnemies.push_back(pBrick);
+	m_vecEnemies.push_back(pBrick);
 	}
 
 	SetEnemiesRemaining(kiNumBricks);
@@ -178,9 +184,12 @@ CLevel::Draw()
 
 	m_pPlayer->Draw();
 
+	if (bMotherShipExists == true) {
+		m_pMotherShip->Draw();
+	}
+
 	if (bBulletExists == false)
 	{
-
 		m_pBullet->Draw();
 	}
 
@@ -199,6 +208,30 @@ CLevel::Draw()
 void
 CLevel::Process(float _fDeltaTick)
 {
+	//handles the mothership
+	--s_iMotherShipspawnBuffer;
+
+	if (bMotherShipExists == false && s_iMotherShipspawnBuffer <= 0) {
+		m_pMotherShip = new CMotherShip();
+		m_pMotherShip->Initialise();
+
+		m_pMotherShip->SetX(-20);
+		m_pMotherShip->SetY(20);
+		bMotherShipExists = true;
+
+		s_iMotherShipspawnBuffer = rand() % 1000 + 10000;
+	}
+
+	if (bMotherShipExists == true)
+	{
+		m_pMotherShip->Process(_fDeltaTick);
+		if (m_pMotherShip->GetX() > m_iWidth + 20)
+		{
+			delete m_pMotherShip;
+			bMotherShipExists = false;
+		}
+	}
+
 	m_fTime += _fDeltaTick;
 
 	m_pBackground->Process(_fDeltaTick);
@@ -404,7 +437,7 @@ CLevel::ProcessBulletEnemyCollision()
 				{
 					if (m_vecEnemies[j] != nullptr)
 					{
-						m_vecEnemies[j]->m_fSpeed *= 0.95;
+						m_vecEnemies[j]->m_fSpeed *= 0.95f;
 					}
 				}
 				return true;

@@ -59,6 +59,7 @@ protected:
 
 private:
 	CBullet* m_pBullet = nullptr;
+	int m_iHealth;
 
 };
 

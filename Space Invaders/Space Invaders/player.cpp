@@ -31,7 +31,7 @@
 
 CPlayer::CPlayer()
 {
-	
+	m_iHealth = 3;
 }
 
 CPlayer::~CPlayer()

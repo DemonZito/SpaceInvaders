@@ -47,6 +47,9 @@ public:
 	void SetHit(bool _b);
 	bool IsHit() const;
 
+	void LoseLife();
+	int GetLives();
+
 protected:
 
 private:

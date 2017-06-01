@@ -102,6 +102,16 @@ CPlayer::IsHit() const
 	return (m_bHit);
 }
 
+void CPlayer::LoseLife()
+{
+	m_iHealth--;
+}
+
+int CPlayer::GetLives()
+{
+	return m_iHealth;
+}
+
 
 CBullet * CPlayer::GetBullet()
 {

@@ -54,7 +54,7 @@ CLevel::CLevel()
 {
 	/* initialize random seed: */
 	srand(time(NULL));
-	bBulletExists = true;
+	bBulletExists = false;
 	bMotherShipExists = false;
 	m_iScore = 0;
 	m_fSpeedModifier = 1.0f;
@@ -81,7 +81,7 @@ CLevel::~CLevel()
 		m_pMotherShip = 0;
 	}
 
-	if (bBulletExists == false)
+	if (bBulletExists == true)
 	{
 		delete m_pBullet;
 		m_pBullet = 0;
@@ -216,7 +216,7 @@ CLevel::Draw()
 		m_pMotherShip->Draw();
 	}
 
-	if (bBulletExists == false)
+	if (bBulletExists == true)
 	{
 		m_pBullet->Draw();
 	}
@@ -274,10 +274,10 @@ CLevel::Process(float _fDeltaTick)
 
 	if (m_pBullet != nullptr)
 	{
-		bBulletExists = false;
+		bBulletExists = true;
 	}
 
-	if (bBulletExists == false)
+	if (bBulletExists == true)
 	{
 		m_pBullet->Process(_fDeltaTick);
 	}
@@ -292,19 +292,19 @@ CLevel::Process(float _fDeltaTick)
 	ProcessEnemyBulletWallCollision();
 	ProcessBulletPlayerCollision();
 
-	if (bBulletExists == false)
+	if (bBulletExists == true)
 	{
 		bBulletExists = ProcessBulletWallCollision();
 		//ProcessPaddleWallCollison();
 
-		if (bBulletExists == false)
+		if (bBulletExists == true)
 		{
 			//ProcessBallPaddleCollision();
 			bBulletExists = ProcessBulletEnemyCollision();
 			ProcessCheckForWin();
 			ProcessBulletBounds();
 		}
-		if (bBulletExists == false)
+		if (bBulletExists == true)
 		{
 			bBulletExists = ProcessBulletMotherShipCollision();
 		}
@@ -398,12 +398,12 @@ CLevel::ProcessBulletWallCollision()
 	{
 		delete m_pBullet;
 		m_pPlayer->SetBullet(nullptr);
-		bBulletExists = false;
-		return true;
+		//bBulletExists = true;
+		return false;
 	}
 	else
 	{
-		return false;
+		return true;
 	}
 }
 
@@ -480,12 +480,17 @@ bool CLevel::ProcessBulletPlayerCollision() {
 				delete pBullet;
 				
 				//reduce the player's health
+				m_pPlayer->LoseLife();
+				if (m_pPlayer->GetLives() == 0)
+				{
+					CGame::GetInstance().GameOverLost();
+				}
 
-				return true;
+				return false;
 			}
 		}
 	}
-	return false;
+	return true;
 }
 
 //void
@@ -541,10 +546,10 @@ CLevel::ProcessBulletMotherShipCollision()
 			SetScore(GetScore()+ ((rand() % 3)+1)*100);
 			bMotherShipExists = false;
 
-			return true;
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 bool
@@ -593,11 +598,11 @@ CLevel::ProcessBulletEnemyCollision()
 						m_vecEnemies[j]->m_fSpeed *= 0.95f;
 					}
 				}
-				return true;
+				return false;
 			}
 		}
 	}
-	return false;
+	return true;
 
 }
 
@@ -638,7 +643,7 @@ CLevel::ProcessBulletBounds()
 
 		delete m_pBullet;
 		m_pBullet = nullptr;
-		bBulletExists = true;
+		bBulletExists = false;
 		//CGame::GetInstance().GameOverLost();
 		//m_pBall->SetY(static_cast<float>(m_iHeight));
 	}

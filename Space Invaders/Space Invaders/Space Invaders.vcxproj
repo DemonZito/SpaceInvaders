@@ -193,6 +193,7 @@
     <Image Include="sprites\bitmap1.bmp" />
     <Image Include="Sprites\BrickMask.bmp" />
     <Image Include="Sprites\BrickSprite.bmp" />
+    <Image Include="Sprites\Heart.bmp" />
     <Image Include="Sprites\MediumInvader.bmp" />
     <Image Include="Sprites\PaddleMask.bmp" />
     <Image Include="Sprites\PaddleSprite.bmp" />

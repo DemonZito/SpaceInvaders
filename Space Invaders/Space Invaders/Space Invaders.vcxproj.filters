@@ -168,5 +168,8 @@
     <Image Include="sprites\bitmap1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Sprites\Heart.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

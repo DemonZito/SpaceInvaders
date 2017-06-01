@@ -78,7 +78,7 @@ CLevel::~CLevel()
 
 		m_vecpEnemyBullets.pop_back();
 
-		delete pEnemyBullet;
+		//delete pEnemyBullet;
 	}
 
 	delete m_fpsCounter;
@@ -156,6 +156,7 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 			{
 				
 				m_vecEnemies.at(j)->shoot(&m_vecpEnemyBullets);
+				m_vecpEnemyBullets.back()->Initialise(m_vecEnemies.at(j)->GetX(), m_vecEnemies.at(j)->GetY() + 15, 260.0);
 				
 				return true;
 			}
@@ -221,6 +222,7 @@ CLevel::Process(float _fDeltaTick)
 
 	m_pPlayer->Process(_fDeltaTick);
 
+	ProcessEnemyBulletWallCollision();
 
 	if (bBulletExists == false)
 	{
@@ -272,31 +274,27 @@ CLevel::Process(float _fDeltaTick)
 	
 		if (hitwall == true)
 		{
-
-			if (m_fTime >= 1.0)
-			{
-				for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
-				{
-					if (m_vecEnemies[i] != nullptr)
-					{
-						m_vecEnemies[i]->m_iDirection *= -1;
-						m_vecEnemies[i]->MoveDown(_fDeltaTick);
-					}
-				}
-				hitwall = false;
-			}
-		}
-		else
-		{
 			for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 			{
 				if (m_vecEnemies[i] != nullptr)
 				{
-					m_vecEnemies[i]->Process(_fDeltaTick);
-
+					m_vecEnemies[i]->m_bWallHit = true;
 				}
 			}
+			hitwall = false;
 		}
+		
+		for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
+		{
+			if (m_vecEnemies[i] != nullptr)
+			{
+				m_vecEnemies[i]->Process(_fDeltaTick);
+
+			}
+		}
+		
+
+		
 
 
 
@@ -332,6 +330,44 @@ CLevel::ProcessBulletWallCollision()
 	else
 	{
 		return false;
+	}
+}
+
+void
+CLevel::ProcessEnemyBulletWallCollision()
+{
+	float fBulletX;
+	float fBulletY;
+	float fBulletW;
+	float fBulletH;
+	float fHalfBulletW;
+	float fHalfBulletH;
+
+	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
+	{
+		fBulletX = m_vecpEnemyBullets.at(i)->GetX();
+		fBulletY = m_vecpEnemyBullets.at(i)->GetY();
+		fBulletW = m_vecpEnemyBullets.at(i)->GetWidth();
+		fBulletH = m_vecpEnemyBullets.at(i)->GetHeight();
+		fHalfBulletW = fBulletW / 2;
+		fHalfBulletH = fBulletH / 2;
+
+
+
+		/*float fHalfBallW = fBallW / 2;
+		float fHalfBallH = fBallH / 2;
+	*/
+		if (fBulletY > 580 - fBulletH) //represents the situation when the ball has hit the bottom wall
+		{
+			CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
+
+			m_vecpEnemyBullets.erase(m_vecpEnemyBullets.begin() + i);
+
+			//m_vecpEnemyBullets.at(i) = nullptr;
+
+			pBullet = nullptr;
+			delete pBullet;
+		}
 	}
 }
 

@@ -87,9 +87,10 @@ IEnemy::IsHit() const
 
 void IEnemy::shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets)
 {
-	m_vecBullet.push_back(new CEnemyBullet());
-	m_vecBullet.back()->Initialise(m_fX, m_fY + 15, 260.0);
-	_vecEnemyBullets->push_back(m_vecBullet.back());
+	//m_eneBullet = new CEnemyBullet();
+	//m_eneBullet->Initialise(m_fX, m_fY + 15, 260.0);
+	_vecEnemyBullets->push_back(new CEnemyBullet());
+	//delete m_eneBullet;
 }
 
 void IEnemy::Movement(float _fDeltaTick)
@@ -98,8 +99,19 @@ void IEnemy::Movement(float _fDeltaTick)
 
 	if (m_fTime >= m_fSpeed)
 	{
-		m_fX += 10 * m_iDirection;
+		if (m_bWallHit == true)
+		{
+			m_iDirection *= -1;
+			m_fY += 20;
+			m_bWallHit = false;
+		}
+		else
+		{
+			m_fX += 10 * m_iDirection;
+		}
+
 		m_fTime = 0;
+
 	}
 
 }
@@ -108,19 +120,11 @@ void IEnemy::MoveDown(float _fDeltaTick)
 {
 	if (!m_bHit)
 	{
-		m_fY += 20;
-		CEntity::Process(_fDeltaTick);
+		//m_fY += 20;
+		//CEntity::Process(_fDeltaTick);
 	}
 }
 
-CEnemyBullet * IEnemy::GetBullet()
-{
-	return m_vecBullet.back();
-}
-
-void IEnemy::SetBullet(CEnemyBullet * _pBullet)
-{
-	m_vecBullet.push_back(_pBullet);
-}
+//
 
 

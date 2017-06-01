@@ -71,7 +71,8 @@ protected:
 private:
 	float m_fTime;
 	CClock* clock;
-	std::vector<CEnemyBullet*> m_vecBullet;
+	//std::vector<CEnemyBullet*> m_vecBullet;
+	CEnemyBullet* m_eneBullet;
 
 };
 

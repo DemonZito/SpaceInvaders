@@ -36,7 +36,7 @@ class CMotherShip : public CEntity
 {
 	// Member Functions
 public:
-	CMotherShip();
+	CMotherShip(const int _iDirection = 1);
 	virtual ~CMotherShip();
 
 	virtual bool Initialise();

@@ -223,10 +223,17 @@ CLevel::Process(float _fDeltaTick)
 	--s_iMotherShipspawnBuffer;
 
 	if (bMotherShipExists == false && s_iMotherShipspawnBuffer <= 0) {
-		m_pMotherShip = new CMotherShip();
-		m_pMotherShip->Initialise();
+		bool _bFacingDirection = rand() % 2;
 
-		m_pMotherShip->SetX(-20);
+		m_pMotherShip = new CMotherShip(_bFacingDirection);
+		m_pMotherShip->Initialise();
+		if (_bFacingDirection == 1)
+		{
+			m_pMotherShip->SetX(-20);
+		}
+		else {
+			m_pMotherShip->SetX(m_iWidth + 20);
+		}
 		m_pMotherShip->SetY(20);
 		bMotherShipExists = true;
 
@@ -236,7 +243,7 @@ CLevel::Process(float _fDeltaTick)
 	if (bMotherShipExists == true)
 	{
 		m_pMotherShip->Process(_fDeltaTick);
-		if (m_pMotherShip->GetX() > m_iWidth + 20)
+		if (m_pMotherShip->GetX() > m_iWidth + 50 || m_pMotherShip->GetX() < -50)
 		{
 			delete m_pMotherShip;
 			bMotherShipExists = false;
@@ -278,6 +285,10 @@ CLevel::Process(float _fDeltaTick)
 			bBulletExists = ProcessBulletEnemyCollision();
 			ProcessCheckForWin();
 			ProcessBulletBounds();
+		}
+		if (bBulletExists == false)
+		{
+			bBulletExists = ProcessBulletMotherShipCollision();
 		}
 	}
 
@@ -441,6 +452,41 @@ CLevel::ProcessEnemyBulletWallCollision()
 //}
 
 bool
+CLevel::ProcessBulletMotherShipCollision()
+{
+	if (bMotherShipExists == true && !m_pMotherShip->IsHit())
+	{
+		float fBallR = m_pBullet->GetRadius();
+		float fBallX = m_pBullet->GetX();
+		float fBallY = m_pBullet->GetY();
+
+		float fMotherX = m_pMotherShip->GetX();
+		float fMotherY = m_pMotherShip->GetY();
+
+		float fMotherH = m_pMotherShip->GetHeight();
+		float fMotherW = m_pMotherShip->GetWidth();
+
+		if ((fBallX + fBallR > fMotherX - fMotherW / 2) &&
+			(fBallX - fBallR < fMotherX + fMotherW / 2) &&
+			(fBallY + fBallR > fMotherY - fMotherH / 2) &&
+			(fBallY - fBallR < fMotherY + fMotherH / 2))
+		{
+			m_pBullet->SetY((fMotherX + fMotherH / 2.0f) + fBallR);
+			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
+
+			delete m_pMotherShip;
+			m_pMotherShip = nullptr;
+			m_pPlayer->SetBullet(nullptr);
+
+			bMotherShipExists = false;
+
+			return true;
+		}
+	}
+	return false;
+}
+
+bool
 CLevel::ProcessBulletEnemyCollision()
 {
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
@@ -477,7 +523,6 @@ CLevel::ProcessBulletEnemyCollision()
 
 				delete m_pBullet;
 				m_pPlayer->SetBullet(nullptr);
-				bBulletExists = false;
 				SetScore(m_vecEnemies[i]->GetPoints() + GetScore());
 				for (unsigned int j = 0; j < m_vecEnemies.size(); j++)
 				{

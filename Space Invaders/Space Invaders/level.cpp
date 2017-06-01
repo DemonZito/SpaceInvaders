@@ -304,9 +304,15 @@ CLevel::Process(float _fDeltaTick)
 			ProcessCheckForWin();
 			ProcessBulletBounds();
 		}
+
 		if (bBulletExists == true)
 		{
 			bBulletExists = ProcessBulletMotherShipCollision();
+		}
+
+		if (bBulletExists == true)
+		{
+			bBulletExists = ProcessBulletEnemyBulletCollision();
 		}
 	}
 
@@ -467,8 +473,11 @@ bool CLevel::ProcessBulletEnemyBulletCollision() {
 			m_vecpEnemyBullets[i]->SetY((fBulletY + fBulletR / 2.0f) + fEnemyBulletR);
 			m_vecpEnemyBullets[i]->SetVelocityY(m_vecpEnemyBullets[i]->GetVelocityY() * -1);
 
-			m_pBullet->SetY((fEnemyBulletY + fEnemyBulletR / 2.0f) + fBulletR);
+			m_pBullet->SetY((fEnemyBulletX + fEnemyBulletR / 2.0f) + fBulletR);
 			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
+
+			delete m_pBullet;
+			m_pPlayer->SetBullet(nullptr);
 
 			CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
 
@@ -481,10 +490,10 @@ bool CLevel::ProcessBulletEnemyBulletCollision() {
 
 			//reduce the player's health
 
-			return true;
+			return false;
 		}
 	}
-	return false;
+	return true;
 }
 
 
@@ -516,7 +525,6 @@ bool CLevel::ProcessBulletPlayerCollision() {
 				CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
 
 				m_vecpEnemyBullets.erase(m_vecpEnemyBullets.begin() + i);
-
 				pBullet = nullptr;
 				delete pBullet;
 				
@@ -585,7 +593,6 @@ CLevel::ProcessBulletMotherShipCollision()
 			m_pPlayer->SetBullet(nullptr);
 			delete m_pMotherShip;
 			m_pMotherShip = nullptr;
-			m_pPlayer->SetBullet(nullptr);
 			SetScore(GetScore()+ ((rand() % 3)+1)*100);
 			bMotherShipExists = false;
 

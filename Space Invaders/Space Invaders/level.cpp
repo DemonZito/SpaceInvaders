@@ -461,8 +461,8 @@ CLevel::ProcessBulletMotherShipCollision()
 
 		if ((fBallX + fBallR > fMotherX - fMotherW / 2) &&
 			(fBallX - fBallR < fMotherX + fMotherW / 2) &&
-			(fBallY + fBallR > fMotherX - fMotherH / 2) &&
-			(fBallY - fBallR < fMotherX + fMotherH / 2))
+			(fBallY + fBallR > fMotherY - fMotherH / 2) &&
+			(fBallY - fBallR < fMotherY + fMotherH / 2))
 		{
 			m_pBullet->SetY((fMotherX + fMotherH / 2.0f) + fBallR);
 			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
@@ -470,7 +470,6 @@ CLevel::ProcessBulletMotherShipCollision()
 			delete m_pMotherShip;
 			m_pMotherShip = nullptr;
 			m_pPlayer->SetBullet(nullptr);
-			bBulletExists = false;
 
 			bMotherShipExists = false;
 
@@ -517,7 +516,6 @@ CLevel::ProcessBulletEnemyCollision()
 
 				delete m_pBullet;
 				m_pPlayer->SetBullet(nullptr);
-				bBulletExists = false;
 				SetEnemiesRemaining(GetBricksRemaining() - 1);
 				for (unsigned int j = 0; j < m_vecEnemies.size(); j++)
 				{

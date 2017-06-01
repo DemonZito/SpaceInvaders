@@ -25,14 +25,18 @@
 
 // Implementation
 
-CMotherShip::CMotherShip()
+CMotherShip::CMotherShip(const int _iDirection)
 	: m_bHit(false),
 	m_fTime(0),
 	m_fSpeed(1.0f),
-	m_iDirection(1),
 	m_bWallHit(false)
 {
+	m_iDirection = _iDirection;
 
+	if (m_iDirection == 0)
+	{
+		m_iDirection = -1;
+	}
 }
 
 CMotherShip::~CMotherShip()

@@ -34,6 +34,9 @@ class CAnimatedSprite : public CSprite
 	// Member Variables
 public:
 
+	void SetCurSprite(int);
+
+
 protected:
 	std::vector<int> m_vectorFrames;
 

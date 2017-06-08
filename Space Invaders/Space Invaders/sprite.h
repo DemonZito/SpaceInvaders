@@ -54,6 +54,9 @@ public:
     void TranslateRelative(int _iX, int _iY);
     void TranslateAbsolute(int _iX, int _iY);
 
+	void SetDestSizeW(int _iSizeW);
+	void SetDestSizeH(int _iSizeH);
+
 protected:
 
 
@@ -79,7 +82,8 @@ protected:
     static int s_iRefCount;
 
 private:
-
+	int m_iDestSizeW = 0;
+	int m_iDestSizeH = 0;
 };
 
 #endif    // __SPRITE_H__

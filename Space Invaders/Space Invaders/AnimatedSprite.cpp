@@ -28,6 +28,11 @@
 
 // Implementation
 
+void CAnimatedSprite::SetCurSprite(int _spridx)
+{
+	m_iCurrentSprite = _spridx;
+}
+
 CAnimatedSprite::CAnimatedSprite()
 : m_fFrameSpeed(0.0f)
 , m_fTimeElapsed(0.0f)

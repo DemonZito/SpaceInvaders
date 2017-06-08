@@ -134,9 +134,13 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	int iCurrentX = kiStartX;
 	int iCurrentY = kiStartX + 30;
 
+	int iAnimationFrame = 0;
+
 	for (int i = 0; i < kiNumBricks; ++i)
 	{
 		IEnemy* pEnemy;
+
+		iAnimationFrame = i;
 
 		if (i < 12)
 		{
@@ -144,13 +148,26 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		}
 		else if(i >= 12 && i<36)
 		{
+			// Modify animation frame to alternate
+			if (i >= 24)
+			{
+				iAnimationFrame = i + 1;
+			}
 			pEnemy = new CMediumInvader();
 		}
 		else
 		{
+			// Modify animation frame to alternate
+
+			if(i >= 48)
+			{
+				iAnimationFrame = i + 1;
+			}
 			//pEnemy = new CMediumInvader();
 			pEnemy = new CBigInvader();
 		}
+		
+		
 		
 		VALIDATE(pEnemy->Initialise());
 
@@ -160,6 +177,13 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		pEnemy->SetSpeed(m_fSpeedModifier);
 
 		iCurrentX += static_cast<int>(pEnemy->GetWidth()) + kiGap;
+
+		// Modify animation frame to alternate
+
+		if (iAnimationFrame % 2 == 1)
+		{
+			pEnemy->m_pAnim->SetCurSprite(1);
+		}
 
 		if (iCurrentX > (_iWidth - 150))
 		{
@@ -440,7 +464,7 @@ CLevel::ProcessEnemyBulletWallCollision()
 		/*float fHalfBallW = fBallW / 2;
 		float fHalfBallH = fBallH / 2;
 	*/
-		if (fBulletY > 580 - fBulletH) //represents the situation when the ball has hit the bottom wall
+		if (fBulletY > (m_iHeight) - fBulletH) //represents the situation when the bullet has hit the bottom wall
 		{
 			CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
 

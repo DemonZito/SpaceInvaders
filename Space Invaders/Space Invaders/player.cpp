@@ -44,6 +44,8 @@ bool
 CPlayer::Initialise(const int _iScreenWidth)
 {
 	VALIDATE(CEntity::Initialise(IDB_PLAYER, IDB_PLAYERMASK));
+	CEntity::m_pSprite->SetDestSizeW(50);
+	CEntity::m_pSprite->SetDestSizeH(50);
 	m_iScreenWidth = _iScreenWidth;
     return (true);
 }

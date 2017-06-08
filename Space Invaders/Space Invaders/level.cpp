@@ -243,13 +243,18 @@ CLevel::Process(float _fDeltaTick)
 	if (bMotherShipExists == false && s_iMotherShipspawnBuffer <= 0) {
 		bool _bFacingDirection = rand() % 2;
 
-		m_pMotherShip = new CMotherShip(_bFacingDirection);
+		m_pMotherShip = new CMotherShip();
+		
 		m_pMotherShip->Initialise();
+
 		if (_bFacingDirection == 1)
 		{
+			m_pMotherShip->m_iDirection = 1;
 			m_pMotherShip->SetX(-20);
 		}
-		else {
+		else 
+		{
+			m_pMotherShip->m_iDirection = -1;
 			m_pMotherShip->SetX(m_iWidth + 20);
 		}
 		m_pMotherShip->SetY(20);

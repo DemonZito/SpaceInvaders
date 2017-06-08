@@ -159,12 +159,6 @@
     <Image Include="Sprites\BrickSprite.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Sprites\PaddleMask.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\PaddleSprite.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Sprites\SmallInvader.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -181,6 +175,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\EnemyAliensMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Player.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\PlayerMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\PaddleMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\PaddleSprite.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -201,6 +201,8 @@
     <Image Include="Sprites\MediumInvader.bmp" />
     <Image Include="Sprites\PaddleMask.bmp" />
     <Image Include="Sprites\PaddleSprite.bmp" />
+    <Image Include="Sprites\Player.bmp" />
+    <Image Include="Sprites\PlayerMask.bmp" />
     <Image Include="Sprites\SmallInvader.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

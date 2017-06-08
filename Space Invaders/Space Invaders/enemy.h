@@ -48,7 +48,7 @@ public:
 	bool IsHit() const;
 	void shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets);
 
-	void Movement(float _fDeltaTick);
+	virtual void Movement(float _fDeltaTick);
 	virtual int GetPoints();
 	void SetSpeed(float _fSpeed);
 

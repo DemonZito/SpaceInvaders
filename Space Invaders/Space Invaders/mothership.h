@@ -20,10 +20,7 @@
 // Library Includes
 #include <vector>
 // Local Includes
-#include "entity.h"
-#include "clock.h"
-#include "bullet.h"
-#include "EnemyBullet.h"
+#include "enemy.h"
 
 
 // Types
@@ -32,41 +29,15 @@
 
 // Prototypes
 
-class CMotherShip : public CEntity
+class CMotherShip : public IEnemy
 {
 	// Member Functions
 public:
-	CMotherShip(const int _iDirection = 1);
-	virtual ~CMotherShip();
 
-	virtual bool Initialise();
+	bool Initialise();
+	void Draw();
+	void Movement(float _fDeltaTick);
 
-	virtual void Draw();
-	virtual void Process(float _fDeltaTick);
-
-	void SetHit(bool _b);
-	bool IsHit() const;
-
-	void Movement();
-
-protected:
-
-private:
-	CMotherShip(const CMotherShip& _kr);
-	CMotherShip& operator= (const CMotherShip& _kr);
-
-	// Member Variables
-public:
-	float m_fSpeed;
-	int m_iDirection;
-	bool m_bWallHit;
-
-protected:
-	bool m_bHit;
-
-private:
-	float m_fTime;
-	CClock* clock;
 
 };
 

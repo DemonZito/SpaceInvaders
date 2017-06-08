@@ -43,7 +43,7 @@ CPlayer::~CPlayer()
 bool
 CPlayer::Initialise(const int _iScreenWidth)
 {
-	VALIDATE(CEntity::Initialise(IDB_PADDLESPRITE, IDB_PADDLEMASK));
+	VALIDATE(CEntity::Initialise(IDB_PLAYER, IDB_PLAYERMASK));
 	m_iScreenWidth = _iScreenWidth;
     return (true);
 }

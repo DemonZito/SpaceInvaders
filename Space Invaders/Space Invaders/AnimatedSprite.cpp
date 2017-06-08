@@ -100,7 +100,7 @@ CAnimatedSprite::Process(float _fDeltaTick)
 		}
 	}
 
-	CSprite::Process(_fDeltaTick);
+	//CSprite::Process(_fDeltaTick);
 }
 
 void

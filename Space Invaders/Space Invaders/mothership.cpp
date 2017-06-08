@@ -25,68 +25,50 @@
 
 // Implementation
 
-CMotherShip::CMotherShip(const int _iDirection)
-	: m_bHit(false),
-	m_fTime(0),
-	m_fSpeed(1.0f),
-	m_bWallHit(false)
-{
-	m_iDirection = _iDirection;
-
-	if (m_iDirection == 0)
-	{
-		m_iDirection = -1;
-	}
-}
-
-CMotherShip::~CMotherShip()
-{
-
-}
 
 bool
 CMotherShip::Initialise()
 {
-	VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
+	const int iMask = IDB_BITMAP3;
+
+	int iSprite = IDB_BITMAP2;
+
+
+	m_pAnim = new CAnimatedSprite();
+	m_pAnim->Initialise(iSprite, iMask);
+	m_pAnim->SetWidth(25);
+	m_pAnim->SetSpeed(1.0f);
+	m_pAnim->AddFrame(150);
+	m_pAnim->AddFrame(175);
+	m_pAnim->AddFrame(200);
+	m_pAnim->AddFrame(225);
+	m_pAnim->AddFrame(250);
+	m_pAnim->AddFrame(275);
+	m_pAnim->AddFrame(300);
+	m_pAnim->AddFrame(325);
+	m_pAnim->AddFrame(350);
+	m_pAnim->AddFrame(375);
+	m_pAnim->AddFrame(400);
+	m_pAnim->AddFrame(425);
+	m_pAnim->AddFrame(450);
+	m_pAnim->AddFrame(475);
+	m_pAnim->AddFrame(500);
+	m_pAnim->AddFrame(525);
+	m_pAnim->AddFrame(550);
+	//m_pAnim->AddFrame(575);
 
 	return (true);
+
+	//return (true);
 }
 
 void
 CMotherShip::Draw()
 {
-	if (!m_bHit)
-	{
-		CEntity::Draw();
-	}
+	m_pAnim->DrawAnimated();
 }
 
-void
-CMotherShip::Process(float _fDeltaTick)
-{
-	if (!m_bHit)
-	{
-		Movement();
-
-		//_fTime = clock->GetCurTime();
-
-		CEntity::Process(_fDeltaTick);
-	}
-}
-
-void
-CMotherShip::SetHit(bool _b)
-{
-	m_bHit = _b;
-}
-
-bool
-CMotherShip::IsHit() const
-{
-	return (m_bHit);
-}
-
-void CMotherShip::Movement()
+void CMotherShip::Movement(float _fDeltaTick)
 {
 	m_fX += 0.2 * m_iDirection;
 

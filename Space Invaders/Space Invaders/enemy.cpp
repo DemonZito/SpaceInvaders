@@ -86,10 +86,7 @@ IEnemy::IsHit() const
 
 void IEnemy::shoot(std::vector<CEnemyBullet*> *_vecEnemyBullets)
 {
-	//m_eneBullet = new CEnemyBullet();
-	//m_eneBullet->Initialise(m_fX, m_fY + 15, 260.0);
 	_vecEnemyBullets->push_back(new CEnemyBullet());
-	//delete m_eneBullet;
 }
 
 void IEnemy::Movement(float _fDeltaTick)

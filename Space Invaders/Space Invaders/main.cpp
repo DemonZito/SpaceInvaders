@@ -15,6 +15,7 @@
 //Library Includes
 #include <windows.h>
 #include <windowsx.h>
+#include <vld.h>
 
 //Local Includes
 #include "Game.h"

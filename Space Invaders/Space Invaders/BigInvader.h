@@ -6,7 +6,7 @@
 class CBigInvader : public IEnemy
 {
 public:
-
+	~CBigInvader();
 	bool Initialise();
 	int GetPoints();
 	void Draw();

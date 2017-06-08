@@ -67,15 +67,12 @@ public:
 	void MoveDown(float _fDeltaTick);
 	CEnemyBullet* GetBullet();
 	void SetBullet(CEnemyBullet*);
+
 protected:
 	bool m_bHit;
 
 private:
 	float m_fTime;
-	CClock* clock;
-	//std::vector<CEnemyBullet*> m_vecBullet;
-	CEnemyBullet* m_eneBullet;
-	//int m_iPoints;
 
 };
 

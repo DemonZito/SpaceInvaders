@@ -40,7 +40,8 @@ IEnemy::IEnemy()
 
 IEnemy::~IEnemy()
 {
-	
+	delete m_pAnim;
+	m_pAnim = 0;
 }
 
 bool

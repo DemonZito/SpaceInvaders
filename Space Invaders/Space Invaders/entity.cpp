@@ -38,8 +38,11 @@ CEntity::CEntity()
 
 CEntity::~CEntity()
 {
-    delete m_pSprite;
-    m_pSprite = 0;
+	if (m_pSprite != nullptr)
+	{
+		delete m_pSprite;
+		m_pSprite = 0;
+	}
 }
 
 bool

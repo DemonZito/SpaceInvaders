@@ -30,6 +30,15 @@
 // Implementation
 
 
+CBigInvader::~CBigInvader()
+{
+	/*if (m_pAnim != nullptr)
+	{
+		delete m_pAnim;
+		m_pAnim = 0;
+	}*/
+}
+
 bool CBigInvader::Initialise()
 {
 	const int iMask = IDB_BITMAP3;

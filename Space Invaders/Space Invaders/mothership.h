@@ -33,7 +33,7 @@ class CMotherShip : public IEnemy
 {
 	// Member Functions
 public:
-
+	~CMotherShip();
 	bool Initialise();
 	void Draw();
 	void Movement(float _fDeltaTick);

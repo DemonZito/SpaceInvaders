@@ -37,7 +37,11 @@ CPlayer::CPlayer():
 
 CPlayer::~CPlayer()
 {
-
+	if (m_pBullet != nullptr)
+	{
+		delete m_pBullet;
+		m_pBullet = 0;
+	}
 }
 
 bool
@@ -75,7 +79,7 @@ CPlayer::Process(float _fDeltaTick)
 		if(m_pBullet == nullptr)
 		{
 			m_pBullet = new CBullet();
-			m_pBullet->Initialise(m_fX, m_fY - 15, -260.0);
+			m_pBullet->Initialise(m_fX, m_fY - 15, -26000.0);
 		}
 		
 	}

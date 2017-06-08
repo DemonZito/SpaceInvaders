@@ -29,6 +29,15 @@
 // Implementation
 
 
+CSmallInvader::~CSmallInvader()
+{
+	/*if (m_pAnim != nullptr)
+	{
+		delete m_pAnim;
+		m_pAnim = 0;
+	}*/
+}
+
 bool
 CSmallInvader::Initialise()
 {

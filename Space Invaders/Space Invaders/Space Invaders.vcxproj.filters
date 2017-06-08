@@ -69,6 +69,9 @@
     <ClCompile Include="BigInvader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="AnimatedSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -128,6 +131,9 @@
     <ClInclude Include="BigInvader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="AnimatedSprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Breakout.rc">
@@ -169,6 +175,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\Heart.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\EnemyAliensB.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\EnemyAliensMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

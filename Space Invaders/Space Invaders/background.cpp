@@ -43,6 +43,8 @@ bool
 CBackGround::Initialise()
 {
 	VALIDATE(CEntity::Initialise(IDB_BACKGROUND, IDB_BACKGROUNDMASK));
+	//CEntity::SetWidth(CEntity::GetWidth() * );
+	//CEntity::SetHeight(CEntity::GetHeight() * 10);
 
 	return (true);
 }

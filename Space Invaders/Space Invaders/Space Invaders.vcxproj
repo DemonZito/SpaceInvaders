@@ -142,6 +142,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="backbuffer.cpp" />
     <ClCompile Include="background.cpp" />
     <ClCompile Include="BigInvader.cpp" />
@@ -162,6 +163,7 @@
     <ClCompile Include="sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="backbuffer.h" />
     <ClInclude Include="background.h" />
     <ClInclude Include="BigInvader.h" />
@@ -193,6 +195,8 @@
     <Image Include="sprites\bitmap1.bmp" />
     <Image Include="Sprites\BrickMask.bmp" />
     <Image Include="Sprites\BrickSprite.bmp" />
+    <Image Include="Sprites\EnemyAliensB.bmp" />
+    <Image Include="Sprites\EnemyAliensMask.bmp" />
     <Image Include="Sprites\Heart.bmp" />
     <Image Include="Sprites\MediumInvader.bmp" />
     <Image Include="Sprites\PaddleMask.bmp" />

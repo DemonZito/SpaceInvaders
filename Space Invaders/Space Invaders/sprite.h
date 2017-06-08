@@ -35,12 +35,16 @@ public:
     ~CSprite();
 
     bool Initialise(int _iResourceID, int _iMaskResourceID);
+	bool Deinitialise();
 
     void Draw();
     void Process(float _fDeltaTick);
 
-    int GetWidth() const;
-    int GetHeight() const;
+    virtual int GetWidth() const;
+    virtual int GetHeight() const;
+
+	void SetWidth(int _iWidth);
+	void SetHeight(int _iHeight);
 
     int GetX() const;
     int GetY() const;

@@ -18,6 +18,7 @@
 #include "resource.h"
 #include "Sprite.h"
 #include "utils.h"
+#include "AnimatedSprite.h"
 
 // This Include
 #include "entity.h"
@@ -53,16 +54,35 @@ CEntity::Initialise(const int _kiSpriteID, const int _kiMaskID)
 void
 CEntity::Draw()
 {
-    m_pSprite->Draw();
+	if (m_pSprite != nullptr)
+	{
+		m_pSprite->Draw();
+	}
+	
+
 }
 
 void
 CEntity::Process(float _fDeltaTick)
 {
-    m_pSprite->SetX(static_cast<int>(m_fX));
-    m_pSprite->SetY(static_cast<int>(m_fY));
+	if (m_pSprite != nullptr)
+	{
+		m_pSprite->SetX(static_cast<int>(m_fX));
+		m_pSprite->SetY(static_cast<int>(m_fY));
 
-    m_pSprite->Process(_fDeltaTick);
+		m_pSprite->Process(_fDeltaTick);
+	}
+	else if (m_pAnim != nullptr)
+	{
+		m_pAnim->SetX(static_cast<int>(m_fX));
+		m_pAnim->SetY(static_cast<int>(m_fY));
+
+		m_pAnim->Process(_fDeltaTick);
+	}
+   
+
+	
+    
 }
 
 float 
@@ -80,13 +100,39 @@ CEntity::GetY() const
 float 
 CEntity::GetWidth() const
 {
-    return (static_cast<float>(m_pSprite->GetWidth()));
+	if (m_pSprite != nullptr)
+	{
+		return (static_cast<float>(m_pSprite->GetWidth()));
+
+	}
+	else if (m_pAnim != nullptr)
+	{
+		return (static_cast<float>(m_pAnim->GetWidth()));
+
+	}
+}
+
+void CEntity::SetWidth(int _iWidth)
+{
+	m_pSprite->SetWidth(_iWidth);
+}
+
+void CEntity::SetHeight(int _iHeight)
+{
+	m_pSprite->SetHeight(_iHeight);
 }
 
 float 
 CEntity::GetHeight() const
 {
-    return (static_cast<float>(m_pSprite->GetHeight()));
+	if (m_pSprite != nullptr)
+	{
+		return (static_cast<float>(m_pSprite->GetHeight()));
+	}
+	else if(m_pAnim!= nullptr)
+	{
+		return (static_cast<float>(m_pAnim->GetHeight()));
+	}
 }
 
 void

@@ -23,8 +23,8 @@
 #include "level.h"
 #include "player.h"
 
-const int kiWidth = 800;
-const int kiHeight = 600;
+const int kiWidth = 960;
+const int kiHeight = 720;
 
 
 #define WINDOW_CLASS_NAME L"BSENGGFRAMEWORK"

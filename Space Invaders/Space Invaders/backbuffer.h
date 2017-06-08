@@ -44,6 +44,11 @@ public:
     void Clear();
     void Present();
 
+	HDC GetDC()
+	{
+		return (m_hDC);
+	}
+
 protected:
 
 private:

@@ -7,5 +7,6 @@ public:
 
 	bool Initialise();
 	int GetPoints();
+	void Draw();
 };
 

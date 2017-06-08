@@ -55,7 +55,7 @@ protected:
 
 
 private:
-
+	CSprite* m_pSprite;
 };
 
 #endif

@@ -32,11 +32,26 @@
 bool
 CMediumInvader::Initialise()
 {
-	VALIDATE(CEntity::Initialise(IDB_MEDIUMINVADER, IDB_BRICKMASK));
+	const int iMask = IDB_BITMAP3;
+
+	int iSprite = IDB_BITMAP2;
+
+
+	m_pAnim = new CAnimatedSprite();
+	m_pAnim->Initialise(iSprite, iMask);
+	m_pAnim->SetWidth(25);
+	m_pAnim->SetSpeed(1.0f);
+	m_pAnim->AddFrame(50);
+	m_pAnim->AddFrame(75);
 	return (true);
 }
 
 int CMediumInvader::GetPoints()
 {
 	return 30;
+}
+
+void CMediumInvader::Draw()
+{
+	m_pAnim->DrawAnimated();
 }

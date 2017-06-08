@@ -72,6 +72,16 @@ CSprite::Initialise(int _iSpriteResourceID, int _iMaskResourceID)
     return (true);
 }
 
+bool CSprite::Deinitialise()
+{
+	
+	DeleteObject(m_hSprite);
+	DeleteObject(m_hMask);
+
+	return (true);
+	
+}
+
 void
 CSprite::Draw()
 {
@@ -104,6 +114,17 @@ int
 CSprite::GetWidth() const
 {
     return (m_bitmapSprite.bmWidth);
+}
+
+void
+CSprite::SetWidth(int _iWidth)
+{
+	m_bitmapSprite.bmWidth = _iWidth;
+}
+
+void CSprite::SetHeight(int _iHeight)
+{
+	m_bitmapSprite.bmHeight = _iHeight;
 }
 
 int

@@ -148,6 +148,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		}
 		else
 		{
+			//pEnemy = new CMediumInvader();
 			pEnemy = new CBigInvader();
 		}
 		
@@ -163,7 +164,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		if (iCurrentX > (_iWidth - 150))
 		{
 			iCurrentX = kiStartX;
-			iCurrentY += 30;
+			iCurrentY += 40;
 		}
 
 		m_vecEnemies.push_back(pEnemy);
@@ -327,17 +328,14 @@ CLevel::Process(float _fDeltaTick)
 
 	--s_iShootFrameBuffer;
 
+	// Movement
+
 	bool hitwall = false;
 	for (int j = 0; j < m_vecEnemies.size(); j++)
 	{
-		/*if (m_vecEnemies[j]->GetX() + (m_vecEnemies[j]->m_iSpeed*m_vecEnemies[j]->m_iDirection) + (m_vecEnemies[j]->GetWidth() / 2) >= m_iWidth
-			|| m_vecEnemies[j]->GetX() + (m_vecEnemies[j]->m_iSpeed*m_vecEnemies[j]->m_iDirection) <= 0)
-		{
-			hitwall = true;
-		}*/
 		if (m_vecEnemies[j] != nullptr && m_vecEnemies[j]->m_iDirection > 0) // Move left
 		{
-			if (m_vecEnemies[j]->GetX() + (10) + m_vecEnemies[j]->GetWidth() / 2 >= m_iWidth)
+			if (m_vecEnemies[j]->GetX() + m_vecEnemies[j]->GetWidth() >= m_iWidth)
 			{
 				hitwall = true;
 			}
@@ -345,7 +343,7 @@ CLevel::Process(float _fDeltaTick)
 		}
 		else if (m_vecEnemies[j] != nullptr && m_vecEnemies[j]->m_iDirection < 0)
 		{
-			if (m_vecEnemies[j]->GetX() + (10) - m_vecEnemies[j]->GetWidth() <= 0)
+			if (m_vecEnemies[j]->GetX() - m_vecEnemies[j]->GetWidth()/2 <= 0)
 			{
 				hitwall = true;
 			}
@@ -609,24 +607,24 @@ CLevel::ProcessBulletEnemyCollision()
 	{
 		if (m_vecEnemies[i] != nullptr && !m_vecEnemies[i]->IsHit())
 		{
-			float fBallR = m_pBullet->GetRadius();
+			float fBulletWidth = m_pBullet->GetRadius();
 
-			float fBallX = m_pBullet->GetX();
-			float fBallY = m_pBullet->GetY();
+			float fBulletX = m_pBullet->GetX();
+			float fBulletY = m_pBullet->GetY();
 
-			float fBrickX = m_vecEnemies[i]->GetX();
-			float fBrickY = m_vecEnemies[i]->GetY();
+			float fEnemyX = m_vecEnemies[i]->GetX();
+			float fEnemyY = m_vecEnemies[i]->GetY();
 
-			float fBrickH = m_vecEnemies[i]->GetHeight();
-			float fBrickW = m_vecEnemies[i]->GetWidth();
+			float fEnemyH = m_vecEnemies[i]->GetHeight();
+			float fEnemyW = m_vecEnemies[i]->GetWidth();
 
-			if ((fBallX + fBallR > fBrickX - fBrickW / 2) &&
-				(fBallX - fBallR < fBrickX + fBrickW / 2) &&
-				(fBallY + fBallR > fBrickY - fBrickH / 2) &&
-				(fBallY - fBallR < fBrickY + fBrickH / 2))
+			if ((fBulletX + fBulletWidth > fEnemyX - fEnemyW / 2) &&
+				(fBulletX - fBulletWidth < fEnemyX + fEnemyW / 2) &&
+				(fBulletY + fBulletWidth > fEnemyY - fEnemyH / 2) &&
+				(fBulletY - fBulletWidth < fEnemyY + fEnemyH / 2))
 			{
 				//Hit the front side of the brick...
-				m_pBullet->SetY((fBrickY + fBrickH / 2.0f) + fBallR);
+				m_pBullet->SetY((fEnemyY + fEnemyH / 2.0f) + fBulletWidth);
 				m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
 				
 				//IEnemy* pEnemy = m_vecEnemies[i];
@@ -646,6 +644,10 @@ CLevel::ProcessBulletEnemyCollision()
 					if (m_vecEnemies[j] != nullptr)
 					{
 						m_vecEnemies[j]->m_fSpeed *= 0.95f;
+						if (m_vecEnemies[j]->m_pAnim != nullptr)
+						{
+							m_vecEnemies[j]->m_pAnim->SetSpeed(m_vecEnemies[j]->m_fSpeed);
+						}
 					}
 				}
 				return false;

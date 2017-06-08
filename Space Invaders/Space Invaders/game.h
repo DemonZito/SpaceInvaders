@@ -57,6 +57,11 @@ public:
 	static CGame& GetInstance();
 	static void DestroyInstance();
 
+	HDC GetSpriteDC()
+	{
+		return (m_hSpriteDC);
+	}
+
 protected:
 
 private:
@@ -76,6 +81,7 @@ protected:
 	//Application data
 	HINSTANCE m_hApplicationInstance;
 	HWND m_hMainWindow;
+	HDC m_hSpriteDC;
 
 	// Singleton Instance
 	static CGame* s_pGame;

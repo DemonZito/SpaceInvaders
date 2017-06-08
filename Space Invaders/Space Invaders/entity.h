@@ -20,13 +20,14 @@
 // Library Includes
 
 // Local Includes
-
+#include "AnimatedSprite.h"
 // Types
 
 // Constants
 
 // Prototypes
 class CSprite;
+//class CAnimatedSprite;
 
 class CEntity
 {
@@ -49,6 +50,11 @@ public:
 	float GetHeight() const;
 	float GetWidth() const;
 
+	void SetWidth(int _iWidth);
+	void SetHeight(int _iHeight);
+
+	CAnimatedSprite* m_pAnim;
+
 protected:
 
 private:
@@ -60,6 +66,8 @@ public:
 
 protected:
 	CSprite* m_pSprite;
+	
+
 	
 	float m_fX;
 	float m_fY;

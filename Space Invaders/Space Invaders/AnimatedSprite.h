@@ -47,6 +47,11 @@ protected:
 	float m_fFrameSpeed;
 	float m_fTimeElapsed;
 
+	int m_iDestSizeH = 0;
+	int m_iDestSizeW = 0;
+
+
+
 private:
 
 	// Member Functions
@@ -70,9 +75,14 @@ public:
 	int GetFrameWidth();
 	int GetHeight();
 
+	void SetDestSizeH(int _iSizeH);
+	void SetDestSizeW(int _iSizeW);
+
 protected:
 
 private:
+
+
 
 };
 

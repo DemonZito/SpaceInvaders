@@ -59,6 +59,10 @@ CLevel::CLevel()
 	m_iScore = 0;
 	m_fSpeedModifier = 1.0f;
 	m_fAlienShootMod = 0;
+
+	m_pBackground = nullptr;
+	m_pPlayer = nullptr;
+	m_fpsCounter = nullptr;
 }
 
 CLevel::~CLevel()
@@ -113,20 +117,27 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	const float fBallVelY = -75.0f;
 
-	m_pBackground = new CBackGround();
-	VALIDATE(m_pBackground->Initialise());
-	//Set the background position to start from {0,0}
-	m_pBackground->SetX((float)m_iWidth / 2);
-	m_pBackground->SetY((float)m_iHeight / 2);
+	if (m_pBackground == nullptr)
+	{
+		m_pBackground = new CBackGround();
+		VALIDATE(m_pBackground->Initialise());
+		//Set the background position to start from {0,0}
+		m_pBackground->SetX((float)m_iWidth / 2);
+		m_pBackground->SetY((float)m_iHeight / 2);
+	}
+	
 
+	if (m_pPlayer == nullptr)
+	{
+		m_pPlayer = new CPlayer();
+		VALIDATE(m_pPlayer->Initialise(m_iWidth));
 
-	m_pPlayer = new CPlayer();
-	VALIDATE(m_pPlayer->Initialise(m_iWidth));
-
-	// Set the paddle's position to be centered on the x, 
-	// and a little bit up from the bottom of the window.
-	m_pPlayer->SetX(_iWidth / 2.0f);
-	m_pPlayer->SetY(_iHeight - (1.5f * m_pPlayer->GetHeight()));
+		// Set the paddle's position to be centered on the x, 
+		// and a little bit up from the bottom of the window.
+		m_pPlayer->SetX(_iWidth / 2.0f);
+		m_pPlayer->SetY(_iHeight - (1.5f * m_pPlayer->GetHeight()));
+	}
+	
 
 	const int kiNumBricks = 60;
 	const int kiStartX = 20;
@@ -195,11 +206,13 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		m_vecEnemies.push_back(pEnemy);
 	}
 
-	//SetEnemiesRemaining(0)
-	//m_iScore = 0;
-	m_fpsCounter = new CFPSCounter();
-	VALIDATE(m_fpsCounter->Initialise());
-	UpdateScoreText();
+	if (m_fpsCounter == nullptr)
+	{
+		m_fpsCounter = new CFPSCounter();
+		VALIDATE(m_fpsCounter->Initialise());
+		UpdateScoreText();
+	}
+	
 
 	return (true);
 }
@@ -262,6 +275,10 @@ CLevel::Draw()
 void
 CLevel::Process(float _fDeltaTick)
 {
+	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
+	{
+		m_vecpEnemyBullets[i]->Process(_fDeltaTick);
+	}
 	//handles the mothership
 	--s_iMotherShipspawnBuffer;
 
@@ -313,10 +330,7 @@ CLevel::Process(float _fDeltaTick)
 		m_pBullet->Process(_fDeltaTick);
 	}
 
-	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
-	{
-		m_vecpEnemyBullets[i]->Process(_fDeltaTick);
-	}
+	
 
 	m_pPlayer->Process(_fDeltaTick);
 
@@ -683,7 +697,7 @@ CLevel::ProcessBulletEnemyCollision()
 				{
 					if (m_vecEnemies[j] != nullptr)
 					{
-						m_vecEnemies[j]->m_fSpeed *= 0.95f;
+						m_vecEnemies[j]->m_fSpeed *= 0.97f;
 						if (m_vecEnemies[j]->m_pAnim != nullptr)
 						{
 							m_vecEnemies[j]->m_pAnim->SetSpeed(m_vecEnemies[j]->m_fSpeed);
@@ -709,8 +723,18 @@ CLevel::ProcessCheckForWin()
 		}
 	}
 
+	while (m_vecEnemies.size() > 0)
+	{
+		IEnemy* pEnemy = m_vecEnemies[m_vecEnemies.size() - 1];
+
+		m_vecEnemies.pop_back();
+
+		delete pEnemy;
+		pEnemy = 0;
+	}
+
 	CLevel::Initialise(m_iWidth, m_iHeight);
-	m_fSpeedModifier *= 0.5;
+	m_fSpeedModifier *= 0.7;
 	m_fAlienShootMod += 10;
 }
 

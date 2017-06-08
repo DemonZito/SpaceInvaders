@@ -95,9 +95,11 @@ CGame::ExecuteOneFrame()
 	float fDT = m_pClock->GetDeltaTick();
 
 	Process(fDT);
+
 	Draw();
 
 	m_pClock->Process();
+	
 
 	Sleep(1);
 }

@@ -38,9 +38,9 @@ CMotherShip::~CMotherShip()
 bool
 CMotherShip::Initialise()
 {
-	const int iMask = IDB_BITMAP3;
+	const int iMask = IDB_ENEMYMASK;
 
-	int iSprite = IDB_BITMAP2;
+	int iSprite = IDB_ENEMIES;
 
 
 	m_pAnim = new CAnimatedSprite();
@@ -64,6 +64,10 @@ CMotherShip::Initialise()
 	m_pAnim->AddFrame(500);
 	m_pAnim->AddFrame(525);
 	m_pAnim->AddFrame(550);
+
+	CEntity::m_pAnim->SetDestSizeW(50);
+	CEntity::m_pAnim->SetDestSizeH(50);
+
 	//m_pAnim->AddFrame(575);
 
 	return (true);

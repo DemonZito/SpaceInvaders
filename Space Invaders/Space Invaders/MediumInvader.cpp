@@ -41,9 +41,9 @@ CMediumInvader::~CMediumInvader()
 bool
 CMediumInvader::Initialise()
 {
-	const int iMask = IDB_BITMAP3;
+	const int iMask = IDB_ENEMYMASK;
 
-	int iSprite = IDB_BITMAP2;
+	int iSprite = IDB_ENEMIES;
 
 
 	m_pAnim = new CAnimatedSprite();
@@ -52,6 +52,10 @@ CMediumInvader::Initialise()
 	m_pAnim->SetSpeed(1.0f);
 	m_pAnim->AddFrame(50);
 	m_pAnim->AddFrame(75);
+
+	CEntity::m_pAnim->SetDestSizeW(50);
+	CEntity::m_pAnim->SetDestSizeH(50);
+
 	return (true);
 }
 

@@ -147,24 +147,6 @@
     <Image Include="Sprites\BackgroundMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Sprites\BallMask.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\BallSprite.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\BrickMask.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\BrickSprite.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\SmallInvader.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\MediumInvader.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="sprites\bitmap1.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -187,6 +169,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\PaddleSprite.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\BulletsMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Bullets.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\DeadExplosion.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\DeadExplosionMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

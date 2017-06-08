@@ -69,6 +69,12 @@ CAnimatedSprite::DrawAnimated()
 	int iX = m_iX - (iW / 2);
 	int iY = m_iY - (iH / 2);
 
+	if (m_iDestSizeW == 0 && m_iDestSizeH == 0)
+	{
+		m_iDestSizeW = iW;
+		m_iDestSizeH = iH;
+	}
+
 	//HDC hSpriteDC = CGame::GetInstance().GetSpriteDC();
 	CBackBuffer* pBackBuffer = CGame::GetInstance().GetBackBuffer();
 
@@ -76,12 +82,12 @@ CAnimatedSprite::DrawAnimated()
 
 	//BitBlt(pBackBuffer->GetBFDC(), iX, iY, iW, iH, s_hSharedSpriteDC, iTopLeftX, iTopLeftY, SRCAND);
 
-	StretchBlt( pBackBuffer->GetBFDC(),iX,iY,50,50,s_hSharedSpriteDC,iTopLeftX,iTopLeftY, iW,iH,SRCAND);
+	StretchBlt( pBackBuffer->GetBFDC(),iX,iY, m_iDestSizeW, m_iDestSizeH,s_hSharedSpriteDC,iTopLeftX,iTopLeftY, iW,iH,SRCAND);
 
 	SelectObject(s_hSharedSpriteDC, m_hSprite);
 
 	//BitBlt(CGame::GetInstance().GetBackBuffer()->GetDC(), iX, iY, iW, iH, hSpriteDC, iTopLeftX, iTopLeftY, SRCPAINT);
-	StretchBlt(pBackBuffer->GetBFDC(), iX, iY, 50, 50, s_hSharedSpriteDC, iTopLeftX, iTopLeftY, iW, iH, SRCPAINT);
+	StretchBlt(pBackBuffer->GetBFDC(), iX, iY, m_iDestSizeW, m_iDestSizeH, s_hSharedSpriteDC, iTopLeftX, iTopLeftY, iW, iH, SRCPAINT);
 
 	SelectObject(s_hSharedSpriteDC, hOldObj);
 
@@ -140,4 +146,14 @@ int CAnimatedSprite::GetFrameWidth()
 int CAnimatedSprite::GetHeight()
 {
 	return (CSprite::GetHeight()*2);
+}
+
+void CAnimatedSprite::SetDestSizeH(int _iSizeH)
+{
+	m_iDestSizeH = _iSizeH;
+}
+
+void CAnimatedSprite::SetDestSizeW(int _iSizeW)
+{
+	m_iDestSizeW = _iSizeW;
 }

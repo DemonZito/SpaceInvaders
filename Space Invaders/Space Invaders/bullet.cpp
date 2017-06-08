@@ -17,6 +17,7 @@
 // Local Includes
 #include "resource.h"
 #include "utils.h"
+#include "AnimatedSprite.h"
 
 // This Includes
 #include "bullet.h"
@@ -26,27 +27,28 @@
 // Static Function Prototypes
 
 // Implementation
-
-CBullet::CBullet()
-: m_fVelocityY(0.0f)
-{
-
-}
-
-CBullet::~CBullet()
-{
-
-}
-
 bool
 CBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
 {
-    VALIDATE(CEntity::Initialise(IDB_BALLSPRITE, IDB_BALLMASK));
-    
+	const int iMask = IDB_BULLETMASK;
+
+	int iSprite = IDB_BULLETS;
+
+
+	m_pAnim = new CAnimatedSprite();
+	m_pAnim->Initialise(iSprite, iMask);
+	m_pAnim->SetWidth(8);
+	m_pAnim->SetSpeed(0.05f);
+	m_pAnim->AddFrame(0);
+	m_pAnim->AddFrame(8);
+
     m_fX = _fPosX;
     m_fY = _fPosY;
 
     m_fVelocityY = _fVelocityY;
+
+	CEntity::m_pAnim->SetDestSizeW(16);
+	CEntity::m_pAnim->SetDestSizeH(32);
 
     return (true);
 }
@@ -54,16 +56,14 @@ CBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
 void
 CBullet::Draw()
 {
-    CEntity::Draw();
+	CEntity::Draw();
 }
 
 void
 CBullet::Process(float _fDeltaTick)
 {
-    //m_fX += m_fVelocityX * _fDeltaTick;
-    m_fY += m_fVelocityY * _fDeltaTick;
-
-    CEntity::Process(_fDeltaTick);
+	m_fY += m_fVelocityY * _fDeltaTick;
+	CEntity::Process(_fDeltaTick);
 }
 
 float 

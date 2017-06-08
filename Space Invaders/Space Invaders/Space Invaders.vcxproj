@@ -190,20 +190,18 @@
   <ItemGroup>
     <Image Include="Sprites\Background.bmp" />
     <Image Include="Sprites\BackgroundMask.bmp" />
-    <Image Include="Sprites\BallMask.bmp" />
-    <Image Include="Sprites\BallSprite.bmp" />
     <Image Include="sprites\bitmap1.bmp" />
-    <Image Include="Sprites\BrickMask.bmp" />
-    <Image Include="Sprites\BrickSprite.bmp" />
+    <Image Include="Sprites\Bullets.bmp" />
+    <Image Include="Sprites\BulletsMask.bmp" />
+    <Image Include="Sprites\DeadExplosion.bmp" />
+    <Image Include="Sprites\DeadExplosionMask.bmp" />
     <Image Include="Sprites\EnemyAliensB.bmp" />
     <Image Include="Sprites\EnemyAliensMask.bmp" />
     <Image Include="Sprites\Heart.bmp" />
-    <Image Include="Sprites\MediumInvader.bmp" />
     <Image Include="Sprites\PaddleMask.bmp" />
     <Image Include="Sprites\PaddleSprite.bmp" />
     <Image Include="Sprites\Player.bmp" />
     <Image Include="Sprites\PlayerMask.bmp" />
-    <Image Include="Sprites\SmallInvader.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -47,7 +47,7 @@ IEnemy::~IEnemy()
 bool
 IEnemy::Initialise()
 {
-	VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
+	//VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
 	return (true);
 }
 

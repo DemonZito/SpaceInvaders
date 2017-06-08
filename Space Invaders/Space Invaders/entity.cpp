@@ -61,7 +61,10 @@ CEntity::Draw()
 	{
 		m_pSprite->Draw();
 	}
-	
+	else
+	{
+		m_pAnim->DrawAnimated();
+	}
 
 }
 

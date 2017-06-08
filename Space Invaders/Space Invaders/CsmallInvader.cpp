@@ -41,19 +41,21 @@ CSmallInvader::~CSmallInvader()
 bool
 CSmallInvader::Initialise()
 {
-	const int iMask = IDB_BITMAP3;
+	const int iMask = IDB_ENEMYMASK;
 
-	int iSprite = IDB_BITMAP2;
+	int iSprite = IDB_ENEMIES;
 
-	//VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
 
 	m_pAnim = new CAnimatedSprite();
 	m_pAnim->Initialise(iSprite, iMask);
-	//m_pAnim->Initialise(IDB_SMALLINVADER, IDB_BRICKMASK);
 	m_pAnim->SetWidth(25);
 	m_pAnim->SetSpeed(1.0f);
 	m_pAnim->AddFrame(100);
 	m_pAnim->AddFrame(125);
+
+	CEntity::m_pAnim->SetDestSizeW(50);
+	CEntity::m_pAnim->SetDestSizeH(50);
+
 	return (true);
 }
 

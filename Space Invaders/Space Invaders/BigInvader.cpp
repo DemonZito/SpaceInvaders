@@ -41,9 +41,9 @@ CBigInvader::~CBigInvader()
 
 bool CBigInvader::Initialise()
 {
-	const int iMask = IDB_BITMAP3;
+	const int iMask = IDB_ENEMYMASK;
 
-	int iSprite = IDB_BITMAP2;
+	int iSprite = IDB_ENEMIES;
 
 	//VALIDATE(CEntity::Initialise(IDB_BRICKSPRITE, IDB_BRICKMASK));
 
@@ -54,6 +54,10 @@ bool CBigInvader::Initialise()
 	m_pAnim->SetSpeed(1.0f);
 	m_pAnim->AddFrame(0);
 	m_pAnim->AddFrame(25);
+
+	CEntity::m_pAnim->SetDestSizeW(50);
+	CEntity::m_pAnim->SetDestSizeH(50);
+
 	return (true);
 }
 

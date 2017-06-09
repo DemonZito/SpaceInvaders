@@ -90,16 +90,21 @@ CGame::Process(float _fDeltaTick)
 }
 
 void
-CGame::ExecuteOneFrame()
+CGame::ExecuteOneFrame(bool _bPaused)
 {
 	float fDT = m_pClock->GetDeltaTick();
 
-	Process(fDT);
+	if (_bPaused == false)
+	{
+		Process(fDT);
 
-	Draw();
+		Draw();
+
+		
+	}
 
 	m_pClock->Process();
-	
+
 
 	Sleep(1);
 }

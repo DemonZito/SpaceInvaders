@@ -43,7 +43,7 @@ public:
 	virtual void Draw();
 	virtual void Process(float _fDeltaTick);
 
-	void ExecuteOneFrame();
+	void ExecuteOneFrame(bool _bPaused);
 
 	CBackBuffer* GetBackBuffer();
 	CLevel* GetLevel();

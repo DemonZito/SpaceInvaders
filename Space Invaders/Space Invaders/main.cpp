@@ -161,15 +161,15 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 				return TRUE;
 				break;
 			}
-			case WM_CLOSE:
-			{
-				ShowWindow(_hwnd, SW_HIDE);
-				return TRUE;
-				break;
-			}
 			default:
 				break;
 			}
+		case WM_CLOSE:
+		{
+			ShowWindow(_hwnd, SW_HIDE);
+			return TRUE;
+			break;
+		}
 		}
 		default:
 			break;
@@ -254,7 +254,7 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 		}
 		else
 		{
-			rGame.ExecuteOneFrame();
+			rGame.ExecuteOneFrame(IsWindowVisible(g_hDlgDebug));
 		}
 	}
 

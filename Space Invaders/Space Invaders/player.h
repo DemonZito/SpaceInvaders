@@ -50,6 +50,8 @@ public:
 	void LoseLife();
 	int GetLives();
 
+	void SetBulletSpeed(float _iBulletSpeed);
+
 protected:
 
 private:
@@ -66,6 +68,7 @@ protected:
 private:
 	CBullet* m_pBullet = nullptr;
 	int m_iHealth;
+	float m_iBulletSpeed;
 
 };
 

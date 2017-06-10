@@ -50,7 +50,7 @@ CEnemyBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
 	m_pAnim = new CAnimatedSprite();
 	m_pAnim->Initialise(iSprite, iMask);
 	m_pAnim->SetWidth(8);
-	m_pAnim->SetSpeed(1.0f);
+	m_pAnim->SetSpeed(0.05f);
 	m_pAnim->AddFrame(16);
 	m_pAnim->AddFrame(24);
 

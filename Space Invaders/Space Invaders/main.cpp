@@ -28,6 +28,8 @@
 const int kiWidth = 960;
 const int kiHeight = 720;
 
+CGame& rGame = CGame::GetInstance();
+
 HWND g_hDlgDebug;
 
 #define WINDOW_CLASS_NAME L"BSENGGFRAMEWORK"
@@ -98,30 +100,37 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO14:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
+
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO15:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO15);
+
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO4:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO4, IDC_RADIO6, IDC_RADIO4);
+				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-26.0);
+
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO5:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
+				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-260.0);
+
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO6:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO4, IDC_RADIO6, IDC_RADIO6);
+				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-2600.0);
 				return TRUE;
 				break;
 			}
@@ -146,18 +155,21 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO10:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO10, IDC_RADIO12, IDC_RADIO10);
+				rGame.GetInstance().GetLevel()->SetAlienShootSpeed(50000);
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO11:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
+				rGame.GetInstance().GetLevel()->SetAlienShootSpeed(500);
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO12:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO10, IDC_RADIO12, IDC_RADIO12);
+				rGame.GetInstance().GetLevel()->SetAlienShootSpeed(50);
 				return TRUE;
 				break;
 			}
@@ -221,6 +233,11 @@ CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, const w
 
 	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
 
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO7, IDC_RADIO9, IDC_RADIO8);
+
 	return (hwnd);
 }
 
@@ -233,8 +250,6 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 
 
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
-
-	CGame& rGame = CGame::GetInstance();
 	
 	GetClientRect(hwnd, &_rect);
 

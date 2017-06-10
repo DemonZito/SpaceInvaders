@@ -58,7 +58,7 @@ CLevel::CLevel()
 	bMotherShipExists = false;
 	m_iScore = 0;
 	m_fSpeedModifier = 1.0f;
-	m_fAlienShootMod = 0;
+	m_fAlienShootMod = 500;
 
 	m_pBackground = nullptr;
 	m_pPlayer = nullptr;
@@ -86,11 +86,11 @@ CLevel::~CLevel()
 		m_pMotherShip = 0;
 	}
 
-	if (bBulletExists == true)
-	{
-		delete m_pBullet;
-		m_pBullet = 0;
-	}
+	//if (bBulletExists == true)
+	//{
+	//	delete m_pBullet;
+	//	m_pBullet = 0;
+	//}
 
 	while (m_vecpEnemyBullets.size() > 0)
 	{
@@ -215,6 +215,12 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	
 
 	return (true);
+}
+
+void 
+CLevel::SetAlienShootSpeed(int _fAlienShootMod) {
+	m_fAlienShootMod = _fAlienShootMod;
+	s_iShootFrameBuffer = 0;
 }
 
 bool
@@ -364,7 +370,8 @@ CLevel::Process(float _fDeltaTick)
 	//handles aliens shooting
 	if (s_iShootFrameBuffer <= 0)
 	{
-		s_iShootFrameBuffer = rand() % (5000 - m_fAlienShootMod*10) + 500;
+		s_iShootFrameBuffer = rand() % (m_fAlienShootMod);
+		//s_iShootFrameBuffer = rand() % (5000 - m_fAlienShootMod * 10) + 500;
 		if (AlienShoot((rand() % 12), _fDeltaTick) == false) {
 			s_iShootFrameBuffer = 1;
 		}
@@ -520,6 +527,7 @@ bool CLevel::ProcessBulletEnemyBulletCollision() {
 			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
 
 			delete m_pBullet;
+
 			m_pBullet = 0;
 			m_pPlayer->SetBullet(nullptr);
 
@@ -735,7 +743,6 @@ CLevel::ProcessCheckForWin()
 
 	CLevel::Initialise(m_iWidth, m_iHeight);
 	m_fSpeedModifier *= 0.7;
-	m_fAlienShootMod += 10;
 }
 
 void
@@ -781,6 +788,16 @@ CLevel::SetScore(int _i)
 int CLevel::GetScore()
 {
 	return m_iScore;
+}
+
+CBullet * CLevel::GetPlayerBullet()
+{
+	return m_pBullet;
+}
+
+CPlayer * CLevel::GetPlayer()
+{
+	return m_pPlayer;
 }
 
 void

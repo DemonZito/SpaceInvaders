@@ -48,9 +48,13 @@ public:
 	virtual void Draw();
 	virtual void Process(float _fDeltaTick);
 
+	void SetAlienShootSpeed(int _fAlienShootMod);
+
 	CPlayer* GetPaddle() const;
 
 	int GetBricksRemaining() const;
+
+	void SetPlayerBulletSpeed(int _fPlayerBulletSpeed);
 
 protected:
 	bool ProcessBulletWallCollision();
@@ -81,8 +85,10 @@ private:
 
 	// Member Variables
 public:
-	CBullet* m_pBullet;
+	CBullet* GetPlayerBullet();
+	CPlayer* GetPlayer();
 protected:
+	CBullet* m_pBullet;
 	CBackGround* m_pBackground;
 	CPlayer* m_pPlayer;
 	IEnemy* m_pMotherShip;
@@ -105,6 +111,8 @@ private:
 	float m_fTime;
 	int m_iScore;
 	float m_fSpeedModifier;
+
+	//Debug values
 	int m_fAlienShootMod;
 };
 

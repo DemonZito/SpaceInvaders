@@ -51,6 +51,7 @@ CPlayer::Initialise(const int _iScreenWidth)
 	CEntity::m_pSprite->SetDestSizeW(50);
 	CEntity::m_pSprite->SetDestSizeH(50);
 	m_iScreenWidth = _iScreenWidth;
+	m_iBulletSpeed = -260.0;
     return (true);
 }
 
@@ -79,7 +80,7 @@ CPlayer::Process(float _fDeltaTick)
 		if(m_pBullet == nullptr)
 		{
 			m_pBullet = new CBullet();
-			m_pBullet->Initialise(m_fX, m_fY - 15, -260.0);
+			m_pBullet->Initialise(m_fX, m_fY - 15, m_iBulletSpeed);
 		}
 		
 	}
@@ -116,6 +117,11 @@ void CPlayer::LoseLife()
 int CPlayer::GetLives()
 {
 	return m_iHealth;
+}
+
+void CPlayer::SetBulletSpeed(float _iBulletSpeed)
+{
+	m_iBulletSpeed = _iBulletSpeed;
 }
 
 

@@ -136,7 +136,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		// Set the paddle's position to be centered on the x, 
 		// and a little bit up from the bottom of the window.
 		m_pPlayer->SetX(_iWidth / 2.0f);
-		m_pPlayer->SetY(_iHeight - (1.5f * m_pPlayer->GetHeight()));
+		m_pPlayer->SetY(_iHeight - (2.0f * m_pPlayer->GetHeight()));
 	}
 	
 
@@ -292,7 +292,7 @@ CLevel::Process(float _fDeltaTick)
 {
 	for (int i = 0; i < m_vecpExplosions.size(); i++)
 	{
-		if (rand() % 300 == 0)
+		if (rand() % 200 == 0)
 		{
 			CExplosion* Explosion = m_vecpExplosions.back();
 			m_vecpExplosions.pop_back();

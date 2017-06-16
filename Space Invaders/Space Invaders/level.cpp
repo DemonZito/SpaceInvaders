@@ -22,6 +22,7 @@
 #include "enemy.h"
 #include "mothership.h"
 #include "bullet.h"
+#include "Explosion.h"
 #include "utils.h"
 #include "backbuffer.h"
 #include "framecounter.h"
@@ -53,7 +54,7 @@ CLevel::CLevel()
 	, m_fTime(0)
 {
 	/* initialize random seed: */
-	srand(time(NULL));
+	srand(static_cast<unsigned int>(time(NULL)));
 	bBulletExists = false;
 	bMotherShipExists = false;
 	m_iScore = 0;
@@ -228,7 +229,7 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 {
 	if ((m_vecbAlienColumns.at(_iStack) == true))
 	{
-		for (int j = (m_vecEnemies.size() - 1); j >= 0; --j)
+		for (int j = static_cast<int>(m_vecEnemies.size() - 1); j >= 0; --j)
 		{
 			if ((m_vecEnemies.at(j) != nullptr) && (j % 12 == _iStack))
 			{
@@ -274,6 +275,14 @@ CLevel::Draw()
 		}
 	}
 
+	for (int i = 0; i < m_vecpExplosions.size(); i++)
+	{
+		if (m_vecpExplosions.empty() == false)
+		{
+			m_vecpExplosions[i]->Draw();
+		}
+	}
+
 	DrawScore();
 	DrawFPS();
 }
@@ -281,6 +290,16 @@ CLevel::Draw()
 void
 CLevel::Process(float _fDeltaTick)
 {
+	for (int i = 0; i < m_vecpExplosions.size(); i++)
+	{
+		if (rand() % 300 == 0)
+		{
+			CExplosion* Explosion = m_vecpExplosions.back();
+			m_vecpExplosions.pop_back();
+			delete Explosion;
+		}
+	}
+	
 	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
 	{
 		m_vecpEnemyBullets[i]->Process(_fDeltaTick);
@@ -289,7 +308,7 @@ CLevel::Process(float _fDeltaTick)
 	--s_iMotherShipspawnBuffer;
 
 	if (bMotherShipExists == false && s_iMotherShipspawnBuffer <= 0) {
-		bool _bFacingDirection = rand() % 2;
+		int _bFacingDirection = rand() % 2;
 
 		m_pMotherShip = new CMotherShip();
 		
@@ -303,7 +322,7 @@ CLevel::Process(float _fDeltaTick)
 		else 
 		{
 			m_pMotherShip->m_iDirection = -1;
-			m_pMotherShip->SetX(m_iWidth + 20);
+			m_pMotherShip->SetX(static_cast<float>(m_iWidth + 20));
 		}
 		m_pMotherShip->SetY(20);
 		bMotherShipExists = true;
@@ -341,7 +360,7 @@ CLevel::Process(float _fDeltaTick)
 	m_pPlayer->Process(_fDeltaTick);
 
 	ProcessEnemyBulletWallCollision();
-	ProcessBulletPlayerCollision();
+	ProcessBulletPlayerCollision(_fDeltaTick);
 
 	if (bBulletExists == true)
 	{
@@ -351,19 +370,19 @@ CLevel::Process(float _fDeltaTick)
 		if (bBulletExists == true)
 		{
 			//ProcessBallPaddleCollision();
-			bBulletExists = ProcessBulletEnemyCollision();
+			bBulletExists = ProcessBulletEnemyCollision(_fDeltaTick);
 			ProcessCheckForWin();
 			ProcessBulletBounds();
 		}
 
 		if (bBulletExists == true)
 		{
-			bBulletExists = ProcessBulletMotherShipCollision();
+			bBulletExists = ProcessBulletMotherShipCollision(_fDeltaTick);
 		}
 
 		if (bBulletExists == true)
 		{
-			bBulletExists = ProcessBulletEnemyBulletCollision();
+			bBulletExists = ProcessBulletEnemyBulletCollision(_fDeltaTick);
 		}
 	}
 
@@ -501,7 +520,7 @@ CLevel::ProcessEnemyBulletWallCollision()
 	}
 }
 
-bool CLevel::ProcessBulletEnemyBulletCollision() {
+bool CLevel::ProcessBulletEnemyBulletCollision(float _fDeltaTick) {
 	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
 	{
 		float fEnemyBulletR = m_vecpEnemyBullets[i]->GetRadius();
@@ -537,12 +556,17 @@ bool CLevel::ProcessBulletEnemyBulletCollision() {
 
 			//m_vecpEnemyBullets.at(i) = nullptr;
 
+			//trigger an explosion
+			CExplosion* Explosion = new CExplosion(pBullet->GetX(), pBullet->GetY());
+			VALIDATE(Explosion->Initialise(_fDeltaTick));
+			m_vecpExplosions.push_back(Explosion);
+
 			delete pBullet;
 			pBullet = nullptr;
 			
 
 			//reduce the player's health
-
+		
 			return false;
 		}
 	}
@@ -550,7 +574,7 @@ bool CLevel::ProcessBulletEnemyBulletCollision() {
 }
 
 
-bool CLevel::ProcessBulletPlayerCollision() {
+bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
 	{
 		if (m_vecpEnemyBullets[i] != nullptr && !m_pPlayer->IsHit())
@@ -578,6 +602,13 @@ bool CLevel::ProcessBulletPlayerCollision() {
 				CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
 
 				m_vecpEnemyBullets.erase(m_vecpEnemyBullets.begin() + i);
+
+				
+				//trigger an explosion
+				CExplosion* Explosion = new CExplosion(pBullet->GetX(), pBullet->GetY());
+				VALIDATE(Explosion->Initialise(_fDeltaTick));
+				m_vecpExplosions.push_back(Explosion);
+				
 				//pBullet = nullptr;
 				delete pBullet;
 				pBullet = nullptr;
@@ -588,7 +619,6 @@ bool CLevel::ProcessBulletPlayerCollision() {
 				{
 					CGame::GetInstance().GameOverLost();
 				}
-
 				return false;
 			}
 		}
@@ -621,7 +651,7 @@ bool CLevel::ProcessBulletPlayerCollision() {
 //}
 
 bool
-CLevel::ProcessBulletMotherShipCollision()
+CLevel::ProcessBulletMotherShipCollision(float _fDeltaTick)
 {
 	if (bMotherShipExists == true && !m_pMotherShip->IsHit())
 	{
@@ -643,6 +673,11 @@ CLevel::ProcessBulletMotherShipCollision()
 			m_pBullet->SetY((fMotherX + fMotherH / 2.0f) + fBallR);
 			m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
 
+			//trigger an explosion
+			CExplosion* Explosion = new CExplosion(m_pMotherShip->GetX(), m_pMotherShip->GetY());
+			VALIDATE(Explosion->Initialise(_fDeltaTick));
+			m_vecpExplosions.push_back(Explosion);
+			
 			delete m_pBullet;
 			m_pPlayer->SetBullet(nullptr);
 
@@ -651,7 +686,6 @@ CLevel::ProcessBulletMotherShipCollision()
 
 			SetScore(GetScore()+ ((rand() % 3)+1)*100);
 			bMotherShipExists = false;
-
 			return false;
 		}
 	}
@@ -659,7 +693,7 @@ CLevel::ProcessBulletMotherShipCollision()
 }
 
 bool
-CLevel::ProcessBulletEnemyCollision()
+CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 {
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
@@ -692,6 +726,12 @@ CLevel::ProcessBulletEnemyCollision()
 				SetScore(m_vecEnemies[i]->GetPoints() + GetScore());
 
 				IEnemy* pEnemy = m_vecEnemies[i];
+
+				//trigger an explosion
+				CExplosion* Explosion = new CExplosion(pEnemy->GetX(), pEnemy->GetY());
+				VALIDATE(Explosion->Initialise(_fDeltaTick));
+				m_vecpExplosions.push_back(Explosion);
+
 				delete pEnemy;
 
 				m_vecEnemies[i] = nullptr;
@@ -712,6 +752,7 @@ CLevel::ProcessBulletEnemyCollision()
 						}
 					}
 				}
+
 				return false;
 			}
 		}
@@ -742,7 +783,7 @@ CLevel::ProcessCheckForWin()
 	}
 
 	CLevel::Initialise(m_iWidth, m_iHeight);
-	m_fSpeedModifier *= 0.7;
+	m_fSpeedModifier *= 0.7f;
 }
 
 void

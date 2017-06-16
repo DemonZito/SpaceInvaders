@@ -65,7 +65,7 @@ void
 CPlayer::Process(float _fDeltaTick)
 {
     
-	float fHalfPlayerW = m_pSprite->GetWidth() / 2.0;
+	float fHalfPlayerW = static_cast<float>(m_pSprite->GetWidth() / 2.0);
 
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{

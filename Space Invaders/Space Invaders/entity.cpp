@@ -116,6 +116,7 @@ CEntity::GetWidth() const
 		return (static_cast<float>(m_pAnim->GetWidth()));
 
 	}
+	return 0;
 }
 
 void CEntity::SetWidth(int _iWidth)
@@ -139,6 +140,7 @@ CEntity::GetHeight() const
 	{
 		return (static_cast<float>(m_pAnim->GetHeight()));
 	}
+	return 0;
 }
 
 void

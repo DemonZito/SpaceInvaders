@@ -30,9 +30,9 @@ const int kiHeight = 720;
 
 CGame& rGame = CGame::GetInstance();
 
-HWND g_hDlgDebug;
-
 #define WINDOW_CLASS_NAME L"BSENGGFRAMEWORK"
+
+HWND g_hDlgDebug;
 
 LRESULT CALLBACK
 WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
@@ -231,13 +231,6 @@ CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, const w
 		return (0);
 	}
 
-	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
-
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO7, IDC_RADIO9, IDC_RADIO8);
-
 	return (hwnd);
 }
 
@@ -250,6 +243,14 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 
 
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
+	
+	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
+
+	//set all the radio buttons to their default state
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
+	CheckRadioButton(g_hDlgDebug, IDC_RADIO7, IDC_RADIO9, IDC_RADIO8);
 	
 	GetClientRect(hwnd, &_rect);
 

@@ -32,6 +32,7 @@ class CBullet;
 class CEnemyBullet;
 class CPlayer;
 class CExplosion;
+class CBarrierBlock;
 //class CMotherShip;
 class IEnemy;
 class CFPSCounter;
@@ -66,6 +67,7 @@ protected:
 	bool ProcessBulletEnemyCollision(float _fDeltaTick);
 	bool ProcessBulletMotherShipCollision(float _fDeltaTick);
 	bool ProcessBulletEnemyBulletCollision(float _fDeltaTick);
+	bool ProcessBulletBlockBarrierCollision(float _fDeltaTick);
 	//void ProcessPlayerWallCollison();
 	//	bool ProcessBulletEnemyCollision();
 
@@ -97,10 +99,13 @@ protected:
 	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
 	std::vector<CEnemyBullet*> m_vecpEnemyBullets;
 	std::vector<CExplosion*> m_vecpExplosions;
+	std::vector<CBarrierBlock*> m_vecpBarrierBlocks;
 	CFPSCounter* m_fpsCounter;
 
 	int m_iWidth;
 	int m_iHeight;
+
+	float m_fDeltaTick;
 
 	int m_iEnemyRemaining;
 

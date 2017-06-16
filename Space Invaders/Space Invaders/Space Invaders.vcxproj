@@ -145,6 +145,7 @@
     <ClCompile Include="AnimatedSprite.cpp" />
     <ClCompile Include="backbuffer.cpp" />
     <ClCompile Include="background.cpp" />
+    <ClCompile Include="barrierblock.cpp" />
     <ClCompile Include="BigInvader.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="CsmallInvader.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="AnimatedSprite.h" />
     <ClInclude Include="backbuffer.h" />
     <ClInclude Include="background.h" />
+    <ClInclude Include="barrierblock.h" />
     <ClInclude Include="BigInvader.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="CsmallInvader.h" />
@@ -192,6 +194,8 @@
   <ItemGroup>
     <Image Include="Sprites\Background.bmp" />
     <Image Include="Sprites\BackgroundMask.bmp" />
+    <Image Include="Sprites\BarrierBlock.bmp" />
+    <Image Include="Sprites\BarrierBlockMask.bmp" />
     <Image Include="sprites\bitmap1.bmp" />
     <Image Include="Sprites\Bullets.bmp" />
     <Image Include="Sprites\BulletsMask.bmp" />

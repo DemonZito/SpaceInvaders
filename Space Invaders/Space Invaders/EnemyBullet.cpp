@@ -40,7 +40,7 @@ CEnemyBullet::~CEnemyBullet()
 }
 
 bool
-CEnemyBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
+CEnemyBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY, float _fDeltaTick)
 {
 	const int iMask = IDB_BULLETMASK;
 
@@ -61,6 +61,7 @@ CEnemyBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
 
 	CEntity::m_pAnim->SetDestSizeW(16);
 	CEntity::m_pAnim->SetDestSizeH(32);
+	CEntity::Process(_fDeltaTick);
 
 	return (true);
 }

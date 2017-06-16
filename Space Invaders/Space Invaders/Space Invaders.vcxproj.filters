@@ -75,6 +75,9 @@
     <ClCompile Include="Explosion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="barrierblock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -140,6 +143,9 @@
     <ClInclude Include="Explosion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="barrierblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Breakout.rc">
@@ -187,6 +193,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\DeadExplosionMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\BarrierBlock.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\BarrierBlockMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

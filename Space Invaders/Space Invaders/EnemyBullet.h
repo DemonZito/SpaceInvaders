@@ -37,7 +37,7 @@ public:
 	CEnemyBullet();
 	virtual ~CEnemyBullet();
 
-	virtual bool Initialise(float _fPosX, float _fPosY, float _fVelocityY);
+	virtual bool Initialise(float _fPosX, float _fPosY, float _fVelocityY, float _fDeltaTick);
 
 	virtual void Draw();
 	virtual void Process(float _fDeltaTick);

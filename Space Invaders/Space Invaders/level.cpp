@@ -23,6 +23,7 @@
 #include "mothership.h"
 #include "bullet.h"
 #include "Explosion.h"
+#include "barrierblock.h"
 #include "utils.h"
 #include "backbuffer.h"
 #include "framecounter.h"
@@ -138,6 +139,10 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		m_pPlayer->SetX(_iWidth / 2.0f);
 		m_pPlayer->SetY(_iHeight - (2.0f * m_pPlayer->GetHeight()));
 	}
+
+	CBarrierBlock* BarrierBlock = new CBarrierBlock(20, 30);
+	VALIDATE(BarrierBlock->Initialise(m_fDeltaTick));
+	m_vecpBarrierBlocks.push_back(BarrierBlock);
 	
 
 	const int kiNumBricks = 60;
@@ -235,7 +240,7 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 			{
 				
 				m_vecEnemies.at(j)->shoot(&m_vecpEnemyBullets);
-				m_vecpEnemyBullets.back()->Initialise(m_vecEnemies.at(j)->GetX(), m_vecEnemies.at(j)->GetY() + 15, 260.0);
+				m_vecpEnemyBullets.back()->Initialise(m_vecEnemies.at(j)->GetX(), m_vecEnemies.at(j)->GetY() + 15, 260.0, m_fDeltaTick);
 				
 				return true;
 			}
@@ -283,6 +288,14 @@ CLevel::Draw()
 		}
 	}
 
+	for (int i = 0; i < m_vecpBarrierBlocks.size(); i++)
+	{
+		if (m_vecpBarrierBlocks.empty() == false && m_vecpBarrierBlocks[i] != nullptr)
+		{
+			m_vecpBarrierBlocks[i]->Draw();
+		}
+	}
+
 	DrawScore();
 	DrawFPS();
 }
@@ -290,6 +303,8 @@ CLevel::Draw()
 void
 CLevel::Process(float _fDeltaTick)
 {
+	m_fDeltaTick = _fDeltaTick;
+
 	for (int i = 0; i < m_vecpExplosions.size(); i++)
 	{
 		if (rand() % 200 == 0)
@@ -383,6 +398,11 @@ CLevel::Process(float _fDeltaTick)
 		if (bBulletExists == true)
 		{
 			bBulletExists = ProcessBulletEnemyBulletCollision(_fDeltaTick);
+		}
+
+		if (bBulletExists == true)
+		{
+			bBulletExists = ProcessBulletBlockBarrierCollision(_fDeltaTick);
 		}
 	}
 
@@ -752,6 +772,61 @@ CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 						}
 					}
 				}
+
+				return false;
+			}
+		}
+	}
+	return true;
+
+}
+
+bool
+CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
+{
+	for (unsigned int i = 0; i < m_vecpBarrierBlocks.size(); ++i)
+	{
+		if (m_vecpBarrierBlocks[i] != nullptr)
+		{
+			float fBulletWidth = m_pBullet->GetRadius();
+
+			float fBulletX = m_pBullet->GetX();
+			float fBulletY = m_pBullet->GetY();
+
+			float fBlockX = m_vecpBarrierBlocks[i]->GetX();
+			float fBlockY = m_vecpBarrierBlocks[i]->GetY();
+
+			float fBlockH = m_vecpBarrierBlocks[i]->GetHeight();
+			float fBlockW = m_vecpBarrierBlocks[i]->GetWidth();
+
+			if ((fBulletX + fBulletWidth > fBlockX - fBlockW / 2) &&
+				(fBulletX - fBulletWidth < fBlockX + fBlockW / 2) &&
+				(fBulletY + fBulletWidth > fBlockY - fBlockH / 2) &&
+				(fBulletY - fBulletWidth < fBlockY + fBlockH / 2))
+			{
+				//Hit the front side of the brick...
+				m_pBullet->SetY((fBlockY + fBlockH / 2.0f) + fBulletWidth);
+				m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1);
+
+				//IEnemy* pEnemy = m_vecEnemies[i];
+
+				//m_vecEnemies.erase(m_vecEnemies.begin() + i);
+
+				CBarrierBlock* pBlock = m_vecpBarrierBlocks[i];
+
+				//trigger an explosion
+				CExplosion* Explosion = new CExplosion(pBlock->GetX(), pBlock->GetY());
+				VALIDATE(Explosion->Initialise(_fDeltaTick));
+				m_vecpExplosions.push_back(Explosion);
+
+				delete pBlock;
+
+				m_vecpBarrierBlocks[i] = nullptr;
+
+				//delete pEnemy;
+
+				delete m_pBullet;
+				m_pPlayer->SetBullet(nullptr);
 
 				return false;
 			}

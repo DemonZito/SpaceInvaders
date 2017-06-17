@@ -82,8 +82,15 @@ CGame::Draw()
 {
 	m_pBackBuffer->Clear();
 
-	//m_pLevel->Draw();
-	m_pMenu->Draw();
+	m_pLevel->Draw();
+	if (m_bStartGame == true)
+	{
+		m_pLevel->Draw();
+	}
+	else
+	{
+		m_pMenu->Draw();
+	}
 
 	m_pBackBuffer->Present();
 }
@@ -91,8 +98,14 @@ CGame::Draw()
 void
 CGame::Process(float _fDeltaTick)
 {
-	//m_pLevel->Process(_fDeltaTick);
-	m_pMenu->Process(_fDeltaTick);
+	if (m_bStartGame == true)
+	{
+		m_pLevel->Process(_fDeltaTick);
+	}
+	else
+	{
+		m_pMenu->Process(_fDeltaTick);
+	}
 }
 
 void
@@ -159,6 +172,12 @@ CGame::GetLevel()
 	return (m_pLevel);
 }
 
+CMainMenu*
+CGame::GetMenu()
+{
+	return (m_pMenu);
+}
+
 HINSTANCE
 CGame::GetAppInstance()
 {
@@ -169,5 +188,10 @@ HWND
 CGame::GetWindow()
 {
 	return (m_hMainWindow);
+}
+
+void CGame::startGame(bool _bStart)
+{
+	m_bStartGame = _bStart;
 }
 

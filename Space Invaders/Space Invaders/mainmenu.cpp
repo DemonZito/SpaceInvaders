@@ -77,18 +77,18 @@ bool CMainMenu::Process(float _fDeltaTick)
 	return (true);
 }
 
-bool CMainMenu::checkIfStartSelected(POINT p)
-{
+bool CMainMenu::checkIfStartSelected(const int _iX, const int _iY)
+{	
 	float fButtonW = m_pStartButton->GetWidth();
 	float fButtonH = m_pStartButton->GetHeight();
 
 	float fButtonX = m_pStartButton->GetX();
 	float fButtonY = m_pStartButton->GetY();
 
-	if (p.y < fButtonY + fButtonH / 2
-		&& p.y > fButtonY - fButtonH / 2
-		&& p.x < fButtonX + fButtonW / 2
-		&& p.x > fButtonX - fButtonW / 2)
+	if (_iY < fButtonY + fButtonH 
+		&& _iY > fButtonY
+		&& _iX < fButtonX + fButtonW
+		&& _iX > fButtonX)
 	{
 		return true;
 	}
@@ -97,7 +97,22 @@ bool CMainMenu::checkIfStartSelected(POINT p)
 	}
 }
 
-bool CMainMenu::checkIfQuitSelected(POINT p)
+bool CMainMenu::checkIfQuitSelected(const int _iX, const int _iY)
 {
-	return false;
+	float fButtonW = m_pQuitButton->GetWidth();
+	float fButtonH = m_pQuitButton->GetHeight();
+
+	float fButtonX = m_pQuitButton->GetX();
+	float fButtonY = m_pQuitButton->GetY();
+
+	if (_iY < fButtonY + fButtonH
+		&& _iY > fButtonY
+		&& _iX < fButtonX + fButtonW
+		&& _iX > fButtonX)
+	{
+		return true;
+	}
+	else {
+		return false;
+	}
 }

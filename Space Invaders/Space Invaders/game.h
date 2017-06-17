@@ -48,8 +48,11 @@ public:
 
 	CBackBuffer* GetBackBuffer();
 	CLevel* GetLevel();
+	CMainMenu* GetMenu();
 	HINSTANCE GetAppInstance();
 	HWND GetWindow();
+
+	void startGame(bool _bStart);
 
 	void GameOverWon();
 	void GameOverLost();

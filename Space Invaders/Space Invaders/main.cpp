@@ -21,6 +21,7 @@
 #include "Game.h"
 #include "Clock.h"
 #include "utils.h"
+#include "mainmenu.h"
 #include "level.h"
 #include "player.h"
 #include "resource.h"
@@ -37,6 +38,9 @@ HWND g_hDlgDebug;
 LRESULT CALLBACK
 WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 {
+	static int s_iCurMouseX;
+	static int s_iCurMouseY;
+
 	switch (_uiMsg)
 	{
 	case WM_KEYDOWN:
@@ -54,8 +58,23 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		return (0);
 	}
 		break;
+	case WM_LBUTTONDOWN:
+	{
+		if (rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
+			rGame.startGame(true);
+		}
+		else if (rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
+			PostQuitMessage(0);
+		}
+		return (0);
+	}
+		break;
 	case WM_MOUSEMOVE:
 	{
+		s_iCurMouseX = static_cast<int>(LOWORD(_lParam));
+		s_iCurMouseY = static_cast<int>(HIWORD(_lParam));
 		int iMouseX = LOWORD(_lParam);
 		//CGame::GetInstance().GetLevel()->GetPaddle()->SetX(static_cast<float>(iMouseX));
 		return (0);

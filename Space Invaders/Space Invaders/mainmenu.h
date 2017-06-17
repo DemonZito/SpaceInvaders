@@ -35,8 +35,8 @@ public:
 	virtual void Draw();
 	virtual bool Process(float _fDeltaTick);
 
-	bool checkIfStartSelected(POINT p);
-	bool checkIfQuitSelected(POINT p);
+	bool checkIfStartSelected(const int _iX, const int _iY);
+	bool checkIfQuitSelected(const int _iX, const int _iY);
 
 private:
 	int m_iWidth;

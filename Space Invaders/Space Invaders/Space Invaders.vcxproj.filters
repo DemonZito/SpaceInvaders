@@ -81,6 +81,9 @@
     <ClCompile Include="LifeCount.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="menubutton.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -150,6 +153,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LifeCount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="menubutton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

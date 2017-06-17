@@ -70,6 +70,7 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
+	//delete enemies
 	while (m_vecEnemies.size() > 0)
 	{
 		IEnemy* pEnemy = m_vecEnemies[m_vecEnemies.size() - 1];
@@ -80,13 +81,25 @@ CLevel::~CLevel()
 		pEnemy = 0;
 	}
 
+	//delete player
 	delete m_pPlayer;
 	m_pPlayer = 0;
 
+	//delete mother ship
 	if (bMotherShipExists == true)
 	{
 		delete m_pMotherShip;
 		m_pMotherShip = 0;
+	}
+
+	//delete Barriers
+	while (m_vecpBarrierBlocks.size() > 0)
+	{
+		CBarrierBlock* pBarrier = m_vecpBarrierBlocks[m_vecpBarrierBlocks.size() - 1];
+		m_vecpBarrierBlocks.pop_back();
+
+		delete pBarrier;
+		pBarrier = nullptr;
 	}
 
 	//if (bBulletExists == true)
@@ -95,6 +108,7 @@ CLevel::~CLevel()
 	//	m_pBullet = 0;
 	//}
 
+	//delete life counters
 	while (m_vecpLifeCounters.size() > 0)
 	{
 		CLifeCount* pLifeCount = m_vecpLifeCounters[m_vecpLifeCounters.size() - 1];
@@ -104,6 +118,7 @@ CLevel::~CLevel()
 		pLifeCount = nullptr;
 	}
 
+	//delete enemy bullets
 	while (m_vecpEnemyBullets.size() > 0)
 	{
 		CBullet* pEnemyBullet = m_vecpEnemyBullets[m_vecpEnemyBullets.size() - 1];
@@ -309,7 +324,6 @@ CLevel::Draw()
 	}
 
 	m_pPlayer->Draw();
-	DrawHealth();
 
 	if (bMotherShipExists == true) {
 		m_pMotherShip->Draw();
@@ -344,6 +358,7 @@ CLevel::Draw()
 		}
 	}
 
+	DrawHealth();
 	DrawScore();
 	DrawFPS();
 }

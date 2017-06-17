@@ -25,7 +25,7 @@ class CLifeCount : public CEntity
 {
 public:
 	CLifeCount(const float _iX, const float _iY);
-	~CLifeCount();
+	virtual ~CLifeCount();
 
 	virtual bool Initialise(float _fDeltaTick);
 

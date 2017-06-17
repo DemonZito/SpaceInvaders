@@ -161,6 +161,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="MediumInvader.cpp" />
+    <ClCompile Include="menubutton.cpp" />
     <ClCompile Include="mothership.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="sprite.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="LifeCount.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="MediumInvader.h" />
+    <ClInclude Include="menubutton.h" />
     <ClInclude Include="mothership.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="resource.h" />

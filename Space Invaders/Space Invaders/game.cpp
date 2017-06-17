@@ -17,6 +17,7 @@
 // Local Includes
 #include "Clock.h"
 #include "Level.h"
+#include "mainmenu.h"
 #include "BackBuffer.h"
 #include "utils.h"
 
@@ -68,6 +69,9 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 	m_pLevel = new CLevel();
 	VALIDATE(m_pLevel->Initialise(_iWidth, _iHeight));
 
+	m_pMenu = new CMainMenu();
+	VALIDATE(m_pMenu->Initialise(_iWidth, _iHeight));
+
 	ShowCursor(true);
 
 	return (true);
@@ -78,7 +82,8 @@ CGame::Draw()
 {
 	m_pBackBuffer->Clear();
 
-	m_pLevel->Draw();
+	//m_pLevel->Draw();
+	m_pMenu->Draw();
 
 	m_pBackBuffer->Present();
 }
@@ -86,7 +91,8 @@ CGame::Draw()
 void
 CGame::Process(float _fDeltaTick)
 {
-	m_pLevel->Process(_fDeltaTick);
+	//m_pLevel->Process(_fDeltaTick);
+	m_pMenu->Process(_fDeltaTick);
 }
 
 void

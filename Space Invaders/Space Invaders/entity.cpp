@@ -106,6 +106,7 @@ CEntity::GetY() const
 float 
 CEntity::GetWidth() const
 {
+
 	if (m_pSprite != nullptr)
 	{
 		return (static_cast<float>(m_pSprite->GetWidth()));

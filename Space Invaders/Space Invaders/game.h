@@ -30,6 +30,7 @@
 
 // Prototypes
 class CLevel;
+class CMainMenu;
 class CBackBuffer;
 
 class CGame
@@ -75,6 +76,7 @@ public:
 protected:
 	CClock* m_pClock;
 	CLevel* m_pLevel;
+	CMainMenu* m_pMenu;
 
 	CBackBuffer* m_pBackBuffer;
 
@@ -87,7 +89,7 @@ protected:
 	static CGame* s_pGame;
 
 private:
-
+	bool m_bStartGame;
 };
 
 #endif    // __GAME_H__

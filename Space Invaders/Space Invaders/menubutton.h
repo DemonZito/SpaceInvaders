@@ -13,24 +13,24 @@
 //
 #pragma once
 
-#if !defined(__EXPLOSION_H__)
-#define __EXPLOSION_H__
+#if !defined(__MENUBUTTON_H__)
+#define __MENUBUTTON_H__
 
 // Library Includes
 
 // Local Includes
 #include "entity.h"
 
-class CExplosion : public CEntity
+class CMenuButton : public CEntity
 {
 public:
-	CExplosion(const float _iX, const float _iY);
-	virtual ~CExplosion();
+	CMenuButton(const float _iX, const float _iY);
+	~CMenuButton();
 
 	virtual bool Initialise(float _fDeltaTick);
 
 	virtual void Draw();
 };
 
-#endif    // __EXPLOSION_H__
+#endif    // __MENUBUTTON_H__
 

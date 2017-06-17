@@ -36,8 +36,8 @@ bool
 CBarrierBlock::Initialise(float _fDeltaTick)
 {
 	VALIDATE(CEntity::Initialise(IDB_BARRIERBLOCK, IDB_BARRIERBLOCKMASK));
-	CEntity::m_pSprite->SetDestSizeW(50);
-	CEntity::m_pSprite->SetDestSizeH(50);
+	CEntity::m_pSprite->SetDestSizeW(25);
+	CEntity::m_pSprite->SetDestSizeH(25);
 	CEntity::Process(_fDeltaTick);
 	return (true);
 }

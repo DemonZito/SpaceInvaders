@@ -68,6 +68,8 @@ protected:
 	bool ProcessBulletMotherShipCollision(float _fDeltaTick);
 	bool ProcessBulletEnemyBulletCollision(float _fDeltaTick);
 	bool ProcessBulletBlockBarrierCollision(float _fDeltaTick);
+
+	bool ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick);
 	//void ProcessPlayerWallCollison();
 	//	bool ProcessBulletEnemyCollision();
 

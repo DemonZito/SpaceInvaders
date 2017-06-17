@@ -649,24 +649,24 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 	{
 		if (m_vecpEnemyBullets[i] != nullptr && !m_pPlayer->IsHit())
 		{
-			float fBallR = m_vecpEnemyBullets[i]->GetRadius();
+			float fBulletR = m_vecpEnemyBullets[i]->GetRadius();
 
-			float fBallX = m_vecpEnemyBullets[i]->GetX();
-			float fBallY = m_vecpEnemyBullets[i]->GetY();
+			float fBulletX = m_vecpEnemyBullets[i]->GetX();
+			float fBulletY = m_vecpEnemyBullets[i]->GetY();
 
-			float fBrickX = m_pPlayer->GetX();
-			float fBrickY = m_pPlayer->GetY();
+			float fPlayerX = m_pPlayer->GetX();
+			float fPlayerY = m_pPlayer->GetY();
 
-			float fBrickH = m_pPlayer->GetHeight();
-			float fBrickW = m_pPlayer->GetWidth();
+			float fPlayerH = m_pPlayer->GetHeight();
+			float fPlayerW = m_pPlayer->GetWidth();
 
-			if ((fBallX + fBallR > fBrickX - fBrickW / 2) &&
-				(fBallX - fBallR < fBrickX + fBrickW / 2) &&
-				(fBallY + fBallR > fBrickY - fBrickH / 2) &&
-				(fBallY - fBallR < fBrickY + fBrickH / 2))
+			if ((fBulletX + fBulletR > fPlayerX - fPlayerW / 2) &&
+				(fBulletX - fBulletR < fPlayerX + fPlayerW / 2) &&
+				(fBulletY + fBulletR > fPlayerY - fPlayerH / 2 + 18) && //has a slight offset so the bullet must hit the body of the player, not their turret
+				(fBulletY - fBulletR < fPlayerY + fPlayerH / 2))
 			{
 				//Hit the front side of the brick...
-				m_vecpEnemyBullets[i]->SetY((fBrickY + fBrickH / 2.0f) + fBallR);
+				m_vecpEnemyBullets[i]->SetY((fPlayerY + fPlayerH / 2.0f) + fBulletR);
 				m_vecpEnemyBullets[i]->SetVelocityY(m_vecpEnemyBullets[i]->GetVelocityY() * -1);
 
 				CEnemyBullet* pBullet = m_vecpEnemyBullets.at(i);
@@ -675,7 +675,7 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 
 				
 				//trigger an explosion
-				CExplosion* Explosion = new CExplosion(pBullet->GetX(), pBullet->GetY());
+				CExplosion* Explosion = new CExplosion(m_pPlayer->GetX(), m_pPlayer->GetY());
 				VALIDATE(Explosion->Initialise(_fDeltaTick));
 				m_vecpExplosions.push_back(Explosion);
 				
@@ -770,6 +770,7 @@ CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 		if (m_vecEnemies[i] != nullptr && !m_vecEnemies[i]->IsHit())
 		{
 			float fBulletWidth = m_pBullet->GetRadius();
+			float fBulletHeight = m_pBullet->GetHeight()/2;
 
 			float fBulletX = m_pBullet->GetX();
 			float fBulletY = m_pBullet->GetY();
@@ -780,10 +781,10 @@ CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 			float fEnemyH = m_vecEnemies[i]->GetHeight();
 			float fEnemyW = m_vecEnemies[i]->GetWidth();
 
-			if ((fBulletX + fBulletWidth > fEnemyX - fEnemyW / 2) &&
+			if ((fBulletX + fBulletWidth > fEnemyX - fEnemyW / 2 + 20) &&
 				(fBulletX - fBulletWidth < fEnemyX + fEnemyW / 2) &&
-				(fBulletY + fBulletWidth > fEnemyY - fEnemyH / 2) &&
-				(fBulletY - fBulletWidth < fEnemyY + fEnemyH / 2))
+				(fBulletY + fBulletHeight > fEnemyY - fEnemyH / 2) &&
+				(fBulletY - fBulletHeight < fEnemyY + fEnemyH / 2))
 			{
 				//Hit the front side of the brick...
 				m_pBullet->SetY((fEnemyY + fEnemyH / 2.0f) + fBulletWidth);

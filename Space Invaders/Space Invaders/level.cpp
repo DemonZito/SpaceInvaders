@@ -702,7 +702,8 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 				m_pPlayer->LoseLife();
 				if (m_pPlayer->GetLives() == 0)
 				{
-					CGame::GetInstance().GameOverLost();
+					//CGame::GetInstance().GameOverLost();
+					CGame::GetInstance().startGame(false);
 				}
 				return false;
 			}

@@ -60,11 +60,11 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		break;
 	case WM_LBUTTONDOWN:
 	{
-		if (rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		if (rGame.GetGameState() == false && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			rGame.startGame(true);
 		}
-		else if (rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		else if (rGame.GetGameState() == false && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			PostQuitMessage(0);
 		}

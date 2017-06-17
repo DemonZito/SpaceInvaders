@@ -47,12 +47,13 @@ public:
 	void ExecuteOneFrame(bool _bPaused);
 
 	CBackBuffer* GetBackBuffer();
+	bool GetGameState();
 	CLevel* GetLevel();
 	CMainMenu* GetMenu();
 	HINSTANCE GetAppInstance();
 	HWND GetWindow();
 
-	void startGame(bool _bStart);
+	bool startGame(bool _bStart);
 
 	void GameOverWon();
 	void GameOverLost();
@@ -93,6 +94,8 @@ protected:
 
 private:
 	bool m_bStartGame;
+	int m_iWidth;
+	int m_iHeight;
 };
 
 #endif    // __GAME_H__

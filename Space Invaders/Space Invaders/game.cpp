@@ -38,13 +38,16 @@ CGame::CGame()
 	, m_hMainWindow(0)
 	, m_pBackBuffer(0)
 {
-
+	m_bStartGame = false;
 }
 
 CGame::~CGame()
 {
 	delete m_pLevel;
 	m_pLevel = 0;
+
+	delete m_pMenu;
+	m_pMenu = 0;
 
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;
@@ -58,6 +61,8 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 {
 	m_hApplicationInstance = _hInstance;
 	m_hMainWindow = _hWnd;
+	m_iWidth = _iWidth;
+	m_iHeight = _iHeight;
 
 	m_pClock = new CClock();
 	VALIDATE(m_pClock->Initialise());
@@ -65,9 +70,6 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 
 	m_pBackBuffer = new CBackBuffer();
 	VALIDATE(m_pBackBuffer->Initialise(_hWnd, _iWidth, _iHeight));
-
-	m_pLevel = new CLevel();
-	VALIDATE(m_pLevel->Initialise(_iWidth, _iHeight));
 
 	m_pMenu = new CMainMenu();
 	VALIDATE(m_pMenu->Initialise(_iWidth, _iHeight));
@@ -82,7 +84,6 @@ CGame::Draw()
 {
 	m_pBackBuffer->Clear();
 
-	m_pLevel->Draw();
 	if (m_bStartGame == true)
 	{
 		m_pLevel->Draw();
@@ -166,6 +167,12 @@ CGame::GetBackBuffer()
 	return (m_pBackBuffer);
 }
 
+bool
+CGame::GetGameState()
+{
+	return m_bStartGame;
+}
+
 CLevel*
 CGame::GetLevel()
 {
@@ -190,8 +197,16 @@ CGame::GetWindow()
 	return (m_hMainWindow);
 }
 
-void CGame::startGame(bool _bStart)
+bool CGame::startGame(bool _bStart)
 {
 	m_bStartGame = _bStart;
+	
+	if (_bStart == true)
+	{
+		m_pLevel = new CLevel();
+		VALIDATE(m_pLevel->Initialise(m_iWidth, m_iHeight));
+	}
+
+	return true;
 }
 

@@ -157,6 +157,7 @@
     <ClCompile Include="framecounter.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="level.cpp" />
+    <ClCompile Include="LifeCount.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainmenu.cpp" />
     <ClCompile Include="MediumInvader.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="framecounter.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="LifeCount.h" />
     <ClInclude Include="mainmenu.h" />
     <ClInclude Include="MediumInvader.h" />
     <ClInclude Include="mothership.h" />
@@ -196,16 +198,14 @@
     <Image Include="Sprites\BackgroundMask.bmp" />
     <Image Include="Sprites\BarrierBlock.bmp" />
     <Image Include="Sprites\BarrierBlockMask.bmp" />
-    <Image Include="sprites\bitmap1.bmp" />
     <Image Include="Sprites\Bullets.bmp" />
     <Image Include="Sprites\BulletsMask.bmp" />
     <Image Include="Sprites\DeadExplosion.bmp" />
     <Image Include="Sprites\DeadExplosionMask.bmp" />
     <Image Include="Sprites\EnemyAliensB.bmp" />
     <Image Include="Sprites\EnemyAliensMask.bmp" />
-    <Image Include="Sprites\Heart.bmp" />
-    <Image Include="Sprites\PaddleMask.bmp" />
-    <Image Include="Sprites\PaddleSprite.bmp" />
+    <Image Include="Sprites\Life.bmp" />
+    <Image Include="Sprites\LifeMask.bmp" />
     <Image Include="Sprites\Player.bmp" />
     <Image Include="Sprites\PlayerMask.bmp" />
   </ItemGroup>

@@ -33,6 +33,7 @@ class CEnemyBullet;
 class CPlayer;
 class CExplosion;
 class CBarrierBlock;
+class CLifeCount;
 //class CMotherShip;
 class IEnemy;
 class CFPSCounter;
@@ -78,6 +79,8 @@ protected:
 	void ProcessBulletBounds();
 
 	void UpdateScoreText();
+	
+	void DrawHealth();
 	void DrawScore();
 	void DrawFPS();
 
@@ -103,6 +106,7 @@ protected:
 	std::vector<CExplosion*> m_vecpExplosions;
 	std::vector<CBarrierBlock*> m_vecpBarrierBlocks;
 	CFPSCounter* m_fpsCounter;
+	std::vector<CLifeCount*> m_vecpLifeCounters;
 
 	int m_iWidth;
 	int m_iHeight;

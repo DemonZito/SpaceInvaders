@@ -24,6 +24,7 @@
 #include "bullet.h"
 #include "Explosion.h"
 #include "barrierblock.h"
+#include "lifecount.h"
 #include "utils.h"
 #include "backbuffer.h"
 #include "framecounter.h"
@@ -94,13 +95,26 @@ CLevel::~CLevel()
 	//	m_pBullet = 0;
 	//}
 
+	while (m_vecpLifeCounters.size() > 0)
+	{
+		CLifeCount* pLifeCount = m_vecpLifeCounters[m_vecpLifeCounters.size() - 1];
+		m_vecpLifeCounters.pop_back();
+
+		delete pLifeCount;
+		pLifeCount = nullptr;
+	}
+
 	while (m_vecpEnemyBullets.size() > 0)
 	{
 		CBullet* pEnemyBullet = m_vecpEnemyBullets[m_vecpEnemyBullets.size() - 1];
 
 		m_vecpEnemyBullets.pop_back();
 
-		//delete pEnemyBullet;
+		if (pEnemyBullet != nullptr)
+		{
+			delete pEnemyBullet;
+		}
+		pEnemyBullet = nullptr;
 	}
 
 	delete m_fpsCounter;
@@ -118,6 +132,13 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	m_iHeight = _iHeight;
 
 	const float fBallVelY = -75.0f;
+
+	for (int i = 0; i < 3; ++i)
+	{
+		CLifeCount* pLifeCount = new CLifeCount(50 + 16 * i, m_iHeight - 25);
+		m_vecpLifeCounters.push_back(pLifeCount);
+		VALIDATE(m_vecpLifeCounters[i]->Initialise(m_fDeltaTick));
+	}
 
 	if (m_pBackground == nullptr)
 	{
@@ -288,6 +309,7 @@ CLevel::Draw()
 	}
 
 	m_pPlayer->Draw();
+	DrawHealth();
 
 	if (bMotherShipExists == true) {
 		m_pMotherShip->Draw();
@@ -997,6 +1019,22 @@ CBullet * CLevel::GetPlayerBullet()
 CPlayer * CLevel::GetPlayer()
 {
 	return m_pPlayer;
+}
+
+
+void CLevel::DrawHealth()
+{
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+	const int kiX = 0;
+	const int kiY = m_iHeight - 28;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, kiX, kiY, "Health:", 7);
+
+	for (int i = 0; i < m_pPlayer->GetLives(); ++i)
+	{
+		m_vecpLifeCounters[i]->Draw();
+	}
 }
 
 void

@@ -78,6 +78,9 @@
     <ClCompile Include="barrierblock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="LifeCount.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -146,6 +149,9 @@
     <ClInclude Include="barrierblock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="LifeCount.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Breakout.rc">
@@ -159,12 +165,6 @@
     <Image Include="Sprites\BackgroundMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="sprites\bitmap1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\Heart.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Sprites\EnemyAliensB.bmp">
       <Filter>Resource Files</Filter>
     </Image>
@@ -175,12 +175,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\PlayerMask.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\PaddleMask.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Sprites\PaddleSprite.bmp">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\BulletsMask.bmp">
@@ -199,6 +193,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Sprites\BarrierBlockMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\Life.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\LifeMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

@@ -8,7 +8,7 @@
 //
 // File Name	: 
 // Description	: 
-// Author		: Your Name
+// Author		: Jack Mair Madeleine Day
 // Mail			: your.name@mediadesign.school.nz
 //
 

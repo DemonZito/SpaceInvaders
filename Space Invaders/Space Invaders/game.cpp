@@ -17,6 +17,8 @@
 // Local Includes
 #include "Clock.h"
 #include "Level.h"
+#include "clouds.h"
+#include "background.h"
 #include "mainmenu.h"
 #include "BackBuffer.h"
 #include "utils.h"
@@ -39,6 +41,7 @@ CGame::CGame()
 	, m_pBackBuffer(0)
 {
 	m_bStartGame = false;
+	m_pBackground = nullptr;
 }
 
 CGame::~CGame()
@@ -54,6 +57,19 @@ CGame::~CGame()
 
 	delete m_pClock;
 	m_pClock = 0;
+
+	delete m_pBackground;
+	m_pBackground = 0;
+
+	//delete clouds
+	while (m_vecpClouds.size() > 0)
+	{
+		CClouds* pCloud = m_vecpClouds[m_vecpClouds.size() - 1];
+		m_vecpClouds.pop_back();
+
+		delete pCloud;
+		pCloud = nullptr;
+	}
 }
 
 bool
@@ -74,6 +90,15 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 	m_pMenu = new CMainMenu();
 	VALIDATE(m_pMenu->Initialise(_iWidth, _iHeight));
 
+	if (m_pBackground == nullptr)
+	{
+		m_pBackground = new CBackGround();
+		VALIDATE(m_pBackground->Initialise());
+		//Set the background position to start from {0,0}
+		m_pBackground->SetX((float)m_iWidth / 2);
+		m_pBackground->SetY((float)m_iHeight / 2);
+	}
+
 	ShowCursor(true);
 
 	return (true);
@@ -83,6 +108,13 @@ void
 CGame::Draw()
 {
 	m_pBackBuffer->Clear();
+
+	m_pBackground->Draw();
+
+	for (unsigned int i = 0; i < m_vecpClouds.size(); ++i)
+	{
+		m_vecpClouds[i]->Draw();
+	}
 
 	if (m_bStartGame == true)
 	{
@@ -96,9 +128,37 @@ CGame::Draw()
 	m_pBackBuffer->Present();
 }
 
-void
+bool
 CGame::Process(float _fDeltaTick)
 {
+	if (m_vecpClouds.size() == 0)
+	{
+		CClouds* Cloud = new CClouds(0, 0);
+		VALIDATE(Cloud->Initialise(_fDeltaTick));
+		m_vecpClouds.push_back(Cloud);
+	}
+
+	for (unsigned int i = 0; i < m_vecpClouds.size(); ++i)
+	{
+		m_vecpClouds[i]->Process(_fDeltaTick);
+		if (m_vecpClouds[i]->GetX() > m_iWidth + m_vecpClouds[i]->GetWidth() /2)
+		{
+			CClouds* pCloud = m_vecpClouds[m_vecpClouds.size() - 1];
+			m_vecpClouds.pop_back();
+
+			delete pCloud;
+			pCloud = nullptr;
+		}
+		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() > m_iWidth / 2)
+		{
+			CClouds* Cloud = new CClouds(0, 0);
+			VALIDATE(Cloud->Initialise(_fDeltaTick));
+			m_vecpClouds.push_back(Cloud);
+		}
+	}
+
+	m_pBackground->Process(_fDeltaTick);
+
 	if (m_bStartGame == true)
 	{
 		m_pLevel->Process(_fDeltaTick);
@@ -107,6 +167,8 @@ CGame::Process(float _fDeltaTick)
 	{
 		m_pMenu->Process(_fDeltaTick);
 	}
+
+	return false;
 }
 
 void
@@ -209,4 +271,3 @@ bool CGame::startGame(bool _bStart)
 
 	return true;
 }
-

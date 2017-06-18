@@ -37,7 +37,6 @@ class CLifeCount;
 //class CMotherShip;
 class IEnemy;
 class CFPSCounter;
-class CBackGround;
 
 class CLevel
 {
@@ -97,7 +96,6 @@ public:
 	CPlayer* GetPlayer();
 protected:
 	CBullet* m_pBullet;
-	CBackGround* m_pBackground;
 	CPlayer* m_pPlayer;
 	IEnemy* m_pMotherShip;
 	std::vector<IEnemy*> m_vecEnemies;

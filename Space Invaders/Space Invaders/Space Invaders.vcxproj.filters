@@ -84,6 +84,9 @@
     <ClCompile Include="menubutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="clouds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -158,6 +161,9 @@
     <ClInclude Include="menubutton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="clouds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Breakout.rc">
@@ -207,5 +213,10 @@
     <Image Include="Sprites\LifeMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\HighScores.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

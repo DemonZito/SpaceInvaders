@@ -20,6 +20,7 @@
 
 // Library Includes
 #include <windows.h>
+#include <vector>
 
 // Local Includes
 #include "clock.h"
@@ -32,6 +33,8 @@
 class CLevel;
 class CMainMenu;
 class CBackBuffer;
+class CBackGround;
+class CClouds;
 
 class CGame
 {
@@ -42,7 +45,7 @@ public:
 	virtual bool Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight);
 
 	virtual void Draw();
-	virtual void Process(float _fDeltaTick);
+	virtual bool Process(float _fDeltaTick);
 
 	void ExecuteOneFrame(bool _bPaused);
 
@@ -91,6 +94,9 @@ protected:
 
 	// Singleton Instance
 	static CGame* s_pGame;
+	CBackGround* m_pBackground;
+	std::vector<CClouds*> m_vecpClouds;
+
 
 private:
 	bool m_bStartGame;

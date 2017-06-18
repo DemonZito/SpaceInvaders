@@ -22,7 +22,6 @@
 
 // Prototypes
 class CMenuButton;
-class CBackGround;
 
 class CMainMenu
 {
@@ -38,11 +37,17 @@ public:
 	bool checkIfStartSelected(const int _iX, const int _iY);
 	bool checkIfQuitSelected(const int _iX, const int _iY);
 
+
+	void DrawCredits();
+	void DrawHighScore();
+
 private:
+	CMainMenu(const CMainMenu& _kr);
+	CMainMenu& operator= (const CMainMenu& _kr);
+
 	int m_iWidth;
 	int m_iHeight;
 
-	CBackGround* m_pBackground;
 	CMenuButton* m_pStartButton;
 	CMenuButton* m_pQuitButton;
 };

@@ -28,7 +28,6 @@
 #include "utils.h"
 #include "backbuffer.h"
 #include "framecounter.h"
-#include "background.h"
 #include "CsmallInvader.h"
 #include "MediumInvader.h"
 #include "BigInvader.h"
@@ -63,7 +62,6 @@ CLevel::CLevel()
 	m_fSpeedModifier = 1.0f;
 	m_fAlienShootMod = 500;
 
-	m_pBackground = nullptr;
 	m_pPlayer = nullptr;
 	m_fpsCounter = nullptr;
 }
@@ -135,9 +133,6 @@ CLevel::~CLevel()
 	delete m_fpsCounter;
 	m_fpsCounter = 0;
 
-	delete m_pBackground;
-	m_pBackground = 0;
-
 }
 
 bool
@@ -153,17 +148,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		CLifeCount* pLifeCount = new CLifeCount(50 + 16 * i, m_iHeight - 25);
 		m_vecpLifeCounters.push_back(pLifeCount);
 		VALIDATE(m_vecpLifeCounters[i]->Initialise(m_fDeltaTick));
-	}
-
-	if (m_pBackground == nullptr)
-	{
-		m_pBackground = new CBackGround();
-		VALIDATE(m_pBackground->Initialise());
-		//Set the background position to start from {0,0}
-		m_pBackground->SetX((float)m_iWidth / 2);
-		m_pBackground->SetY((float)m_iHeight / 2);
-	}
-	
+	}	
 
 	if (m_pPlayer == nullptr)
 	{
@@ -314,7 +299,6 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 void
 CLevel::Draw()
 {
-	m_pBackground->Draw();
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
 		if (m_vecEnemies[i] != nullptr)
@@ -420,7 +404,6 @@ CLevel::Process(float _fDeltaTick)
 
 	m_fTime += _fDeltaTick;
 
-	m_pBackground->Process(_fDeltaTick);
 	m_pBullet = m_pPlayer->GetBullet();
 
 	if (m_pBullet != nullptr)

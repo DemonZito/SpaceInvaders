@@ -12,19 +12,21 @@
 // Mail			: your.name@mediadesign.school.nz
 //
 
+#include <fstream>
+#include <iostream>
+#include <string>
+
 // Local Includes
 #include "utils.h"
 #include "menubutton.h"
-#include "background.h"
-
+#include "Game.h"
+#include "backbuffer.h"
 
 //this include
 #include "mainmenu.h"
 
 CMainMenu::CMainMenu()
 {
-
-	m_pBackground = nullptr;
 	m_pStartButton = nullptr;
 	m_pQuitButton = nullptr;
 }
@@ -44,23 +46,14 @@ bool CMainMenu::Initialise(int _iWidth, int _iHeight)
 
 void CMainMenu::Draw()
 {
-	m_pBackground->Draw();
 	m_pStartButton->Draw();
 	m_pQuitButton->Draw();
+	DrawHighScore();
+	DrawCredits();
 }
 
 bool CMainMenu::Process(float _fDeltaTick)
 {
-	if (m_pBackground == nullptr)
-	{
-		m_pBackground = new CBackGround();
-		VALIDATE(m_pBackground->Initialise());
-		//Set the background position to start from {0,0}
-		m_pBackground->SetX((float)m_iWidth / 2);
-		m_pBackground->SetY((float)m_iHeight / 2);
-	}
-
-	m_pBackground->Process(_fDeltaTick);
 
 	if (m_pStartButton == nullptr)
 	{
@@ -115,4 +108,48 @@ bool CMainMenu::checkIfQuitSelected(const int _iX, const int _iY)
 	else {
 		return false;
 	}
+}
+
+std::string ExePath() {
+	char buffer[MAX_PATH];
+	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+	return std::string(buffer).substr(0, pos);
+}
+
+void
+CMainMenu::DrawHighScore()
+{
+	std::string strCurrentDir = ExePath();
+
+	std::ifstream LoadFile;
+	LoadFile.open(strCurrentDir + "\\Resources\\HighScores.txt");
+
+	std::string Score;
+
+	std::string line;
+	getline(LoadFile, line);
+
+
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	const int kiX = 10;
+	const int kiY = 10;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
+
+	LoadFile.close();
+}
+
+void
+CMainMenu::DrawCredits()
+{
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	const int kiX = 0;
+	const int kiY = m_iHeight - 14;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, kiX, kiY, "Created by Madeleine Day and Jack Mair", 38);
 }

@@ -75,7 +75,7 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 	{
 		s_iCurMouseX = static_cast<int>(LOWORD(_lParam));
 		s_iCurMouseY = static_cast<int>(HIWORD(_lParam));
-		int iMouseX = LOWORD(_lParam);
+		//int iMouseX = LOWORD(_lParam);
 		//CGame::GetInstance().GetLevel()->GetPaddle()->SetX(static_cast<float>(iMouseX));
 		return (0);
 	}

@@ -148,6 +148,7 @@
     <ClCompile Include="barrierblock.cpp" />
     <ClCompile Include="BigInvader.cpp" />
     <ClCompile Include="bullet.cpp" />
+    <ClCompile Include="clouds.cpp" />
     <ClCompile Include="CsmallInvader.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="clock.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="barrierblock.h" />
     <ClInclude Include="BigInvader.h" />
     <ClInclude Include="bullet.h" />
+    <ClInclude Include="clouds.h" />
     <ClInclude Include="CsmallInvader.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="clock.h" />
@@ -210,6 +212,9 @@
     <Image Include="Sprites\LifeMask.bmp" />
     <Image Include="Sprites\Player.bmp" />
     <Image Include="Sprites\PlayerMask.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\HighScores.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

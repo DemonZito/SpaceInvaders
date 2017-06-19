@@ -75,11 +75,11 @@ void CMainMenu::Draw()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 18, kiY + 107, "Start", 5);
+	TextOutA(hdc, kiX - 18, kiY + 43, "Start", 5);
 
-	TextOutA(hdc, kiX - 40, kiY + 173, "High Scores", 11);
+	TextOutA(hdc, kiX - 40, kiY + 107, "High Scores", 11);
 
-	TextOutA(hdc, kiX - 20, kiY + 240, "Quit", 5);
+	TextOutA(hdc, kiX - 20, kiY + 173, "Quit", 5);
 }
 
 bool CMainMenu::Process(float _fDeltaTick)
@@ -87,13 +87,13 @@ bool CMainMenu::Process(float _fDeltaTick)
 
 	if (m_pStartButton == nullptr)
 	{
-		m_pStartButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 120), IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pStartButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 55), IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pStartButton->Initialise(_fDeltaTick));
 	}
 
 	if (m_pHighScoreButton == nullptr)
 	{
-		m_pHighScoreButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 185), IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pHighScoreButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 120), IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pHighScoreButton->Initialise(_fDeltaTick));
 	}
 
@@ -106,7 +106,7 @@ bool CMainMenu::Process(float _fDeltaTick)
 
 	if (m_pQuitButton == nullptr)
 	{
-		m_pQuitButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 250), IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pQuitButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 185), IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pQuitButton->Initialise(_fDeltaTick));
 	}
 

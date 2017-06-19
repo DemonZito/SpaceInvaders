@@ -4,14 +4,13 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: mainmenu.cpp
+// Description	: holds the state of the main menu, player can quit or start game
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
-
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -54,8 +53,17 @@ void CMainMenu::Draw()
 	m_pStartButton->Draw();
 	m_pQuitButton->Draw();
 	m_pTitle->Draw();
-	DrawHighScore();
 	DrawCredits();
+
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	int kiX = m_iWidth / 2;
+	int kiY = m_iHeight / 2;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, kiX - 20, kiY + 108, "Start", 5);
+
+	TextOutA(hdc, kiX - 20, kiY + 188, "Quit", 5);
 }
 
 bool CMainMenu::Process(float _fDeltaTick)
@@ -63,19 +71,19 @@ bool CMainMenu::Process(float _fDeltaTick)
 
 	if (m_pStartButton == nullptr)
 	{
-		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 70, IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 120, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pStartButton->Initialise(_fDeltaTick));
 	}
 
 	if (m_pTitle == nullptr)
 	{
-		m_pTitle = new CMenuButton(m_iWidth / 2, m_iHeight / 2 - 200, IDB_TITLE, IDB_TITLEMASK);
+		m_pTitle = new CMenuButton(m_iWidth / 2, m_iHeight / 2 - 150, IDB_TITLE, IDB_TITLEMASK);
 		VALIDATE(m_pTitle->Initialise(_fDeltaTick));
 	}
 
 	if (m_pQuitButton == nullptr)
 	{
-		m_pQuitButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 150, IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pQuitButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 200, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pQuitButton->Initialise(_fDeltaTick));
 	}
 
@@ -99,6 +107,11 @@ bool CMainMenu::checkIfStartSelected(const int _iX, const int _iY)
 		{
 			m_pStartButton->ChangeSprite(IDB_BUTTONDOWN, IDB_BUTTONDOWNMASK);
 			m_bStartClicked = true;
+		}
+		else
+		{
+			m_pStartButton->ChangeSprite(IDB_BUTTONUP, IDB_BUTTONUPMASK);
+			m_bStartClicked = false;
 		}
 		return true;
 	}

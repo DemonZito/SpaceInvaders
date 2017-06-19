@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: clouds.cpp
+// Description	: Holds how the ambient clouds at the back of the window move and their sprite
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
 
 // Library Includes
@@ -36,7 +36,7 @@ bool
 CClouds::Initialise(float _fDeltaTick)
 {
 	VALIDATE(CEntity::Initialise(IDB_CLOUDS, IDB_CLOUDSMASK));
-	CEntity::m_pSprite->SetDestSizeW(400);
+	CEntity::m_pSprite->SetDestSizeW(800);
 	CEntity::m_pSprite->SetDestSizeH(30);
 	CEntity::Process(_fDeltaTick);
 	return (true);
@@ -45,7 +45,7 @@ CClouds::Initialise(float _fDeltaTick)
 void
 CClouds::Process(float _fDeltaTick)
 {
-	m_fX += 1.0f * _fDeltaTick;
+	m_fX += 10.0f * _fDeltaTick;
 
 	CEntity::Process(_fDeltaTick);
 }

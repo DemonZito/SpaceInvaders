@@ -4,14 +4,13 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: AnimatedSprite.cpp
+// Description	: Entities with animated sprites use this for their sprite
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
-
 // Library Includes
 
 // Local Includes
@@ -135,7 +134,7 @@ CAnimatedSprite::SetWidth(int _iW)
 int 
 CAnimatedSprite::GetWidth()
 {
-	return (m_iFrameWidth*2);
+	return (m_iDestSizeW);
 }
 
 int CAnimatedSprite::GetFrameWidth()

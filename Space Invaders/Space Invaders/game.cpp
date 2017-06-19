@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Jack Mair Madeleine Day
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: game.cpp
+// Description	: Keeps track of the game state
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
 
 // Library Includes
@@ -20,6 +20,7 @@
 #include "clouds.h"
 #include "background.h"
 #include "mainmenu.h"
+#include "highscoremenu.h"
 #include "BackBuffer.h"
 #include "utils.h"
 
@@ -40,8 +41,8 @@ CGame::CGame()
 	, m_hMainWindow(0)
 	, m_pBackBuffer(0)
 {
-	m_bStartGame = false;
 	m_pBackground = nullptr;
+	m_GameState = MAINMENU;
 }
 
 CGame::~CGame()
@@ -51,6 +52,9 @@ CGame::~CGame()
 
 	delete m_pMenu;
 	m_pMenu = 0;
+
+	delete m_pHSMenu;
+	m_pHSMenu = 0;
 
 	delete m_pBackBuffer;
 	m_pBackBuffer = 0;
@@ -90,6 +94,9 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 	m_pMenu = new CMainMenu();
 	VALIDATE(m_pMenu->Initialise(_iWidth, _iHeight));
 
+	m_pHSMenu = new CHighScoreMenu();
+	VALIDATE(m_pHSMenu->Initialise(_iWidth, _iHeight));
+
 	if (m_pBackground == nullptr)
 	{
 		m_pBackground = new CBackGround();
@@ -116,19 +123,19 @@ CGame::Draw()
 		m_vecpClouds[i]->Draw();
 	}
 
-	if (m_bStartGame == true)
+	if (m_GameState == GAMESCREEN)
 	{
 		m_pLevel->Draw();
 	}
-	else
+	if (m_GameState == MAINMENU)
 	{
 		m_pMenu->Draw();
-		if (m_bNotFirstInstance == true)
-		{
-			DrawScore();
-		}
 	}
-
+	if (m_GameState == HIGHSCORE)
+	{
+		m_pHSMenu->Draw();
+		DrawFinalScore();
+	}
 	m_pBackBuffer->Present();
 }
 
@@ -137,7 +144,7 @@ CGame::Process(float _fDeltaTick)
 {
 	if (m_vecpClouds.size() == 0)
 	{
-		CClouds* Cloud = new CClouds(0, 530);
+		CClouds* Cloud = new CClouds(m_iWidth / 2 - 300, 530);
 		VALIDATE(Cloud->Initialise(_fDeltaTick));
 		m_vecpClouds.push_back(Cloud);
 	}
@@ -153,9 +160,9 @@ CGame::Process(float _fDeltaTick)
 			delete pCloud;
 			pCloud = nullptr;
 		}
-		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() > m_iWidth / 2 - 80)
+		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() - m_vecpClouds[i]->GetWidth() / 2 > 0)
 		{
-			CClouds* Cloud = new CClouds(0, 0);
+			CClouds* Cloud = new CClouds(0 - m_vecpClouds[i]->GetWidth()/2, 530);
 			VALIDATE(Cloud->Initialise(_fDeltaTick));
 			m_vecpClouds.push_back(Cloud);
 		}
@@ -163,13 +170,17 @@ CGame::Process(float _fDeltaTick)
 
 	m_pBackground->Process(_fDeltaTick);
 
-	if (m_bStartGame == true)
+	if (m_GameState == GAMESCREEN)
 	{
 		m_pLevel->Process(_fDeltaTick);
 	}
-	else
+	if (m_GameState == MAINMENU)
 	{
 		m_pMenu->Process(_fDeltaTick);
+	}
+	else if (m_GameState == HIGHSCORE)
+	{
+		m_pHSMenu->Process(_fDeltaTick);
 	}
 
 	return false;
@@ -232,10 +243,10 @@ CGame::GetBackBuffer()
 	return (m_pBackBuffer);
 }
 
-bool
+gameState
 CGame::GetGameState()
 {
-	return m_bStartGame;
+	return m_GameState;
 }
 
 CLevel*
@@ -250,6 +261,12 @@ CGame::GetMenu()
 	return (m_pMenu);
 }
 
+CHighScoreMenu*
+CGame::GetHSMenu()
+{
+	return (m_pHSMenu);
+}
+
 HINSTANCE
 CGame::GetAppInstance()
 {
@@ -262,12 +279,12 @@ CGame::GetWindow()
 	return (m_hMainWindow);
 }
 
-bool CGame::startGame(bool _bStart)
+bool
+CGame::ChangeGameState(gameState _State)
 {
-	m_bStartGame = _bStart;
-	m_bNotFirstInstance = true;
+	m_GameState = _State;
 	
-	if (_bStart == true)
+	if (m_GameState == GAMESCREEN)
 	{
 		m_pLevel = new CLevel();
 		VALIDATE(m_pLevel->Initialise(m_iWidth, m_iHeight));
@@ -277,17 +294,17 @@ bool CGame::startGame(bool _bStart)
 }
 
 void
-CGame::DrawScore()
+CGame::DrawFinalScore()
 {
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 
 	std::string _strScore = "Final Score: " + ToString(m_pLevel->GetScore());
 
-	int kiX = m_iWidth/2;
-	int kiY = m_iHeight/2;
+	int kiX = m_iWidth / 2;
+	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 20, kiY, "Game Over!", 10);
+	TextOutA(hdc, kiX - 50, kiY + 188, "Game Over!", 10);
 
-	TextOutA(hdc, kiX - static_cast<int>(_strScore.size()) * 2, kiY + 28, _strScore.c_str(), static_cast<int>(_strScore.size()));
+	TextOutA(hdc, kiX - 70, kiY + 216, _strScore.c_str(), static_cast<int>(_strScore.size()));
 }

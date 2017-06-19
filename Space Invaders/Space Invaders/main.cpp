@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: main.cpp
+// Description	: is main
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
 
 //Library Includes
@@ -22,12 +22,21 @@
 #include "Clock.h"
 #include "utils.h"
 #include "mainmenu.h"
+#include "highscoremenu.h"
 #include "level.h"
 #include "player.h"
 #include "resource.h"
 
 const int kiWidth = 960;
 const int kiHeight = 720;
+
+enum buttonClicked
+{
+	NOBUTTON = 0,
+	START = 1,
+	QUIT,
+	RETURN
+};
 
 CGame& rGame = CGame::GetInstance();
 
@@ -41,8 +50,8 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 {
 	static int s_iCurMouseX;
 	static int s_iCurMouseY;
-	static bool s_bStartSelected;
-	static bool s_bQuitSelected;
+
+	static buttonClicked buttonDown;
 
 	switch (_uiMsg)
 	{
@@ -52,7 +61,7 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		{
 		case 0x1B:
 		{
-			if (rGame.GetGameState() == true)
+			if (rGame.GetGameState() == GAMESCREEN)
 			{
 				ShowWindow(g_hDlgDebug, SW_SHOWNORMAL);
 			}
@@ -66,30 +75,41 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		break;
 	case WM_LBUTTONDOWN:
 	{
-		if (rGame.GetGameState() == false && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		if (rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
-			s_bStartSelected = true;
+			buttonDown = START;
 		}
-		else if (rGame.GetGameState() == false && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		else if (rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
-			s_bQuitSelected = true;
+			buttonDown = QUIT;
+		}
+		else if (rGame.GetGameState() == HIGHSCORE && rGame.GetHSMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
+			buttonDown = RETURN;
 		}
 		return (0);
 	}
 		break;
 	case WM_LBUTTONUP:
 	{
-		if (s_bStartSelected == true && rGame.GetGameState() == false && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		if (buttonDown == START && rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
-			rGame.startGame(true);
+			//set all the radio buttons to their default state
+			CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
+			CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
+			CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
+			rGame.ChangeGameState(GAMESCREEN);
 		}
-		else if (s_bQuitSelected == true && rGame.GetGameState() == false && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		else if (buttonDown == QUIT && rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			PostQuitMessage(0);
 		}
+		else if (buttonDown == RETURN && rGame.GetGameState() == HIGHSCORE && rGame.GetHSMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{ 
+			rGame.ChangeGameState(MAINMENU);
+		}
+		buttonDown = NOBUTTON;
 
-		s_bStartSelected = false;
-		s_bQuitSelected = false;
 		return (0);
 	}
 		break;
@@ -307,12 +327,6 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
 	
 	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
-	g_hDlgHighscore = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, HighscoreDlgProc);
-
-	//set all the radio buttons to their default state
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
 	
 	GetClientRect(hwnd, &_rect);
 

@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: game.h
+// Description	: Header file for the game, controls the states of the game
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
 
 
@@ -33,8 +33,18 @@
 class CLevel;
 class CMainMenu;
 class CBackBuffer;
+class CHighScoreMenu;
 class CBackGround;
 class CClouds;
+
+//enum
+enum gameState
+{
+	NOSTATE = 0,
+	MAINMENU = 1,
+	GAMESCREEN,
+	HIGHSCORE
+};
 
 class CGame
 {
@@ -50,13 +60,16 @@ public:
 	void ExecuteOneFrame(bool _bPaused);
 
 	CBackBuffer* GetBackBuffer();
-	bool GetGameState();
+	gameState GetGameState();
 	CLevel* GetLevel();
 	CMainMenu* GetMenu();
+	CHighScoreMenu* GetHSMenu();
 	HINSTANCE GetAppInstance();
 	HWND GetWindow();
 
-	bool startGame(bool _bStart);
+	bool ChangeGameState(gameState _State);
+
+	void DrawFinalScore();
 
 	//void GameOverWon();
 	//void GameOverLost();
@@ -84,6 +97,7 @@ protected:
 	CClock* m_pClock;
 	CLevel* m_pLevel;
 	CMainMenu* m_pMenu;
+	CHighScoreMenu* m_pHSMenu;
 
 	CBackBuffer* m_pBackBuffer;
 
@@ -101,11 +115,9 @@ protected:
 
 
 private:
-	bool m_bStartGame;
+	gameState m_GameState;
 	int m_iWidth;
 	int m_iHeight;
-
-	bool m_bNotFirstInstance;
 };
 
 #endif    // __GAME_H__

@@ -4,14 +4,14 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: EnemyBullet.h
+// Description	: Header file for the main menu, 
+//				  appears when the game is loaded up and after the hs screen. takes the player to the gameplay.
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
-
 #pragma once
 
 #if !defined(__MAINMENU_H__)
@@ -38,7 +38,6 @@ public:
 	bool checkIfQuitSelected(const int _iX, const int _iY);
 
 	void DrawCredits();
-	void DrawHighScore();
 
 	void AddHighScore(std::string _strHighscoreName, int _iHighscore);
 

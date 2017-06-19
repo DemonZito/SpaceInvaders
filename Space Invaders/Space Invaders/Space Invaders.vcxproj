@@ -157,6 +157,7 @@
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="framecounter.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="highscoremenu.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="LifeCount.cpp" />
     <ClCompile Include="main.cpp" />
@@ -183,6 +184,7 @@
     <ClInclude Include="Explosion.h" />
     <ClInclude Include="framecounter.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="highscoremenu.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="LifeCount.h" />
     <ClInclude Include="mainmenu.h" />

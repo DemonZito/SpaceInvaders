@@ -42,6 +42,8 @@ public:
 
 	int GetLineToWrite();
 
+	void DrawUIElements();
+
 private:
 	CHighScoreMenu(const CHighScoreMenu& _kr);
 	CHighScoreMenu& operator= (const CHighScoreMenu& _kr);

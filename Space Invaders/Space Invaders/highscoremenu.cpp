@@ -65,6 +65,7 @@ void CHighScoreMenu::Draw()
 {
 	m_pStartButton->Draw();
 	DrawHighScore();
+	DrawUIElements();
 
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 
@@ -72,7 +73,7 @@ void CHighScoreMenu::Draw()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 25, kiY + 108, "Return", 6);
+	TextOutA(hdc, kiX - 25, kiY + 107, "Return", 6);
 }
 
 bool CHighScoreMenu::Process(float _fDeltaTick)
@@ -211,6 +212,28 @@ void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iLineToWri
 	}
 
 	LoadFile.close();
+}
+
+void CHighScoreMenu::DrawUIElements()
+{
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	int kiX = m_iWidth / 4;
+	int kiY = m_iHeight / 8;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, 134 + kiX, kiY, "x!X  H I G H     S C O R E S  X!x", 33);
+
+	for (unsigned int i = 1; i <= 10; ++i)
+	{
+		kiY += 26;
+		std::stringstream ss;
+		ss << i;
+		std::string str = ss.str() + ":";
+		
+		TextOutA(hdc, kiX, kiY, str.c_str(), 2);
+	}
+
 }
 
 bool CHighScoreMenu::CheckIfHighScore(int _iHighscore)

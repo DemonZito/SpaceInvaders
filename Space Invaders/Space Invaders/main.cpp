@@ -15,7 +15,7 @@
 //Library Includes
 #include <windows.h>
 #include <windowsx.h>
-#include <vld.h>
+//#include <vld.h>
 
 //Local Includes
 #include "Game.h"
@@ -36,6 +36,7 @@ enum buttonClicked
 	NOBUTTON = 0,
 	START = 1,
 	QUIT,
+	HIGHSCOREB,
 	RETURN
 };
 
@@ -80,6 +81,10 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		{
 			buttonDown = START;
 		}
+		else if (rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfHighScoreSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
+			buttonDown = HIGHSCOREB;
+		}
 		else if (rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			buttonDown = QUIT;
@@ -99,7 +104,13 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 			CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
 			CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
 			CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
+			rGame.ShowFinalScore(true);
 			rGame.ChangeGameState(GAMESCREEN);
+		}
+		else if (buttonDown == HIGHSCOREB && rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfHighScoreSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
+			rGame.ShowFinalScore(false);
+			rGame.ChangeGameState(HIGHSCORE);
 		}
 		else if (buttonDown == QUIT && rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{

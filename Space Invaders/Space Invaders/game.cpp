@@ -76,6 +76,7 @@ CGame::~CGame()
 	}
 }
 
+//Initalizses all the screen states, clock, backbuffer. The background and clouds are global between all screen states
 bool
 CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 {
@@ -111,6 +112,7 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 	return (true);
 }
 
+//Depending on the game state. A different screen gets drawn.  The background and clouds are global between all screen states
 void
 CGame::Draw()
 {
@@ -142,6 +144,7 @@ CGame::Draw()
 	m_pBackBuffer->Present();
 }
 
+//Processes which game state the game is currently in
 bool
 CGame::Process(float _fDeltaTick)
 {
@@ -219,20 +222,6 @@ CGame::GetInstance()
 	return (*s_pGame);
 }
 
-//void
-//CGame::GameOverWon()
-//{
-//	MessageBox(m_hMainWindow, L"Winner!", L"Game Over", MB_OK);
-//	PostQuitMessage(0);
-//}
-//
-//void
-//CGame::GameOverLost()
-//{
-//	MessageBox(m_hMainWindow, L"Loser!", L"Game Over", MB_OK);
-//	PostQuitMessage(0);
-//}
-
 void
 CGame::DestroyInstance()
 {
@@ -282,6 +271,7 @@ CGame::GetWindow()
 	return (m_hMainWindow);
 }
 
+//Used to change the state of the game
 bool
 CGame::ChangeGameState(gameState _State)
 {
@@ -299,6 +289,7 @@ CGame::ChangeGameState(gameState _State)
 	return true;
 }
 
+//Draws the final score. Called during the highscore screen only if the player reached it through the Game game and NOT through the menu screen
 void
 CGame::DrawFinalScore()
 {
@@ -315,6 +306,7 @@ CGame::DrawFinalScore()
 	TextOutA(hdc, kiX + 20, kiY + 60, _strScore.c_str(), static_cast<int>(_strScore.size()));
 }
 
+//Used to control showing the final score
 void CGame::ShowFinalScore(bool _bshowScore)
 {
 	m_bShowFinalScore = _bshowScore;

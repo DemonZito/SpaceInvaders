@@ -38,6 +38,7 @@ class CBackGround;
 class CClouds;
 
 //enum
+//enums used to control the state of the game
 enum gameState
 {
 	NOSTATE = 0,

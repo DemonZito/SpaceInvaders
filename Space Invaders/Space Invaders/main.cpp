@@ -77,6 +77,7 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		break;
 	case WM_LBUTTONDOWN:
 	{
+		//Checks the state of the game then checks which if a button has been clicked if so, makes it clicked down
 		if (rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			buttonDown = START;
@@ -98,6 +99,7 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		break;
 	case WM_LBUTTONUP:
 	{
+		//Checks the state of the game then checks which if a button has been clicked down, if so checks if the mouse is still over the button when clicked released
 		if (buttonDown == START && rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			//set all the radio buttons to their default state

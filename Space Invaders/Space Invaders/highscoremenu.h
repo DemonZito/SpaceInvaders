@@ -14,8 +14,8 @@
 
 #pragma once
 
-#if !defined(__MAINMENU_H__)
-#define __MAINMENU_H__
+#if !defined(__HIGHSCOREMENU_H__)
+#define __HIGHSCOREMENU_H__
 
 // Local Includes
 #include "entity.h"
@@ -23,11 +23,11 @@
 // Prototypes
 class CMenuButton;
 
-class CMainMenu
+class CHighScoreMenu
 {
 public:
-	CMainMenu();
-	virtual ~CMainMenu();
+	CHighScoreMenu();
+	~CHighScoreMenu();
 
 	virtual bool Initialise(int _iWidth, int _iHeight);
 
@@ -35,24 +35,20 @@ public:
 	virtual bool Process(float _fDeltaTick);
 
 	bool checkIfStartSelected(const int _iX, const int _iY);
-	bool checkIfQuitSelected(const int _iX, const int _iY);
 
-	void DrawCredits();
+	void DrawHighScore();
 
 private:
-	CMainMenu(const CMainMenu& _kr);
-	CMainMenu& operator= (const CMainMenu& _kr);
+	CHighScoreMenu(const CHighScoreMenu& _kr);
+	CHighScoreMenu& operator= (const CHighScoreMenu& _kr);
 
 	int m_iWidth;
 	int m_iHeight;
 
-	bool m_bQuitClicked;
 	bool m_bStartClicked;
 
 	CMenuButton* m_pStartButton;
-	CMenuButton* m_pQuitButton;
-	CMenuButton* m_pTitle;
-
 };
 
-#endif    // __MAINMENU_H__
+#endif    // __HIGHSCOREMENU_H__
+

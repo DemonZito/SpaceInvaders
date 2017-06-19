@@ -87,6 +87,9 @@
     <ClCompile Include="clouds.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="highscoremenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="utils.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="clouds.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="highscoremenu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

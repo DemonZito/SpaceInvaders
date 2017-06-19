@@ -54,7 +54,6 @@ void CMainMenu::Draw()
 	m_pStartButton->Draw();
 	m_pQuitButton->Draw();
 	m_pTitle->Draw();
-	DrawHighScore();
 	DrawCredits();
 
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
@@ -155,38 +154,6 @@ bool CMainMenu::checkIfQuitSelected(const int _iX, const int _iY)
 		}
 		return false;
 	}
-}
-
-std::string ExePath() {
-	char buffer[MAX_PATH];
-	GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-	return std::string(buffer).substr(0, pos);
-}
-
-void
-CMainMenu::DrawHighScore()
-{
-	std::string strCurrentDir = ExePath();
-
-	std::ifstream LoadFile;
-	LoadFile.open(strCurrentDir + "\\Resources\\HighScores.txt");
-
-	std::string Score;
-
-	std::string line;
-	getline(LoadFile, line);
-
-
-	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
-
-	const int kiX = 10;
-	const int kiY = 10;
-	SetBkMode(hdc, TRANSPARENT);
-
-	TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
-
-	LoadFile.close();
 }
 
 void

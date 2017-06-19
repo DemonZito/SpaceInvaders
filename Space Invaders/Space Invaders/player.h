@@ -50,6 +50,7 @@ public:
 	void LoseLife();
 	int GetLives();
 
+	void SetHealth(int _iHealth);
 	void SetBulletSpeed(float _iBulletSpeed);
 
 protected:

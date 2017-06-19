@@ -119,6 +119,11 @@ int CPlayer::GetLives()
 	return m_iHealth;
 }
 
+void CPlayer::SetHealth(int _iHealth)
+{
+	m_iHealth = _iHealth;
+}
+
 void CPlayer::SetBulletSpeed(float _iBulletSpeed)
 {
 	m_iBulletSpeed = _iBulletSpeed;

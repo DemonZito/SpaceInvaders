@@ -1045,6 +1045,7 @@ CLevel::ProcessCheckForWin()
 		pLifeCount = nullptr;
 	}
 
+	m_pPlayer->SetHealth(3);
 	CLevel::Initialise(m_iWidth, m_iHeight);
 	m_fSpeedModifier *= 0.7f;
 }

@@ -81,6 +81,7 @@ CLevel::~CLevel()
 
 }
 
+//initalizes all game objects
 bool
 CLevel::Initialise(int _iWidth, int _iHeight)
 {
@@ -91,6 +92,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	const float fBallVelY = -75.0f;
 
+	//creates the life counters game objects
 	for (int i = 0; i < 3; ++i)
 	{
 		CLifeCount* pLifeCount = new CLifeCount(50 + 16 * i, m_iHeight - 25);
@@ -103,7 +105,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		m_pPlayer = new CPlayer();
 		VALIDATE(m_pPlayer->Initialise(m_iWidth));
 
-		// Set the paddle's position to be centered on the x, 
+		// Set the player's position to be centered on the x, 
 		// and a little bit up from the bottom of the window.
 		m_pPlayer->SetX(_iWidth / 2.0f);
 		m_pPlayer->SetY(_iHeight - (2.0f * m_pPlayer->GetHeight()));
@@ -111,6 +113,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	m_pPlayer->SetHealth(3);
 
+	//deletes any existing barrier blocks
 	while (m_vecpBarrierBlocks.size() != 0)
 	{
 		CBarrierBlock* BarrierBlock = m_vecpBarrierBlocks.back();
@@ -119,6 +122,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		BarrierBlock = nullptr;
 	}
 
+	//creates and places the barrier blocks in the correct location
 	for (int i = 0; i <= 2; ++i)
 	{
 		for (int k = 1; k <= 4; ++k)
@@ -150,16 +154,19 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	int iAnimationFrame = 0;
 
+	//Creates all the enemies
 	for (int i = 0; i < kiNumBricks; ++i)
 	{
 		IEnemy* pEnemy;
 
 		iAnimationFrame = i;
 
+		//makes the first aliens the small aliens
 		if (i < 12)
 		{
 			pEnemy = new CSmallInvader();
 		}
+		//makes the middle aliens the medium ones
 		else if(i >= 12 && i<36)
 		{
 			// Modify animation frame to alternate
@@ -169,6 +176,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 			}
 			pEnemy = new CMediumInvader();
 		}
+		//makes the last enemies the big enemies
 		else
 		{
 			// Modify animation frame to alternate
@@ -182,7 +190,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		}
 		
 		
-		
+		//Initialises the enemy then sets it into the correct position on the alien grid
 		VALIDATE(pEnemy->Initialise());
 
 		pEnemy->SetX(static_cast<float>(iCurrentX));
@@ -199,6 +207,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 			pEnemy->m_pAnim->SetCurSprite(1);
 		}
 
+		//jumps down to the next line if too close to the screen edge
 		if (iCurrentX > (_iWidth - 150))
 		{
 			iCurrentX = kiStartX;
@@ -225,6 +234,8 @@ CLevel::SetAlienShootSpeed(int _fAlienShootMod) {
 	s_iShootFrameBuffer = 0;
 }
 
+//Called when an alien shoot. Cycles through the enemies until it finds an enemy in the correct vertical stack that is closest to the button of the screen.
+//then triggers them to fire.
 bool
 CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 {
@@ -245,6 +256,7 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 	return false;
 }
 
+//draws all the entities in the level
 void
 CLevel::Draw()
 {
@@ -296,6 +308,7 @@ CLevel::Draw()
 	DrawFPS();
 }
 
+//processes all the entities
 void
 CLevel::Process(float _fDeltaTick)
 {
@@ -463,17 +476,20 @@ CLevel::Process(float _fDeltaTick)
 	m_fpsCounter->CountFramesPerSecond(_fDeltaTick);
 }
 
+//Get the player member variable
 CPlayer*
 CLevel::GetPaddle() const
 {
 	return (m_pPlayer);
 }
 
+//Get the enemies vector member variable
 std::vector<IEnemy*> CLevel::GetEnemies() const
 {
 	return m_vecEnemies;
 }
 
+//Reset the level. Called after you kill all the enemies and it needs to respawn them
 void CLevel::ResetLevel()
 {
 	while (m_vecEnemies.size() > 0)
@@ -541,6 +557,7 @@ void CLevel::ResetLevel()
 	}
 }
 
+//Check to see if the player bullet and the top wall collided. destroy bullet if true
 bool
 CLevel::ProcessBulletWallCollision()
 {
@@ -552,7 +569,7 @@ CLevel::ProcessBulletWallCollision()
 	float fHalfBallW = fBallW / 2;
 	float fHalfBallH = fBallH / 2;
 
-	if (fBallY < fHalfBallH) //represents the situation when the ball has hit the top wall
+	if (fBallY < fHalfBallH) //represents the situation when the bullet has hit the top wall.
 	{
 		m_pPlayer->DeleteBullet();
 		m_pBullet = nullptr;
@@ -566,6 +583,7 @@ CLevel::ProcessBulletWallCollision()
 	}
 }
 
+//Check to see if the enemy bullet and the ground floor collided. destroy bullet if true
 void
 CLevel::ProcessEnemyBulletWallCollision()
 {
@@ -576,7 +594,7 @@ CLevel::ProcessEnemyBulletWallCollision()
 	float fHalfBulletW;
 	float fHalfBulletH;
 
-	for (size_t i = 0; i < m_vecpEnemyBullets.size(); i++)
+	for (size_t i = 0; i < m_vecpEnemyBullets.size(); i++) //cycles through all bullets in the vector
 	{
 		fBulletX = m_vecpEnemyBullets.at(i)->GetX();
 		fBulletY = m_vecpEnemyBullets.at(i)->GetY();
@@ -604,8 +622,9 @@ CLevel::ProcessEnemyBulletWallCollision()
 	}
 }
 
+//Check to see if the player bullet and an enemy bullet collided. destroy both if true
 bool CLevel::ProcessBulletEnemyBulletCollision(float _fDeltaTick) {
-	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
+	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i) // cycles through all bullets in the vector
 	{
 		float fEnemyBulletR = m_vecpEnemyBullets[i]->GetRadius();
 
@@ -622,7 +641,7 @@ bool CLevel::ProcessBulletEnemyBulletCollision(float _fDeltaTick) {
 			(fEnemyBulletY + fEnemyBulletR > fBulletY - fBulletR / 2) &&
 			(fEnemyBulletY - fEnemyBulletR < fBulletY + fBulletR / 2))
 		{
-			//Hit the front side of the brick...
+			//Hit the front side of the bullet...
 			m_vecpEnemyBullets[i]->SetY((fBulletY + fBulletR / 2.0f) + fEnemyBulletR);
 			m_vecpEnemyBullets[i]->SetVelocityY(m_vecpEnemyBullets[i]->GetVelocityY() * -1);
 
@@ -657,7 +676,7 @@ bool CLevel::ProcessBulletEnemyBulletCollision(float _fDeltaTick) {
 	return true;
 }
 
-
+//Check to see if an enemy bullet and the player collided
 bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
 	{
@@ -711,30 +730,7 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 	return true;
 }
 
-//void
-//CLevel::ProcessBallPaddleCollision()
-//{
-//    float fBallR = m_pBullet->GetRadius();
-//
-//    float fBallX = m_pBullet->GetX();
-//    float fBallY = m_pBullet->GetY();
-//
-//    float fPaddleX = m_pPlayer->GetX();
-//    float fPaddleY = m_pPlayer->GetY();
-//
-//    float fPaddleH = m_pPlayer->GetHeight();
-//    float fPaddleW = m_pPlayer->GetWidth();
-//
-//    if ((fBallX + fBallR > fPaddleX - fPaddleW / 2) && //ball.right > paddle.left
-//        (fBallX - fBallR < fPaddleX + fPaddleW / 2) && //ball.left < paddle.right
-//        (fBallY + fBallR > fPaddleY - fPaddleH / 2) && //ball.bottom > paddle.top
-//        (fBallY - fBallR < fPaddleY + fPaddleH / 2))  //ball.top < paddle.bottom
-//    {
-//		m_pBullet->SetY((fPaddleY - fPaddleH / 2) - fBallR);  //Set the ball.bottom = paddle.top; to prevent the ball from going through the paddle!
-//		m_pBullet->SetVelocityY(m_pBullet->GetVelocityY() * -1); //Reverse ball's Y direction
-//    }
-//}
-
+//Check to see if the player bullet and a mothership collided
 bool
 CLevel::ProcessBulletMotherShipCollision(float _fDeltaTick)
 {
@@ -777,6 +773,7 @@ CLevel::ProcessBulletMotherShipCollision(float _fDeltaTick)
 	return true;
 }
 
+//Check to see if the player bullet and an enemy collided
 bool
 CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 {
@@ -847,6 +844,7 @@ CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 
 }
 
+//Check to see if an enemy bullet and a barrier block collided. destroy both if true
 bool 
 CLevel::ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick)
 {
@@ -905,6 +903,7 @@ CLevel::ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick)
 	return true;
 }
 
+//Check to see if an enemy body and an block collided. destroy the barrier if true
 bool
 CLevel::ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick)
 {
@@ -949,6 +948,8 @@ CLevel::ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick)
 	return true;
 }
 
+
+//Check to see if the player bullet and a barrier block collided. destroy both if true
 bool
 CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
 {
@@ -1005,6 +1006,7 @@ CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
 
 }
 
+//check if the aliens have touched the player or reached a certain distance at the bottom of the screen
 void
 CLevel::ProcessCheckForLose()
 {
@@ -1042,6 +1044,7 @@ CLevel::ProcessCheckForLose()
 	}
 }
 
+//check if all aliens have died. Calls reset level if they have and increases starting speed of the enemy movement
 void
 CLevel::ProcessCheckForWin()
 {

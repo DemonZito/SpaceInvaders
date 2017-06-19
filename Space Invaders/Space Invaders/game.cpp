@@ -144,7 +144,7 @@ CGame::Process(float _fDeltaTick)
 {
 	if (m_vecpClouds.size() == 0)
 	{
-		CClouds* Cloud = new CClouds(0, 530);
+		CClouds* Cloud = new CClouds(m_iWidth / 2 - 300, 530);
 		VALIDATE(Cloud->Initialise(_fDeltaTick));
 		m_vecpClouds.push_back(Cloud);
 	}
@@ -160,9 +160,9 @@ CGame::Process(float _fDeltaTick)
 			delete pCloud;
 			pCloud = nullptr;
 		}
-		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() > m_iWidth / 2 - 80)
+		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() - m_vecpClouds[i]->GetWidth() / 2 > 0)
 		{
-			CClouds* Cloud = new CClouds(0, 530);
+			CClouds* Cloud = new CClouds(0 - m_vecpClouds[i]->GetWidth()/2, 530);
 			VALIDATE(Cloud->Initialise(_fDeltaTick));
 			m_vecpClouds.push_back(Cloud);
 		}

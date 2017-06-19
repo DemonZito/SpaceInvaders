@@ -104,7 +104,7 @@ CAnimatedSprite::Process(float _fDeltaTick)
 		m_fTimeElapsed = 0.0f;
 		++m_iCurrentSprite;
 
-		if (m_iCurrentSprite >= m_vectorFrames.size())
+		if (m_iCurrentSprite >= static_cast<int>(m_vectorFrames.size()))
 		{
 			m_iCurrentSprite = 0;
 		}

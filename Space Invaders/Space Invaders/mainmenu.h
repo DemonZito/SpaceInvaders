@@ -39,6 +39,8 @@ public:
 
 	void DrawCredits();
 
+	//void AddHighScore(std::string _strHighscoreName, int _iHighscore);
+
 private:
 	CMainMenu(const CMainMenu& _kr);
 	CMainMenu& operator= (const CMainMenu& _kr);
@@ -52,6 +54,9 @@ private:
 	CMenuButton* m_pStartButton;
 	CMenuButton* m_pQuitButton;
 	CMenuButton* m_pTitle;
+
+	std::vector<std::string> m_vecHighNames;
+	std::vector<int> m_vecHighscores;
 
 };
 

@@ -99,6 +99,9 @@ private:
 public:
 	CBullet* GetPlayerBullet();
 	CPlayer* GetPlayer();
+	bool GetLoseState();
+	void SetLoseState(bool);
+
 protected:
 	CBullet* m_pBullet;
 	CPlayer* m_pPlayer;
@@ -127,6 +130,7 @@ private:
 	float m_fTime;
 	int m_iScore;
 	float m_fSpeedModifier;
+	bool m_bLoseState;
 
 	//Debug values
 	int m_fAlienShootMod;

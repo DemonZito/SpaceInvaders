@@ -64,6 +64,7 @@ CLevel::CLevel()
 
 	m_pPlayer = nullptr;
 	m_fpsCounter = nullptr;
+	m_bLoseState = false;
 }
 
 CLevel::~CLevel()
@@ -138,6 +139,8 @@ CLevel::~CLevel()
 bool
 CLevel::Initialise(int _iWidth, int _iHeight)
 {
+	m_bLoseState = false;
+
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
 
@@ -687,7 +690,7 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 				if (m_pPlayer->GetLives() == 0)
 				{
 					//CGame::GetInstance().GameOverLost();
-					CGame::GetInstance().ChangeGameState(HIGHSCORE);
+					m_bLoseState = true;
 				}
 				return false;
 			}
@@ -915,12 +918,14 @@ CLevel::ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick)
 
 					CBarrierBlock* pBarrier = m_vecpBarrierBlocks.at(barrier);
 
-					m_vecpBarrierBlocks.erase(m_vecpBarrierBlocks.begin() + barrier);
+					//m_vecpBarrierBlocks.erase(m_vecpBarrierBlocks.begin() + barrier);
 
 					//trigger an explosion
 					CExplosion* Explosion = new CExplosion(pBarrier->GetX(), pBarrier->GetY());
 					VALIDATE(Explosion->Initialise(_fDeltaTick));
 					m_vecpExplosions.push_back(Explosion);
+
+					m_vecpBarrierBlocks.at(barrier) = nullptr;
 
 					delete pBarrier;
 					pBarrier = nullptr;
@@ -993,13 +998,35 @@ CLevel::ProcessCheckForLose()
 {
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
+
 		if (m_vecEnemies[i] != nullptr && !m_vecEnemies[i]->IsHit())
 		{
-			if (m_vecEnemies[i]->GetY() > m_iHeight - 30)
+			float fEnemyR = m_vecEnemies[i]->GetWidth()/2;
+
+			float fEnemyX = m_vecEnemies[i]->GetX();
+			float fEnemyY = m_vecEnemies[i]->GetY();
+
+			float fPlayerX = m_pPlayer->GetX();
+			float fPlayerY = m_pPlayer->GetY();
+
+			float fPlayerH = m_pPlayer->GetHeight();
+			float fPlayerW = m_pPlayer->GetWidth();
+
+			if ((fEnemyX + fEnemyR > fPlayerX - fPlayerW / 2) &&
+				(fEnemyX - fEnemyR < fPlayerX + fPlayerW / 2) &&
+				(fEnemyY + fEnemyR > fPlayerY - fPlayerH / 2 + 18) &&
+				(fEnemyY - fEnemyR < fPlayerY + fPlayerH / 2) || m_vecEnemies[i]->GetY() > m_iHeight - 60)
 			{
 				while (m_pPlayer->GetLives() > 0)
 				{
 					m_pPlayer->LoseLife();
+					if (m_pPlayer->GetLives() == 0)
+					{
+						//CGame::GetInstance().GameOverLost();
+						//CGame::GetInstance().startGame(false);
+						m_bLoseState = true;
+
+					}
 				}
 			}
 		}
@@ -1105,6 +1132,16 @@ CPlayer * CLevel::GetPlayer()
 	return m_pPlayer;
 }
 
+bool CLevel::GetLoseState()
+{
+	return m_bLoseState;
+}
+
+void CLevel::SetLoseState(bool _bLoseState)
+{
+	m_bLoseState = _bLoseState;
+}
+
 
 void CLevel::DrawHealth()
 {
@@ -1158,6 +1195,10 @@ CLevel::SetEnemySpeed(float Speed)
 {
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
-		m_vecEnemies.at(i)->SetSpeed(Speed);
+		if (m_vecEnemies.at(i) != nullptr)
+		{
+			m_vecEnemies.at(i)->SetSpeed(Speed);
+			m_vecEnemies.at(i)->m_pAnim->SetSpeed(Speed);
+		}
 	}
 }

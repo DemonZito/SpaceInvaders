@@ -117,24 +117,28 @@ std::string ExePath() {
 void
 CHighScoreMenu::DrawHighScore()
 {
-	std::string strCurrentDir = ExePath();
-
-	std::ifstream LoadFile;
-	LoadFile.open(strCurrentDir + "\\Resources\\HighScores.txt");
+	std::fstream LoadFile;
+	LoadFile.open("Resources\\HighScores.txt");
 
 	std::string Score;
 
 	std::string line;
-	getline(LoadFile, line);
 
 
-	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+	//getline(LoadFile, line);
+	int kiX = 10;
+	int kiY = 10;
 
-	const int kiX = 10;
-	const int kiY = 10;
-	SetBkMode(hdc, TRANSPARENT);
+	while (getline(LoadFile, line) && line != "")
+	{
+		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 
-	TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
+
+		SetBkMode(hdc, TRANSPARENT);
+
+		TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
+		kiY += 14;
+	}
 
 	LoadFile.close();
 }

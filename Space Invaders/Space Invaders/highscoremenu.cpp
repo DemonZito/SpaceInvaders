@@ -57,7 +57,7 @@ void CHighScoreMenu::Draw()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 20, kiY + 55, "Return", 6);
+	TextOutA(hdc, kiX - 25, kiY + 108, "Return", 6);
 }
 
 bool CHighScoreMenu::Process(float _fDeltaTick)
@@ -65,7 +65,7 @@ bool CHighScoreMenu::Process(float _fDeltaTick)
 
 	if (m_pStartButton == nullptr)
 	{
-		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 70, IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 120, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pStartButton->Initialise(_fDeltaTick));
 	}
 

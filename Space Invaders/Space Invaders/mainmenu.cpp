@@ -62,9 +62,9 @@ void CMainMenu::Draw()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 20, kiY + 55, "Start", 5);
+	TextOutA(hdc, kiX - 20, kiY + 108, "Start", 5);
 
-	TextOutA(hdc, kiX - 20, kiY + 135, "Quit", 5);
+	TextOutA(hdc, kiX - 20, kiY + 188, "Quit", 5);
 }
 
 bool CMainMenu::Process(float _fDeltaTick)
@@ -72,19 +72,19 @@ bool CMainMenu::Process(float _fDeltaTick)
 
 	if (m_pStartButton == nullptr)
 	{
-		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 70, IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 120, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pStartButton->Initialise(_fDeltaTick));
 	}
 
 	if (m_pTitle == nullptr)
 	{
-		m_pTitle = new CMenuButton(m_iWidth / 2, m_iHeight / 2 - 200, IDB_TITLE, IDB_TITLEMASK);
+		m_pTitle = new CMenuButton(m_iWidth / 2, m_iHeight / 2 - 150, IDB_TITLE, IDB_TITLEMASK);
 		VALIDATE(m_pTitle->Initialise(_fDeltaTick));
 	}
 
 	if (m_pQuitButton == nullptr)
 	{
-		m_pQuitButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 150, IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pQuitButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 200, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pQuitButton->Initialise(_fDeltaTick));
 	}
 

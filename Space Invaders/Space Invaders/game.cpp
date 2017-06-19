@@ -304,7 +304,7 @@ CGame::DrawFinalScore()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 20, kiY, "Game Over!", 10);
+	TextOutA(hdc, kiX - 50, kiY + 188, "Game Over!", 10);
 
-	TextOutA(hdc, kiX - static_cast<int>(_strScore.size()) * 2, kiY + 28, _strScore.c_str(), static_cast<int>(_strScore.size()));
+	TextOutA(hdc, kiX - 70, kiY + 216, _strScore.c_str(), static_cast<int>(_strScore.size()));
 }

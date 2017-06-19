@@ -136,6 +136,7 @@ CGame::Draw()
 	if (m_GameState == HIGHSCORE)
 	{
 		m_pHSMenu->Draw();
+		//will only draw the final score of the player if they come from the gameplay state
 		if (m_bShowFinalScore == true)
 		{
 			DrawFinalScore();

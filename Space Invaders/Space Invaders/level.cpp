@@ -676,7 +676,7 @@ bool CLevel::ProcessBulletEnemyBulletCollision(float _fDeltaTick) {
 	return true;
 }
 
-//Check to see if an enemy bullet and the player collided
+//Check to see if an enemy bullet and the player collided. destroy bullet if true and reduce player health by 1. check to see if this makes player lose.
 bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); ++i)
 	{
@@ -718,6 +718,7 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 				
 				//reduce the player's health
 				m_pPlayer->LoseLife();
+				//check to see if the player lost
 				if (m_pPlayer->GetLives() == 0)
 				{
 					//CGame::GetInstance().GameOverLost();
@@ -730,7 +731,7 @@ bool CLevel::ProcessBulletPlayerCollision(float _fDeltaTick) {
 	return true;
 }
 
-//Check to see if the player bullet and a mothership collided
+//Check to see if the player bullet and a mothership collided. destroy both if true and increase score
 bool
 CLevel::ProcessBulletMotherShipCollision(float _fDeltaTick)
 {
@@ -773,7 +774,7 @@ CLevel::ProcessBulletMotherShipCollision(float _fDeltaTick)
 	return true;
 }
 
-//Check to see if the player bullet and an enemy collided
+//Check to see if the player bullet and an enemy collided. destroy both if true and increase score
 bool
 CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 {
@@ -796,7 +797,7 @@ CLevel::ProcessBulletEnemyCollision(float _fDeltaTick)
 			if ((fBulletX + fBulletWidth > fEnemyX - fEnemyW / 2 + 20) &&
 				(fBulletX - fBulletWidth < fEnemyX + fEnemyW / 2) &&
 				(fBulletY + fBulletHeight > fEnemyY - fEnemyH / 2) &&
-				(fBulletY - fBulletHeight < fEnemyY + fEnemyH / 2))
+				(fBulletY - fBulletHeight < fEnemyY + fEnemyH / 2 - 15))
 			{
 				//Hit the front side of the brick...
 				m_pBullet->SetY((fEnemyY + fEnemyH / 2.0f) + fBulletWidth);

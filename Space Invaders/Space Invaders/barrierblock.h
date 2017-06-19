@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: BarrierBlock.h
+// Description	: Header file for the barrierblocks, objects that protect the player from alien bullets.
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
 #pragma once
 

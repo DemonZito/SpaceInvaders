@@ -4,14 +4,13 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Your Name
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: sprite.cpp
+// Description	: Non animated sprites use this to call their sprite
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
-
 // Library Includes
 
 // Local Includes

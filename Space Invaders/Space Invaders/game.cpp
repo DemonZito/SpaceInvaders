@@ -4,12 +4,12 @@
 // Auckland
 // New Zealand
 //
-// (c) 2016 Media Design School.
+// (c) 2017 Media Design School.
 //
-// File Name	: 
-// Description	: 
-// Author		: Jack Mair Madeleine Day
-// Mail			: your.name@mediadesign.school.nz
+// File Name	: game.cpp
+// Description	: Keeps track of the game state
+// Author		: Madeleine Day Jack Mair
+// Mail			: jack.mair@mediadesign.school.nz
 //
 
 // Library Includes

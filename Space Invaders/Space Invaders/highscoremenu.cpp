@@ -88,6 +88,7 @@ bool CHighScoreMenu::Process(float _fDeltaTick)
 	return (true);
 }
 
+//check if the button that returns to the main menu was selected
 bool CHighScoreMenu::checkIfStartSelected(const int _iX, const int _iY)
 {
 	float fButtonW = m_pStartButton->GetWidth();
@@ -130,6 +131,7 @@ std::string ExePath() {
 	return std::string(buffer).substr(0, pos);
 }
 
+//Loads the Highscore from the resource txt file and draws it on screen
 void
 CHighScoreMenu::DrawHighScore()
 {
@@ -165,6 +167,7 @@ std::fstream& GotoLine(std::fstream& file, unsigned int num) {
 	return file;
 }
 
+//Adds a highscore to the resource txt file. Is called when the player loses the game with a score higher than a score currently in the scoreboard
 void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iLineToWrite)
 {
 	std::ofstream ClearFile;
@@ -214,6 +217,7 @@ void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iLineToWri
 	LoadFile.close();
 }
 
+//Draws the Highscore title and the numbers down the left of the screen
 void CHighScoreMenu::DrawUIElements()
 {
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
@@ -231,11 +235,12 @@ void CHighScoreMenu::DrawUIElements()
 		ss << i;
 		std::string str = ss.str() + ":";
 		
-		TextOutA(hdc, kiX, kiY, str.c_str(), 2);
+		TextOutA(hdc, kiX, kiY, str.c_str(), static_cast<int>(str.size()));
 	}
 
 }
 
+//Checks if the player achieved a highscore before printing
 bool CHighScoreMenu::CheckIfHighScore(int _iHighscore)
 {
 	bool bHighScoreInserted = false;

@@ -537,6 +537,7 @@ void CLevel::ResetLevel()
 	{
 		delete m_pMotherShip;
 		m_pMotherShip = 0;
+		bMotherShipExists = false;
 	}
 }
 

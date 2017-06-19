@@ -164,7 +164,7 @@ std::fstream& GotoLine(std::fstream& file, unsigned int num) {
 	return file;
 }
 
-void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iHighscore)
+void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iLineToWrite)
 {
 	std::ofstream ClearFile;
 	ClearFile.open("Resources\\HighScores.txt", std::ios::trunc);
@@ -174,29 +174,34 @@ void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iHighscore
 	std::fstream LoadFile;
 	LoadFile.open("Resources\\HighScores.txt", std::ios::app);
 	std::string line;
+	
+	std::vector<std::string>::iterator it2;
+	it2 = m_vecHighNames.begin();
 
 	bool bHighScoreInserted = false;
 
 	for (int i = 0; i < 10; i++)
 	{
-		if (m_vecHighscores.at(i) < _iHighscore && bHighScoreInserted == false)
+		if (i == _iLineToWrite)
 		{
-			std::vector<int>::iterator it;
+			m_vecHighNames.insert(it2, _strHighscoreName);
 
-			it = m_vecHighscores.begin();
-			it = m_vecHighscores.insert(it, _iHighscore);
-
-			std::vector<std::string>::iterator it2;
-
-			it2 = m_vecHighNames.begin();
-			it2 = m_vecHighNames.insert(it2, _strHighscoreName);
-			
 			m_vecHighscores.pop_back();
 			m_vecHighNames.pop_back();
 
-			LoadFile << _strHighscoreName << ": " << _iHighscore << "\n";
-			bHighScoreInserted = true;
+			break;
 		}
+		else
+		{
+			it2++;
+		}
+	}
+
+	for (int i = 0; i < 10; i++)
+	{
+		if (i == _iLineToWrite)
+		{
+			LoadFile << _strHighscoreName << ": " << m_vecHighscores.at(i) << "\n";		}
 		else
 		{
 			LoadFile << m_vecHighNames.at(i) << ": " << m_vecHighscores.at(i) << "\n";
@@ -206,4 +211,32 @@ void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iHighscore
 	}
 
 	LoadFile.close();
+}
+
+bool CHighScoreMenu::CheckIfHighScore(int _iHighscore)
+{
+	bool bHighScoreInserted = false;
+	std::vector<int>::iterator it;
+	it = m_vecHighscores.begin();
+
+	for (int i = 1; i < 11; i++)
+	{
+		if (m_vecHighscores.at(i-1) < _iHighscore && bHighScoreInserted == false)
+		{
+
+			it = m_vecHighscores.insert(it, _iHighscore);
+			m_iLineToWrite = i;
+
+			return true;
+		}
+		{
+			it++;
+		}
+	}
+	return false;
+}
+
+int CHighScoreMenu::GetLineToWrite()
+{
+	return m_iLineToWrite;
 }

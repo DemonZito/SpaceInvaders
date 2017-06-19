@@ -34,6 +34,7 @@ class CBullet : public CEntity
     // Member Functions
 public:
     virtual bool Initialise(float _fPosX, float _fPosY, float _fVelocityY);
+	virtual ~CBullet();
 
     virtual void Draw();
     virtual void Process(float _fDeltaTick);

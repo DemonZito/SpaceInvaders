@@ -69,79 +69,15 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
-	//delete enemies
-	while (m_vecEnemies.size() > 0)
-	{
-		IEnemy* pEnemy = m_vecEnemies[m_vecEnemies.size() - 1];
-
-		m_vecEnemies.pop_back();
-
-		delete pEnemy;
-		pEnemy = 0;
-	}
-
 	//delete player
 	delete m_pPlayer;
 	m_pPlayer = 0;
 
-	//delete mother ship
-	if (bMotherShipExists == true)
-	{
-		delete m_pMotherShip;
-		m_pMotherShip = 0;
-	}
-
-	//delete Barriers
-	while (m_vecpBarrierBlocks.size() > 0)
-	{
-		CBarrierBlock* pBarrier = m_vecpBarrierBlocks[m_vecpBarrierBlocks.size() - 1];
-		m_vecpBarrierBlocks.pop_back();
-
-		delete pBarrier;
-		pBarrier = nullptr;
-	}
-
-	//if (bBulletExists == true)
-	//{
-	//	delete m_pBullet;
-	//	m_pBullet = 0;
-	//}
-
-	//delete life counters
-	while (m_vecpLifeCounters.size() > 0)
-	{
-		CLifeCount* pLifeCount = m_vecpLifeCounters[m_vecpLifeCounters.size() - 1];
-		m_vecpLifeCounters.pop_back();
-
-		delete pLifeCount;
-		pLifeCount = nullptr;
-	}
-
-	//delete enemy bullets
-	while (m_vecpEnemyBullets.size() > 0)
-	{
-		CBullet* pEnemyBullet = m_vecpEnemyBullets[m_vecpEnemyBullets.size() - 1];
-
-		m_vecpEnemyBullets.pop_back();
-
-		if (pEnemyBullet != nullptr)
-		{
-			delete pEnemyBullet;
-		}
-		pEnemyBullet = nullptr;
-	}
-
-	while (m_vecpExplosions.empty() == false)
-	{
-		CExplosion* pTempExplosion = m_vecpExplosions.back();
-		m_vecpExplosions.pop_back();
-
-		delete pTempExplosion;
-		pTempExplosion = 0;
-	}
 
 	delete m_fpsCounter;
 	m_fpsCounter = 0;
+
+	ResetLevel();
 
 }
 
@@ -173,6 +109,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		m_pPlayer->SetY(_iHeight - (2.0f * m_pPlayer->GetHeight()));
 	}
 
+	m_pPlayer->SetHealth(3);
 
 	while (m_vecpBarrierBlocks.size() != 0)
 	{
@@ -431,7 +368,6 @@ CLevel::Process(float _fDeltaTick)
 	}
 
 	
-
 	m_pPlayer->Process(_fDeltaTick);
 
 	ProcessEnemyBulletWallCollision();
@@ -576,6 +512,32 @@ void CLevel::ResetLevel()
 		delete pTempExplosion;
 		pTempExplosion = 0;
 	}
+
+	while (m_vecpEnemyBullets.size() != 0)
+	{
+		CBullet* pEnemyBullet = m_vecpEnemyBullets[m_vecpEnemyBullets.size() - 1];
+
+		m_vecpEnemyBullets.pop_back();
+
+		if (pEnemyBullet != nullptr)
+		{
+			delete pEnemyBullet;
+		}
+		pEnemyBullet = nullptr;
+	}
+
+	if (m_pBullet != nullptr)
+	{
+		m_pPlayer->DeleteBullet();
+		m_pBullet = nullptr;
+		bBulletExists = false;
+	}
+
+	if (bMotherShipExists == true)
+	{
+		delete m_pMotherShip;
+		m_pMotherShip = 0;
+	}
 }
 
 bool
@@ -591,10 +553,10 @@ CLevel::ProcessBulletWallCollision()
 
 	if (fBallY < fHalfBallH) //represents the situation when the ball has hit the top wall
 	{
-		delete m_pBullet;
-		m_pBullet = 0;
-		m_pPlayer->SetBullet(nullptr);
-		//bBulletExists = true;
+		m_pPlayer->DeleteBullet();
+		m_pBullet = nullptr;
+
+		bBulletExists = false;
 		return false;
 	}
 	else
@@ -922,6 +884,7 @@ CLevel::ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick)
 					m_vecpExplosions.push_back(Explosion);
 
 					m_vecpBarrierBlocks.at(barrier) = nullptr;
+
 					delete pBarrier;
 					pBarrier = nullptr;
 
@@ -966,8 +929,6 @@ CLevel::ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick)
 				{
 
 					CBarrierBlock* pBarrier = m_vecpBarrierBlocks.at(barrier);
-
-					//m_vecpBarrierBlocks.erase(m_vecpBarrierBlocks.begin() + barrier);
 
 					//trigger an explosion
 					CExplosion* Explosion = new CExplosion(pBarrier->GetX(), pBarrier->GetY());
@@ -1025,8 +986,10 @@ CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
 				VALIDATE(Explosion->Initialise(_fDeltaTick));
 				m_vecpExplosions.push_back(Explosion);
 
-				delete pBlock;
+
 				m_vecpBarrierBlocks[i] = nullptr;
+
+				delete pBlock;
 
 				//delete pEnemy;
 
@@ -1070,10 +1033,7 @@ CLevel::ProcessCheckForLose()
 					m_pPlayer->LoseLife();
 					if (m_pPlayer->GetLives() == 0)
 					{
-						//CGame::GetInstance().GameOverLost();
-						//CGame::GetInstance().startGame(false);
 						m_bLoseState = true;
-
 					}
 				}
 			}
@@ -1094,7 +1054,7 @@ CLevel::ProcessCheckForWin()
 
 	ResetLevel();
 
-	m_pPlayer->SetHealth(3);
+	//m_pPlayer->SetHealth(3);
 	CLevel::Initialise(m_iWidth, m_iHeight);
 	m_fSpeedModifier *= 0.7f;
 }
@@ -1119,8 +1079,8 @@ CLevel::ProcessBulletBounds()
 	{
 
 		delete m_pBullet;
-		m_pPlayer->SetBullet(nullptr);
-
+		//m_pPlayer->SetBullet(nullptr);
+		m_pPlayer->DeleteBullet();
 
 		bBulletExists = false;
 	}

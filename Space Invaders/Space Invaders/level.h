@@ -52,18 +52,14 @@ public:
 
 	void SetAlienShootSpeed(int _fAlienShootMod);
 	void SetEnemySpeed(float Speed);
-
 	int GetScore();
-
 	CPlayer* GetPaddle() const;
-
 	std::vector<IEnemy*> GetEnemies() const;
-
 	int GetBricksRemaining() const;
-
 	void SetPlayerBulletSpeed(int _fPlayerBulletSpeed);
-
 	void ResetLevel();
+	void SetScore(int _i);
+
 
 protected:
 	bool ProcessBulletWallCollision();
@@ -91,7 +87,6 @@ protected:
 	void DrawScore();
 	void DrawFPS();
 
-	void SetScore(int _i);
 
 private:
 	CLevel(const CLevel& _kr);
@@ -108,6 +103,7 @@ protected:
 	CBullet* m_pBullet;
 	CPlayer* m_pPlayer;
 	IEnemy* m_pMotherShip;
+
 	std::vector<IEnemy*> m_vecEnemies;
 	std::vector<bool> m_vecbAlienColumns = { true , true ,true, true, true, true, true, true, true, true, true, true };
 	std::vector<CEnemyBullet*> m_vecpEnemyBullets;

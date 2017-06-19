@@ -35,7 +35,7 @@ class CEnemyBullet : public CBullet
 	// Member Functions
 public:
 	CEnemyBullet();
-	virtual ~CEnemyBullet();
+	 ~CEnemyBullet();
 
 	virtual bool Initialise(float _fPosX, float _fPosY, float _fVelocityY, float _fDeltaTick);
 

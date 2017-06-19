@@ -36,7 +36,6 @@ CEnemyBullet::CEnemyBullet()
 
 CEnemyBullet::~CEnemyBullet()
 {
-
 }
 
 bool

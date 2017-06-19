@@ -71,12 +71,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <ExecutablePath>C:\apps\vld\2.5\bin\Win32;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>C:\apps\vld\2.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\apps\vld\2.5\lib\Win32;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\apps\vld\2.5\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\apps\vld\2.5\lib\Win32;$(LibraryPath)</LibraryPath>
+    <ExecutablePath>C:\apps\vld\2.5\bin\Win32;$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

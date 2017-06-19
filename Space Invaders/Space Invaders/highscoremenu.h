@@ -37,7 +37,10 @@ public:
 	bool checkIfStartSelected(const int _iX, const int _iY);
 
 	void DrawHighScore();
-	void AddHighScore(std::string _strHighscoreName, int _iHighscore);
+	void AddHighScore(std::string _strHighscoreName, int _iWriteLocation);
+	bool CheckIfHighScore(int _iHighscore);
+
+	int GetLineToWrite();
 
 private:
 	CHighScoreMenu(const CHighScoreMenu& _kr);
@@ -45,6 +48,7 @@ private:
 
 	int m_iWidth;
 	int m_iHeight;
+	int m_iLineToWrite;
 
 	bool m_bStartClicked;
 

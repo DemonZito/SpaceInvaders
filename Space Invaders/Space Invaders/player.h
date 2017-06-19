@@ -52,6 +52,8 @@ public:
 	void SetHealth(int _iHealth);
 	void SetBulletSpeed(float _iBulletSpeed);
 
+	void DeleteBullet();
+
 protected:
 
 private:
@@ -66,6 +68,7 @@ protected:
 	bool m_bHit;
 
 private:
+
 	CBullet* m_pBullet = nullptr;
 	int m_iHealth;
 	float m_iBulletSpeed;

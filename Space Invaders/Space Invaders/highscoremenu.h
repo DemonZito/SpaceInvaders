@@ -37,6 +37,7 @@ public:
 	bool checkIfStartSelected(const int _iX, const int _iY);
 
 	void DrawHighScore();
+	void AddHighScore(std::string _strHighscoreName, int _iHighscore);
 
 private:
 	CHighScoreMenu(const CHighScoreMenu& _kr);
@@ -48,6 +49,9 @@ private:
 	bool m_bStartClicked;
 
 	CMenuButton* m_pStartButton;
+
+	std::vector<std::string> m_vecHighNames;
+	std::vector<int> m_vecHighscores;
 };
 
 #endif    // __HIGHSCOREMENU_H__

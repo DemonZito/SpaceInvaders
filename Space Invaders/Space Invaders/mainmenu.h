@@ -55,9 +55,6 @@ private:
 	CMenuButton* m_pQuitButton;
 	CMenuButton* m_pTitle;
 
-	std::vector<std::string> m_vecHighNames;
-	std::vector<int> m_vecHighscores;
-
 };
 
 #endif    // __MAINMENU_H__

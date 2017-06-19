@@ -160,7 +160,7 @@ BOOL CALLBACK HighscoreDlgProc(HWND _hwnd,
 		{
 		case IDOK:
 		{
-			//rGame.GetMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
+			rGame.GetHSMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
 			ShowWindow(_hwnd, SW_HIDE);
 			rGame.ChangeGameState(HIGHSCORE);
 			rGame.GetLevel()->SetLoseState(false);

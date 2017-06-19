@@ -129,6 +129,16 @@ void CPlayer::SetBulletSpeed(float _iBulletSpeed)
 	m_iBulletSpeed = _iBulletSpeed;
 }
 
+void CPlayer::DeleteBullet()
+{
+	if (m_pBullet != nullptr)
+	{
+		delete m_pBullet;
+		m_pBullet = nullptr;
+	}
+	
+}
+
 
 CBullet * CPlayer::GetBullet()
 {

@@ -29,6 +29,7 @@
 
 const int kiWidth = 960;
 const int kiHeight = 720;
+int g_iLineToWrite = 0;
 
 enum buttonClicked
 {
@@ -173,12 +174,10 @@ BOOL CALLBACK HighscoreDlgProc(HWND _hwnd,
 		{
 		case IDOK:
 		{
-			rGame.GetHSMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
-			ShowWindow(_hwnd, SW_HIDE);
-			rGame.GetLevel()->ResetLevel();
-			rGame.ChangeGameState(HIGHSCORE);
-			rGame.GetLevel()->SetLoseState(false);
 
+			rGame.GetHSMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetHSMenu()->GetLineToWrite()-1);
+			ShowWindow(_hwnd, SW_HIDE);
+			g_iLineToWrite = 0;
 			break;
 		}
 		default:break;
@@ -337,6 +336,8 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 	RECT _rect;
 	ZeroMemory(&msg, sizeof(MSG));
 
+	static bool s_bScoreChecked = false;
+
 
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
 	
@@ -375,7 +376,23 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 
 			if (rGame.GetLevel() != nullptr && rGame.GetLevel()->GetLoseState())
 			{
-				ShowWindow(g_hDlgHighscore, SW_SHOWNORMAL);
+				if (s_bScoreChecked == false && rGame.GetHSMenu()->CheckIfHighScore(rGame.GetLevel()->GetScore()))
+				{
+					ShowWindow(g_hDlgHighscore, SW_SHOWNORMAL);
+					s_bScoreChecked = true;
+				}
+				else
+				{
+					rGame.GetLevel()->ResetLevel();
+					rGame.GetLevel()->SetScore(0);
+					rGame.ChangeGameState(HIGHSCORE);
+					rGame.GetLevel()->SetLoseState(false);
+					s_bScoreChecked = true;
+				}
+			}
+			else
+			{
+				s_bScoreChecked = false;
 			}
 		}
 	}

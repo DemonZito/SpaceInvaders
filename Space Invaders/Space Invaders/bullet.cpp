@@ -53,6 +53,19 @@ CBullet::Initialise(float _fPosX, float _fPosY, float _fVelocityY)
     return (true);
 }
 
+CBullet::~CBullet()
+{
+	if (m_pAnim != nullptr)
+	{
+		delete m_pAnim;
+		m_pAnim = 0;
+	}
+}
+
+//CBullet::~CBullet()
+//{
+//}
+
 void
 CBullet::Draw()
 {

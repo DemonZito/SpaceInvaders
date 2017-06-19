@@ -34,6 +34,7 @@ CGame& rGame = CGame::GetInstance();
 #define WINDOW_CLASS_NAME L"BSENGGFRAMEWORK"
 
 HWND g_hDlgDebug;
+HWND g_hDlgHighscore;
 
 LRESULT CALLBACK
 WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
@@ -117,6 +118,42 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 	}
 
 	return (DefWindowProc(_hWnd, _uiMsg, _wParam, _lParam));
+}
+
+BOOL CALLBACK HighscoreDlgProc(HWND _hwnd,
+	UINT _msg,
+	WPARAM _wparam,
+	LPARAM _lparam)
+{
+
+	switch (_msg)
+	{
+	case WM_CLOSE:
+	{
+		ShowWindow(_hwnd, SW_HIDE);
+		return TRUE;
+		break;
+	}
+	case WM_COMMAND:
+	{
+		switch (LOWORD(_wparam))
+		{
+		case IDOK:
+		{
+			rGame.GetMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
+			ShowWindow(_hwnd, SW_HIDE);
+			rGame.startGame(false);
+			rGame.GetLevel()->SetLoseState(false);
+
+			break;
+		}
+		default:break;
+		}
+	}
+	default:
+		break;
+	}
+	return FALSE;
 }
 
 BOOL CALLBACK DebugDlgProc(HWND _hwnd,
@@ -270,6 +307,7 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
 	
 	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
+	g_hDlgHighscore = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, HighscoreDlgProc);
 
 	//set all the radio buttons to their default state
 	CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
@@ -294,7 +332,21 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 		}
 		else
 		{
-			rGame.ExecuteOneFrame(IsWindowVisible(g_hDlgDebug));
+			bool bPauseGame;
+			if (IsWindowVisible(g_hDlgDebug) || IsWindowVisible(g_hDlgHighscore))
+			{
+				bPauseGame = true;
+			}
+			else
+			{
+				bPauseGame = false;
+			}
+			rGame.ExecuteOneFrame(bPauseGame);
+
+			if (rGame.GetLevel() != nullptr && rGame.GetLevel()->GetLoseState())
+			{
+				ShowWindow(g_hDlgHighscore, SW_SHOWNORMAL);
+			}
 		}
 	}
 

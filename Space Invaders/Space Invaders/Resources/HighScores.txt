@@ -1,2 +1,0 @@
-Jack: 100000
-Madeleine: 1

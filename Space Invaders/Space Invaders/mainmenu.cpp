@@ -142,36 +142,38 @@ bool CMainMenu::checkIfQuitSelected(const int _iX, const int _iY)
 	}
 }
 
-std::string ExePath() {
-	char buffer[MAX_PATH];
-	GetModuleFileNameA(NULL, buffer, MAX_PATH);
-	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
-	return std::string(buffer).substr(0, pos);
-}
-
 void
 CMainMenu::DrawHighScore()
 {
-	std::string strCurrentDir = ExePath();
-
-	std::ifstream LoadFile;
-	LoadFile.open(strCurrentDir + "\\Resources\\HighScores.txt");
+	std::fstream LoadFile;
+	LoadFile.open("Resources\\HighScores.txt");
 
 	std::string Score;
 
 	std::string line;
-	getline(LoadFile, line);
+	
+	
+	//getline(LoadFile, line);
+	int kiX = 10;
+	int kiY = 10;
+
+	while (getline(LoadFile, line) && line != "")
+	{
+		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 
 
-	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+		SetBkMode(hdc, TRANSPARENT);
 
-	const int kiX = 10;
-	const int kiY = 10;
-	SetBkMode(hdc, TRANSPARENT);
-
-	TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
+		TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
+		kiY += 14;
+	}
 
 	LoadFile.close();
+}
+
+void CMainMenu::AddHighScore(std::string _strHighscoreName, int _iHighScore)
+{
+	
 }
 
 void

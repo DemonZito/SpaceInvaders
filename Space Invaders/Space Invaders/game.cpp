@@ -285,7 +285,10 @@ CGame::ChangeGameState(gameState _State)
 		}
 		VALIDATE(m_pLevel->Initialise(m_iWidth, m_iHeight));
 	}
-
+	else if (m_GameState == MAINMENU && m_bShowFinalScore == true)
+	{
+		m_pLevel->SetScore(0);
+	}
 	return true;
 }
 

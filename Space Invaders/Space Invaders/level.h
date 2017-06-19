@@ -56,7 +56,7 @@ public:
 	CPlayer* GetPaddle() const;
 	std::vector<IEnemy*> GetEnemies() const;
 	int GetBricksRemaining() const;
-	void SetPlayerBulletSpeed(int _fPlayerBulletSpeed);
+	//void SetPlayerBulletSpeed(int _fPlayerBulletSpeed);
 	void ResetLevel();
 	void SetScore(int _i);
 
@@ -129,6 +129,7 @@ private:
 	int m_iScore;
 	float m_fSpeedModifier;
 	bool m_bLoseState;
+	int m_iAlienSpeed;
 
 	//Debug values
 	int m_fAlienShootMod;

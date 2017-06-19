@@ -69,6 +69,8 @@ CLevel::CLevel()
 
 CLevel::~CLevel()
 {
+	ResetLevel();
+
 	//delete player
 	delete m_pPlayer;
 	m_pPlayer = 0;
@@ -77,7 +79,7 @@ CLevel::~CLevel()
 	delete m_fpsCounter;
 	m_fpsCounter = 0;
 
-	ResetLevel();
+	
 
 }
 
@@ -93,7 +95,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 	for (int i = 0; i < 3; ++i)
 	{
-		CLifeCount* pLifeCount = new CLifeCount(50 + 16 * i, m_iHeight - 25);
+		CLifeCount* pLifeCount = new CLifeCount(static_cast<float>(50 + 16 * i), static_cast<float>(m_iHeight - 25));
 		m_vecpLifeCounters.push_back(pLifeCount);
 		VALIDATE(m_vecpLifeCounters[i]->Initialise(m_fDeltaTick));
 	}	
@@ -123,7 +125,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 	{
 		for (int k = 1; k <= 4; ++k)
 		{
-				CBarrierBlock* BarrierBlock = new CBarrierBlock(177 + (26 * k) + (i * 240), 530);
+				CBarrierBlock* BarrierBlock = new CBarrierBlock(static_cast<float>(177 + (26 * k) + (i * 240)), 530.0f);
 				VALIDATE(BarrierBlock->Initialise(m_fDeltaTick));
 				m_vecpBarrierBlocks.push_back(BarrierBlock);
 
@@ -134,7 +136,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 					yOffset = yOffset * -1;
 				}
 
-				CBarrierBlock* BarrierBlock2 = new CBarrierBlock(177 + (26 * k) + (i * 240), 530 + yOffset);
+				CBarrierBlock* BarrierBlock2 = new CBarrierBlock(static_cast<float>(177 + (26 * k) + (i * 240)), static_cast<float>(530 + yOffset));
 				VALIDATE(BarrierBlock2->Initialise(m_fDeltaTick));
 				m_vecpBarrierBlocks.push_back(BarrierBlock2);
 		}
@@ -382,8 +384,8 @@ CLevel::Process(float _fDeltaTick)
 		{
 			//ProcessBallPaddleCollision();
 			bBulletExists = ProcessBulletEnemyCollision(_fDeltaTick);
-			ProcessCheckForWin();
 			ProcessBulletBounds();
+			ProcessCheckForWin();
 		}
 
 		if (bBulletExists == true)
@@ -407,13 +409,17 @@ CLevel::Process(float _fDeltaTick)
 	ProcessCheckForLose();
 
 	//handles aliens shooting
-	if (s_iShootFrameBuffer <= 0)
+	if (s_iShootFrameBuffer <= 0 && m_fAlienShootMod != -1)
 	{
 		s_iShootFrameBuffer = rand() % (m_fAlienShootMod);
 		//s_iShootFrameBuffer = rand() % (5000 - m_fAlienShootMod * 10) + 500;
 		if (AlienShoot((rand() % 12), _fDeltaTick) == false) {
 			s_iShootFrameBuffer = 1;
 		}
+	}
+	else if(m_fAlienShootMod == -1)
+	{
+		s_iShootFrameBuffer = 1;
 	}
 
 	--s_iShootFrameBuffer;
@@ -1054,6 +1060,7 @@ CLevel::ProcessCheckForWin()
 	}
 
 	ResetLevel();
+	Sleep(2000);
 
 	//m_pPlayer->SetHealth(3);
 	CLevel::Initialise(m_iWidth, m_iHeight);
@@ -1176,12 +1183,14 @@ CLevel::DrawFPS()
 void
 CLevel::SetEnemySpeed(float Speed)
 {
+	m_iAlienSpeed = Speed;
+
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
 		if (m_vecEnemies.at(i) != nullptr)
 		{
-			m_vecEnemies.at(i)->SetSpeed(Speed);
-			m_vecEnemies.at(i)->m_pAnim->SetSpeed(Speed);
+			m_vecEnemies.at(i)->SetSpeed(m_iAlienSpeed);
+			m_vecEnemies.at(i)->m_pAnim->SetSpeed(m_iAlienSpeed);
 		}
 	}
 }

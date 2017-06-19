@@ -156,40 +156,6 @@ bool CMainMenu::checkIfQuitSelected(const int _iX, const int _iY)
 }
 
 void
-CMainMenu::DrawHighScore()
-{
-	std::fstream LoadFile;
-	LoadFile.open("Resources\\HighScores.txt");
-
-	std::string Score;
-
-	std::string line;
-	
-	
-	//getline(LoadFile, line);
-	int kiX = 10;
-	int kiY = 10;
-
-	while (getline(LoadFile, line) && line != "")
-	{
-		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
-
-
-		SetBkMode(hdc, TRANSPARENT);
-
-		TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
-		kiY += 14;
-	}
-
-	LoadFile.close();
-}
-
-void CMainMenu::AddHighScore(std::string _strHighscoreName, int _iHighScore)
-{
-	
-}
-
-void
 CMainMenu::DrawCredits()
 {
 	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();

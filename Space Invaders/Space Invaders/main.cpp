@@ -160,9 +160,9 @@ BOOL CALLBACK HighscoreDlgProc(HWND _hwnd,
 		{
 		case IDOK:
 		{
-			rGame.GetMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
+			//rGame.GetMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
 			ShowWindow(_hwnd, SW_HIDE);
-			rGame.startGame(false);
+			rGame.ChangeGameState(HIGHSCORE);
 			rGame.GetLevel()->SetLoseState(false);
 
 			break;
@@ -327,6 +327,8 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
 	
 	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
+	g_hDlgHighscore = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, HighscoreDlgProc);
+
 	
 	GetClientRect(hwnd, &_rect);
 

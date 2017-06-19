@@ -134,7 +134,7 @@ CAnimatedSprite::SetWidth(int _iW)
 int 
 CAnimatedSprite::GetWidth()
 {
-	return (m_iDestSizeW);
+	return (m_iFrameWidth*2);
 }
 
 int CAnimatedSprite::GetFrameWidth()

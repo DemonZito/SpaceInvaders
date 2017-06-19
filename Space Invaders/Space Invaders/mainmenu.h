@@ -39,7 +39,7 @@ public:
 
 	void DrawCredits();
 
-	void AddHighScore(std::string _strHighscoreName, int _iHighscore);
+	//void AddHighScore(std::string _strHighscoreName, int _iHighscore);
 
 private:
 	CMainMenu(const CMainMenu& _kr);

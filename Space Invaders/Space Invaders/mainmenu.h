@@ -34,10 +34,10 @@ public:
 	virtual void Draw();
 	virtual bool Process(float _fDeltaTick);
 
-	bool checkIfStartSelected(const int _iX, const int _iY);
-	bool checkIfQuitSelected(const int _iX, const int _iY);
 
-	void DrawCredits();
+	bool checkIfStartSelected(const int _iX, const int _iY);
+	bool checkIfHighScoreSelected(const int _iX, const int _iY);
+	bool checkIfQuitSelected(const int _iX, const int _iY);
 
 	//void AddHighScore(std::string _strHighscoreName, int _iHighscore);
 
@@ -45,13 +45,18 @@ private:
 	CMainMenu(const CMainMenu& _kr);
 	CMainMenu& operator= (const CMainMenu& _kr);
 
+	bool checkIfButtonSelected(CMenuButton* _pMenuButton, bool _bCheckDown, const int _iX, const int _iY);
+	void DrawCredits();
+
 	int m_iWidth;
 	int m_iHeight;
 
 	bool m_bQuitClicked;
 	bool m_bStartClicked;
+	bool m_bHighScoreClicked;
 
 	CMenuButton* m_pStartButton;
+	CMenuButton* m_pHighScoreButton;
 	CMenuButton* m_pQuitButton;
 	CMenuButton* m_pTitle;
 

@@ -70,6 +70,7 @@ public:
 	bool ChangeGameState(gameState _State);
 
 	void DrawFinalScore();
+	void ShowFinalScore(bool _bshowScore);
 
 	//void GameOverWon();
 	//void GameOverLost();
@@ -118,6 +119,7 @@ private:
 	gameState m_GameState;
 	int m_iWidth;
 	int m_iHeight;
+	bool m_bShowFinalScore;
 };
 
 #endif    // __GAME_H__

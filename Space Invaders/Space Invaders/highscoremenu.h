@@ -39,6 +39,8 @@ public:
 	void DrawHighScore();
 	void AddHighScore(std::string _strHighscoreName, int _iHighscore);
 
+	void DrawUIElements();
+
 private:
 	CHighScoreMenu(const CHighScoreMenu& _kr);
 	CHighScoreMenu& operator= (const CHighScoreMenu& _kr);

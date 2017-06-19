@@ -134,7 +134,10 @@ CGame::Draw()
 	if (m_GameState == HIGHSCORE)
 	{
 		m_pHSMenu->Draw();
-		DrawFinalScore();
+		if (m_bShowFinalScore == true)
+		{
+			DrawFinalScore();
+		}
 	}
 	m_pBackBuffer->Present();
 }
@@ -144,7 +147,7 @@ CGame::Process(float _fDeltaTick)
 {
 	if (m_vecpClouds.size() == 0)
 	{
-		CClouds* Cloud = new CClouds(m_iWidth / 2 - 300, 530);
+		CClouds* Cloud = new CClouds(static_cast<float>(m_iWidth / 2 - 300), 530);
 		VALIDATE(Cloud->Initialise(_fDeltaTick));
 		m_vecpClouds.push_back(Cloud);
 	}
@@ -307,7 +310,12 @@ CGame::DrawFinalScore()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 50, kiY + 188, "Game Over!", 10);
+	TextOutA(hdc, kiX - 130, kiY + 60, "Game Over!", 10);
 
-	TextOutA(hdc, kiX - 70, kiY + 216, _strScore.c_str(), static_cast<int>(_strScore.size()));
+	TextOutA(hdc, kiX + 20, kiY + 60, _strScore.c_str(), static_cast<int>(_strScore.size()));
+}
+
+void CGame::ShowFinalScore(bool _bshowScore)
+{
+	m_bShowFinalScore = _bshowScore;
 }

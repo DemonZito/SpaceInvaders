@@ -65,7 +65,7 @@ bool CHighScoreMenu::Process(float _fDeltaTick)
 
 	if (m_pStartButton == nullptr)
 	{
-		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 120, IDB_BUTTONUP, IDB_BUTTONUPMASK);
+		m_pStartButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 120), IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pStartButton->Initialise(_fDeltaTick));
 	}
 

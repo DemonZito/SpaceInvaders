@@ -23,7 +23,7 @@
 class CBarrierBlock : public CEntity
 {
 public:
-	CBarrierBlock(const int _iX, const int _iY);
+	CBarrierBlock(const float _iX, const float _iY);
 	~CBarrierBlock();
 
 	virtual bool Initialise(float _fDeltaTick);

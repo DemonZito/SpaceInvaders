@@ -21,7 +21,7 @@
 
 
 
-CLifeCount::CLifeCount(const int _iX, const int _iY)
+CLifeCount::CLifeCount(const float _iX, const float _iY)
 {
 	m_fX = _iX;
 	m_fY = _iY;

@@ -24,7 +24,7 @@
 class CMenuButton : public CEntity
 {
 public:
-	CMenuButton(const int _iX, const int _iY, int _iSpriteIDB, int _iSpriteMaskIDB);
+	CMenuButton(const float _iX, const float _iY, int _iSpriteIDB, int _iSpriteMaskIDB);
 	~CMenuButton();
 
 	virtual bool Initialise(float _fDeltaTick);

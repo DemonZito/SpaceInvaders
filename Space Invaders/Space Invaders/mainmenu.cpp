@@ -56,6 +56,16 @@ void CMainMenu::Draw()
 	m_pTitle->Draw();
 	DrawHighScore();
 	DrawCredits();
+
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	int kiX = m_iWidth / 2;
+	int kiY = m_iHeight / 2;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, kiX - 20, kiY + 55, "Start", 5);
+
+	TextOutA(hdc, kiX - 20, kiY + 135, "Quit", 5);
 }
 
 bool CMainMenu::Process(float _fDeltaTick)
@@ -99,6 +109,11 @@ bool CMainMenu::checkIfStartSelected(const int _iX, const int _iY)
 		{
 			m_pStartButton->ChangeSprite(IDB_BUTTONDOWN, IDB_BUTTONDOWNMASK);
 			m_bStartClicked = true;
+		}
+		else
+		{
+			m_pStartButton->ChangeSprite(IDB_BUTTONUP, IDB_BUTTONUPMASK);
+			m_bStartClicked = false;
 		}
 		return true;
 	}

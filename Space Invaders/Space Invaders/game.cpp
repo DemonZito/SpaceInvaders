@@ -155,7 +155,7 @@ CGame::Process(float _fDeltaTick)
 		}
 		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() > m_iWidth / 2 - 80)
 		{
-			CClouds* Cloud = new CClouds(0, 0);
+			CClouds* Cloud = new CClouds(0, 530);
 			VALIDATE(Cloud->Initialise(_fDeltaTick));
 			m_vecpClouds.push_back(Cloud);
 		}

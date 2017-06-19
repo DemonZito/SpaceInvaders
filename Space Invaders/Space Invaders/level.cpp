@@ -861,13 +861,15 @@ CLevel::ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick)
 
 					CBarrierBlock* pBarrier = m_vecpBarrierBlocks.at(barrier);
 
-					m_vecpBarrierBlocks.erase(m_vecpBarrierBlocks.begin() + barrier);
+					//m_vecpBarrierBlocks.erase(m_vecpBarrierBlocks.begin() + barrier);
+
 
 					//trigger an explosion
 					CExplosion* Explosion = new CExplosion(pBarrier->GetX(), pBarrier->GetY());
 					VALIDATE(Explosion->Initialise(_fDeltaTick));
 					m_vecpExplosions.push_back(Explosion);
 
+					m_vecpBarrierBlocks.at(barrier) = nullptr;
 					delete pBarrier;
 					pBarrier = nullptr;
 
@@ -1023,6 +1025,24 @@ CLevel::ProcessCheckForWin()
 
 		delete pEnemy;
 		pEnemy = 0;
+	}
+
+	while (m_vecpBarrierBlocks.size() > 0)
+	{
+		CBarrierBlock* pBarrier = m_vecpBarrierBlocks[m_vecpBarrierBlocks.size() - 1];
+		m_vecpBarrierBlocks.pop_back();
+
+		delete pBarrier;
+		pBarrier = nullptr;
+	}
+
+	while (m_vecpLifeCounters.size() > 0)
+	{
+		CLifeCount* pLifeCount = m_vecpLifeCounters[m_vecpLifeCounters.size() - 1];
+		m_vecpLifeCounters.pop_back();
+
+		delete pLifeCount;
+		pLifeCount = nullptr;
 	}
 
 	CLevel::Initialise(m_iWidth, m_iHeight);

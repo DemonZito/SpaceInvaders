@@ -65,8 +65,7 @@ public:
 
 protected:
 	bool ProcessBulletWallCollision();
-	//void ProcessPaddleWallCollison();
-	// void ProcessBallPaddleCollision();
+
 	bool ProcessBulletPlayerCollision(float _fDeltaTick);
 	void ProcessEnemyBulletWallCollision();
 	bool ProcessBulletEnemyCollision(float _fDeltaTick);

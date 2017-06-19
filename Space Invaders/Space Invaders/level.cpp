@@ -318,7 +318,7 @@ CLevel::Draw()
 		m_pBullet->Draw();
 	}
 
-	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
+	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); i++)
 	{
 		if (m_vecpEnemyBullets.empty() == false)
 		{
@@ -326,7 +326,7 @@ CLevel::Draw()
 		}
 	}
 
-	for (int i = 0; i < m_vecpExplosions.size(); i++)
+	for (unsigned int i = 0; i < m_vecpExplosions.size(); i++)
 	{
 		if (m_vecpExplosions.empty() == false)
 		{
@@ -334,7 +334,7 @@ CLevel::Draw()
 		}
 	}
 
-	for (int i = 0; i < m_vecpBarrierBlocks.size(); i++)
+	for (unsigned int i = 0; i < m_vecpBarrierBlocks.size(); i++)
 	{
 		if (m_vecpBarrierBlocks.empty() == false && m_vecpBarrierBlocks[i] != nullptr)
 		{
@@ -352,7 +352,7 @@ CLevel::Process(float _fDeltaTick)
 {
 	m_fDeltaTick = _fDeltaTick;
 
-	for (int i = 0; i < m_vecpExplosions.size(); i++)
+	for (unsigned int i = 0; i < m_vecpExplosions.size(); i++)
 	{
 		if (rand() % 200 == 0)
 		{
@@ -364,7 +364,7 @@ CLevel::Process(float _fDeltaTick)
 		}
 	}
 	
-	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
+	for (unsigned int i = 0; i < m_vecpEnemyBullets.size(); i++)
 	{
 		m_vecpEnemyBullets[i]->Process(_fDeltaTick);
 	}
@@ -473,7 +473,7 @@ CLevel::Process(float _fDeltaTick)
 	// Movement
 
 	bool hitwall = false;
-	for (int j = 0; j < m_vecEnemies.size(); j++)
+	for (size_t j = 0; j < m_vecEnemies.size(); j++)
 	{
 		if (m_vecEnemies[j] != nullptr && m_vecEnemies[j]->m_iDirection > 0) // Move left
 		{
@@ -561,7 +561,7 @@ CLevel::ProcessEnemyBulletWallCollision()
 	float fHalfBulletW;
 	float fHalfBulletH;
 
-	for (int i = 0; i < m_vecpEnemyBullets.size(); i++)
+	for (size_t i = 0; i < m_vecpEnemyBullets.size(); i++)
 	{
 		fBulletX = m_vecpEnemyBullets.at(i)->GetX();
 		fBulletY = m_vecpEnemyBullets.at(i)->GetY();

@@ -21,7 +21,7 @@
 
 
 
-CMenuButton::CMenuButton(const float _iX, const float _iY, int _iSpriteIDB, int _iSpriteMaskIDB)
+CMenuButton::CMenuButton(const int _iX, const int _iY, int _iSpriteIDB, int _iSpriteMaskIDB)
 {
 	m_fX = _iX;
 	m_fY = _iY;

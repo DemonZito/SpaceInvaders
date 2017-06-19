@@ -83,7 +83,7 @@ CMotherShip::Draw()
 
 void CMotherShip::Movement(float _fDeltaTick)
 {
-	m_fX += 0.2 * m_iDirection;
+	m_fX += 1 * m_iDirection;
 
 }
 

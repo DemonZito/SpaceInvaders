@@ -69,8 +69,8 @@ protected:
 	
 
 	
-	float m_fX;
-	float m_fY;
+	int m_fX;
+	int m_fY;
 
 private:
 

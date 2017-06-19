@@ -142,3 +142,18 @@ CHighScoreMenu::DrawHighScore()
 
 	LoadFile.close();
 }
+
+void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iHighscore)
+{
+	std::fstream LoadFile;
+	LoadFile.open("Resources\\HighScores.txt");
+
+	std::string line = "";
+
+	while (getline(LoadFile, line) && line != "");
+	
+	LoadFile << "2222";
+	
+
+	LoadFile.close();
+}

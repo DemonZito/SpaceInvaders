@@ -204,14 +204,14 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO13:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO13);
-				rGame.GetInstance().GetLevel()->SetEnemySpeed(1000);
+				rGame.GetInstance().GetLevel()->SetEnemySpeed(1000.0f);
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO14:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
-				rGame.GetInstance().GetLevel()->SetEnemySpeed(1);
+				rGame.GetInstance().GetLevel()->SetEnemySpeed(1.0f);
 
 				return TRUE;
 				break;

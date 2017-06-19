@@ -129,7 +129,7 @@ private:
 	int m_iScore;
 	float m_fSpeedModifier;
 	bool m_bLoseState;
-	int m_iAlienSpeed;
+	float m_iAlienSpeed;
 
 	//Debug values
 	int m_fAlienShootMod;

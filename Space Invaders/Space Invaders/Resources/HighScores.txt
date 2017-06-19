@@ -1,10 +1,10 @@
-Killme: 1050
-Yes: 880
-Yes: 880
-SCOORE: 880
-VAglue: 720
-hr: 90
-kek: 50
-Yes: 10
-Yes: 5
-Yes: 4
+DEBBY          -          860
+DEB          -          670
+VAJ          -          650
+JUTTED          -          640
+JUTTED2          -          640
+EARU          -          630
+YEPYEPYEP          -          620
+FF          -          480
+Test          -          10
+Test          -          9

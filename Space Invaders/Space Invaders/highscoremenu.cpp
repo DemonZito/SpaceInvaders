@@ -51,7 +51,7 @@ bool CHighScoreMenu::Initialise(int _iWidth, int _iHeight)
 	for (int i = 0; i < 10; i++)
 	{
 		std::string tempName;
-		getline(LoadFile, tempName, ':');
+		getline(LoadFile, tempName, '-');
 		m_vecHighNames.push_back(tempName);
 		std::string tempNum;
 		getline(LoadFile, tempNum, '\n');
@@ -142,18 +142,15 @@ CHighScoreMenu::DrawHighScore()
 
 
 	//getline(LoadFile, line);
-	int kiX = 10;
-	int kiY = 10;
+	int kiX = m_iWidth / 4 + 140;
+	int kiY = m_iHeight / 8;
 
 	while (getline(LoadFile, line) && line != "")
 	{
+		kiY += 26;
 		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
-
-
 		SetBkMode(hdc, TRANSPARENT);
-
 		TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
-		kiY += 14;
 	}
 
 	LoadFile.close();
@@ -202,10 +199,10 @@ void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iLineToWri
 	{
 		if (i == _iLineToWrite)
 		{
-			LoadFile << _strHighscoreName << ": " << m_vecHighscores.at(i) << "\n";		}
+			LoadFile << _strHighscoreName << "          -          " << m_vecHighscores.at(i) << "\n";		}
 		else
 		{
-			LoadFile << m_vecHighNames.at(i) << ": " << m_vecHighscores.at(i) << "\n";
+			LoadFile << m_vecHighNames.at(i) << "-          " << m_vecHighscores.at(i) << "\n";
 		}
 
 		//getline(LoadFile, line);
@@ -222,16 +219,16 @@ void CHighScoreMenu::DrawUIElements()
 	int kiY = m_iHeight / 8;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, 134 + kiX, kiY, "x!X  H I G H     S C O R E S  X!x", 33);
+	TextOutA(hdc, 134 + kiX, kiY-26, "x!X  H I G H     S C O R E S  X!x", 33);
 
 	for (unsigned int i = 1; i <= 10; ++i)
 	{
 		kiY += 26;
 		std::stringstream ss;
 		ss << i;
-		std::string str = ss.str() + ":";
+		std::string str = '[' + ss.str() + ']';
 		
-		TextOutA(hdc, kiX, kiY, str.c_str(), 2);
+		TextOutA(hdc, kiX + 105, kiY, str.c_str(), static_cast<int>(str.size()));
 	}
 
 }

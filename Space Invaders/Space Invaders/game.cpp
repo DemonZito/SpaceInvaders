@@ -76,6 +76,7 @@ CGame::~CGame()
 	}
 }
 
+//Initalizses all the screen states, clock, backbuffer. The background and clouds are global between all screen states
 bool
 CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 {
@@ -111,6 +112,7 @@ CGame::Initialise(HINSTANCE _hInstance, HWND _hWnd, int _iWidth, int _iHeight)
 	return (true);
 }
 
+//Depending on the game state. A different screen gets drawn.  The background and clouds are global between all screen states
 void
 CGame::Draw()
 {

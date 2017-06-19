@@ -151,5 +151,6 @@ CMainMenu::DrawCredits()
 	const int kiY = m_iHeight - 14;
 	SetBkMode(hdc, TRANSPARENT);
 
+	TextOutA(hdc, kiX, kiY - 14, "Controls:  Left Arrow: Move Left  |  Right Arrow: Move Right  |  Up Arrow: Fire", 79);
 	TextOutA(hdc, kiX, kiY, "Created by Madeleine Day and Jack Mair", 38);
 }

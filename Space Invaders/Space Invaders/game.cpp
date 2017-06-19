@@ -123,6 +123,10 @@ CGame::Draw()
 	else
 	{
 		m_pMenu->Draw();
+		if (m_bNotFirstInstance == true)
+		{
+			DrawScore();
+		}
 	}
 
 	m_pBackBuffer->Present();
@@ -133,7 +137,7 @@ CGame::Process(float _fDeltaTick)
 {
 	if (m_vecpClouds.size() == 0)
 	{
-		CClouds* Cloud = new CClouds(0, 0);
+		CClouds* Cloud = new CClouds(0, 530);
 		VALIDATE(Cloud->Initialise(_fDeltaTick));
 		m_vecpClouds.push_back(Cloud);
 	}
@@ -143,13 +147,13 @@ CGame::Process(float _fDeltaTick)
 		m_vecpClouds[i]->Process(_fDeltaTick);
 		if (m_vecpClouds[i]->GetX() > m_iWidth + m_vecpClouds[i]->GetWidth() /2)
 		{
-			CClouds* pCloud = m_vecpClouds[m_vecpClouds.size() - 1];
-			m_vecpClouds.pop_back();
+			CClouds* pCloud = m_vecpClouds[0];
+			m_vecpClouds.erase(m_vecpClouds.begin());
 
 			delete pCloud;
 			pCloud = nullptr;
 		}
-		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() > m_iWidth / 2)
+		if (m_vecpClouds.size() != 2 && m_vecpClouds[i]->GetX() > m_iWidth / 2 - 80)
 		{
 			CClouds* Cloud = new CClouds(0, 0);
 			VALIDATE(Cloud->Initialise(_fDeltaTick));
@@ -182,7 +186,6 @@ CGame::ExecuteOneFrame(bool _bPaused)
 
 		Draw();
 
-		
 	}
 
 	m_pClock->Process();
@@ -202,19 +205,19 @@ CGame::GetInstance()
 	return (*s_pGame);
 }
 
-void
-CGame::GameOverWon()
-{
-	MessageBox(m_hMainWindow, L"Winner!", L"Game Over", MB_OK);
-	PostQuitMessage(0);
-}
-
-void
-CGame::GameOverLost()
-{
-	MessageBox(m_hMainWindow, L"Loser!", L"Game Over", MB_OK);
-	PostQuitMessage(0);
-}
+//void
+//CGame::GameOverWon()
+//{
+//	MessageBox(m_hMainWindow, L"Winner!", L"Game Over", MB_OK);
+//	PostQuitMessage(0);
+//}
+//
+//void
+//CGame::GameOverLost()
+//{
+//	MessageBox(m_hMainWindow, L"Loser!", L"Game Over", MB_OK);
+//	PostQuitMessage(0);
+//}
 
 void
 CGame::DestroyInstance()
@@ -262,6 +265,7 @@ CGame::GetWindow()
 bool CGame::startGame(bool _bStart)
 {
 	m_bStartGame = _bStart;
+	m_bNotFirstInstance = true;
 	
 	if (_bStart == true)
 	{
@@ -270,4 +274,20 @@ bool CGame::startGame(bool _bStart)
 	}
 
 	return true;
+}
+
+void
+CGame::DrawScore()
+{
+	HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+
+	std::string _strScore = "Final Score: " + ToString(m_pLevel->GetScore());
+
+	int kiX = m_iWidth/2;
+	int kiY = m_iHeight/2;
+	SetBkMode(hdc, TRANSPARENT);
+
+	TextOutA(hdc, kiX - 20, kiY, "Game Over!", 10);
+
+	TextOutA(hdc, kiX - static_cast<int>(_strScore.size()) * 2, kiY + 28, _strScore.c_str(), static_cast<int>(_strScore.size()));
 }

@@ -213,6 +213,12 @@
     <Image Include="Sprites\LifeMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Sprites\Clouds.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\CloudsMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\HighScores.txt">

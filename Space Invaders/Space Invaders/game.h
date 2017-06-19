@@ -58,8 +58,8 @@ public:
 
 	bool startGame(bool _bStart);
 
-	void GameOverWon();
-	void GameOverLost();
+	//void GameOverWon();
+	//void GameOverLost();
 
 	// Singleton Methods
 	static CGame& GetInstance();
@@ -97,11 +97,15 @@ protected:
 	CBackGround* m_pBackground;
 	std::vector<CClouds*> m_vecpClouds;
 
+	void DrawScore();
+
 
 private:
 	bool m_bStartGame;
 	int m_iWidth;
 	int m_iHeight;
+
+	bool m_bNotFirstInstance;
 };
 
 #endif    // __GAME_H__

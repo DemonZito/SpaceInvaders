@@ -49,7 +49,10 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		{
 		case 0x1B:
 		{
-			ShowWindow(g_hDlgDebug, SW_SHOWNORMAL);
+			if (rGame.GetGameState() == true)
+			{
+				ShowWindow(g_hDlgDebug, SW_SHOWNORMAL);
+			}
 			break;
 		}
 		default:
@@ -113,12 +116,14 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO13:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO13);
+				rGame.GetInstance().GetLevel()->SetEnemySpeed(1000);
 				return TRUE;
 				break;
 			}
 			case IDC_RADIO14:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
+				rGame.GetInstance().GetLevel()->SetEnemySpeed(1);
 
 				return TRUE;
 				break;
@@ -126,6 +131,7 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO15:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO15);
+				rGame.GetInstance().GetLevel()->SetEnemySpeed(0.01f);
 
 				return TRUE;
 				break;
@@ -150,24 +156,6 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO4, IDC_RADIO6, IDC_RADIO6);
 				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-2600.0);
-				return TRUE;
-				break;
-			}
-			case IDC_RADIO7:
-			{
-				CheckRadioButton(_hwnd, IDC_RADIO7, IDC_RADIO9, IDC_RADIO7);
-				return TRUE;
-				break;
-			}
-			case IDC_RADIO8:
-			{
-				CheckRadioButton(_hwnd, IDC_RADIO7, IDC_RADIO9, IDC_RADIO8);
-				return TRUE;
-				break;
-			}
-			case IDC_RADIO9:
-			{
-				CheckRadioButton(_hwnd, IDC_RADIO7, IDC_RADIO9, IDC_RADIO9);
 				return TRUE;
 				break;
 			}
@@ -269,7 +257,6 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 	CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
 	CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
 	CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
-	CheckRadioButton(g_hDlgDebug, IDC_RADIO7, IDC_RADIO9, IDC_RADIO8);
 	
 	GetClientRect(hwnd, &_rect);
 

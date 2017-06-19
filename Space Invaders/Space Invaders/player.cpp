@@ -69,11 +69,11 @@ CPlayer::Process(float _fDeltaTick)
 
 	if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 	{
-		m_fX += 400.0f * _fDeltaTick;
+		m_fX += 300.0f * _fDeltaTick;
 	}
 	if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 	{ 
-		m_fX -= 400.0f * _fDeltaTick;
+		m_fX -= 300.0f * _fDeltaTick;
 	}
 	if (GetAsyncKeyState(VK_UP) & 0x8000)
 	{

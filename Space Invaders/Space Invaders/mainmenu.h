@@ -50,6 +50,7 @@ private:
 
 	CMenuButton* m_pStartButton;
 	CMenuButton* m_pQuitButton;
+
 };
 
 #endif    // __MAINMENU_H__

@@ -204,6 +204,8 @@
     <Image Include="Sprites\BarrierBlockMask.bmp" />
     <Image Include="Sprites\Bullets.bmp" />
     <Image Include="Sprites\BulletsMask.bmp" />
+    <Image Include="Sprites\Clouds.bmp" />
+    <Image Include="Sprites\CloudsMask.bmp" />
     <Image Include="Sprites\DeadExplosion.bmp" />
     <Image Include="Sprites\DeadExplosionMask.bmp" />
     <Image Include="Sprites\EnemyAliensB.bmp" />

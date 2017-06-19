@@ -35,9 +35,9 @@ CClouds::~CClouds()
 bool
 CClouds::Initialise(float _fDeltaTick)
 {
-	VALIDATE(CEntity::Initialise(IDB_DEADEXPLOSION, IDB_DEADEXPLOSIONMASK));
-	CEntity::m_pSprite->SetDestSizeW(50);
-	CEntity::m_pSprite->SetDestSizeH(50);
+	VALIDATE(CEntity::Initialise(IDB_CLOUDS, IDB_CLOUDSMASK));
+	CEntity::m_pSprite->SetDestSizeW(400);
+	CEntity::m_pSprite->SetDestSizeH(30);
 	CEntity::Process(_fDeltaTick);
 	return (true);
 }
@@ -45,7 +45,7 @@ CClouds::Initialise(float _fDeltaTick)
 void
 CClouds::Process(float _fDeltaTick)
 {
-	m_fX += 40.0f * _fDeltaTick;
+	m_fX += 1.0f * _fDeltaTick;
 
 	CEntity::Process(_fDeltaTick);
 }

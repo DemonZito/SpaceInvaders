@@ -51,8 +51,13 @@ public:
 	virtual void Process(float _fDeltaTick);
 
 	void SetAlienShootSpeed(int _fAlienShootMod);
+	void SetEnemySpeed(float Speed);
+
+	int GetScore();
 
 	CPlayer* GetPaddle() const;
+
+	std::vector<IEnemy*> GetEnemies() const;
 
 	int GetBricksRemaining() const;
 
@@ -68,11 +73,13 @@ protected:
 	bool ProcessBulletMotherShipCollision(float _fDeltaTick);
 	bool ProcessBulletEnemyBulletCollision(float _fDeltaTick);
 	bool ProcessBulletBlockBarrierCollision(float _fDeltaTick);
+	bool ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick);
 
 	bool ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick);
 	//void ProcessPlayerWallCollison();
 	//	bool ProcessBulletEnemyCollision();
 
+	void ProcessCheckForLose();
 	void ProcessCheckForWin();
 
 	void ProcessBulletBounds();
@@ -84,7 +91,6 @@ protected:
 	void DrawFPS();
 
 	void SetScore(int _i);
-	int GetScore();
 
 private:
 	CLevel(const CLevel& _kr);

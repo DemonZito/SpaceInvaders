@@ -356,9 +356,11 @@ CLevel::Process(float _fDeltaTick)
 	{
 		if (rand() % 200 == 0)
 		{
-			CExplosion* Explosion = m_vecpExplosions.back();
-			m_vecpExplosions.pop_back();
+			CExplosion* Explosion = m_vecpExplosions[0];
+			m_vecpExplosions.erase(m_vecpExplosions.begin());
+
 			delete Explosion;
+			Explosion = nullptr;
 		}
 	}
 	
@@ -453,6 +455,8 @@ CLevel::Process(float _fDeltaTick)
 	}
 
 	ProcessEnemyBulletBarrierBlockCollision(_fDeltaTick);
+	ProcessEnemyBodiesBarrierBlockCollision(_fDeltaTick);
+	ProcessCheckForLose();
 
 	//handles aliens shooting
 	if (s_iShootFrameBuffer <= 0)
@@ -508,14 +512,6 @@ CLevel::Process(float _fDeltaTick)
 
 			}
 		}
-		
-
-		
-
-
-
-
-
 	m_fpsCounter->CountFramesPerSecond(_fDeltaTick);
 }
 
@@ -523,6 +519,11 @@ CPlayer*
 CLevel::GetPaddle() const
 {
 	return (m_pPlayer);
+}
+
+std::vector<IEnemy*> CLevel::GetEnemies() const
+{
+	return m_vecEnemies;
 }
 
 bool
@@ -887,6 +888,50 @@ CLevel::ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick)
 }
 
 bool
+CLevel::ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick)
+{
+	for (unsigned int barrier = 0; barrier < m_vecpBarrierBlocks.size(); ++barrier)
+	{
+		for (unsigned int enemy = 0; enemy < m_vecEnemies.size(); ++enemy)
+		{
+			if (m_vecpBarrierBlocks[barrier] != nullptr && m_vecEnemies[enemy] != nullptr && !m_vecEnemies[enemy]->IsHit())
+			{
+				float fEnemyR = m_vecEnemies[enemy]->GetWidth()/2;
+				float fEnemyX = m_vecEnemies[enemy]->GetX();
+				float fEnemyY = m_vecEnemies[enemy]->GetY();
+
+				float fBarrierH = m_vecpBarrierBlocks[barrier]->GetHeight();
+				float fBarrierW = m_vecpBarrierBlocks[barrier]->GetWidth();
+				float fBarrierX = m_vecpBarrierBlocks[barrier]->GetX();
+				float fBarrierY = m_vecpBarrierBlocks[barrier]->GetY();
+
+				if ((fEnemyX + fEnemyR > fBarrierX - fBarrierW / 2) &&
+					(fEnemyX - fEnemyR < fBarrierX + fBarrierW / 2) &&
+					(fEnemyY + fEnemyR > fBarrierY - fBarrierH / 2) &&
+					(fEnemyY - fEnemyR < fBarrierY + fBarrierH / 2))
+				{
+
+					CBarrierBlock* pBarrier = m_vecpBarrierBlocks.at(barrier);
+
+					m_vecpBarrierBlocks.erase(m_vecpBarrierBlocks.begin() + barrier);
+
+					//trigger an explosion
+					CExplosion* Explosion = new CExplosion(pBarrier->GetX(), pBarrier->GetY());
+					VALIDATE(Explosion->Initialise(_fDeltaTick));
+					m_vecpExplosions.push_back(Explosion);
+
+					delete pBarrier;
+					pBarrier = nullptr;
+				}
+			}
+
+		}
+	}
+
+	return true;
+}
+
+bool
 CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
 {
 	for (unsigned int i = 0; i < m_vecpBarrierBlocks.size(); ++i)
@@ -939,6 +984,24 @@ CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
 	}
 	return true;
 
+}
+
+void
+CLevel::ProcessCheckForLose()
+{
+	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
+	{
+		if (m_vecEnemies[i] != nullptr && !m_vecEnemies[i]->IsHit())
+		{
+			if (m_vecEnemies[i]->GetY() > m_iHeight - 30)
+			{
+				while (m_pPlayer->GetLives() > 0)
+				{
+					m_pPlayer->LoseLife();
+				}
+			}
+		}
+	}
 }
 
 void
@@ -1067,4 +1130,13 @@ CLevel::DrawFPS()
 
 	m_fpsCounter->DrawFPSText(hdc, m_iWidth, m_iHeight);
 
+}
+
+void
+CLevel::SetEnemySpeed(float Speed)
+{
+	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
+	{
+		m_vecEnemies.at(i)->SetSpeed(Speed);
+	}
 }

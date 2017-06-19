@@ -38,6 +38,14 @@ CMainMenu::CMainMenu()
 
 CMainMenu::~CMainMenu()
 {
+	delete m_pStartButton;
+	m_pStartButton = 0;
+
+	delete m_pQuitButton;
+	m_pQuitButton = 0;
+
+	delete m_pTitle;
+	m_pTitle = 0;
 }
 
 bool CMainMenu::Initialise(int _iWidth, int _iHeight)

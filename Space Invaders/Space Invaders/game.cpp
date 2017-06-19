@@ -66,7 +66,7 @@ CGame::~CGame()
 	m_pBackground = 0;
 
 	//delete clouds
-	while (m_vecpClouds.size() > 0)
+	while (m_vecpClouds.size() != 0)
 	{
 		CClouds* pCloud = m_vecpClouds[m_vecpClouds.size() - 1];
 		m_vecpClouds.pop_back();
@@ -286,7 +286,10 @@ CGame::ChangeGameState(gameState _State)
 	
 	if (m_GameState == GAMESCREEN)
 	{
-		m_pLevel = new CLevel();
+		if (m_pLevel == nullptr)
+		{
+			m_pLevel = new CLevel();
+		}
 		VALIDATE(m_pLevel->Initialise(m_iWidth, m_iHeight));
 	}
 

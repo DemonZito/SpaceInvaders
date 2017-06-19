@@ -131,6 +131,15 @@ CLevel::~CLevel()
 		pEnemyBullet = nullptr;
 	}
 
+	while (m_vecpExplosions.empty() == false)
+	{
+		CExplosion* pTempExplosion = m_vecpExplosions.back();
+		m_vecpExplosions.pop_back();
+
+		delete pTempExplosion;
+		pTempExplosion = 0;
+	}
+
 	delete m_fpsCounter;
 	m_fpsCounter = 0;
 
@@ -527,6 +536,46 @@ CLevel::GetPaddle() const
 std::vector<IEnemy*> CLevel::GetEnemies() const
 {
 	return m_vecEnemies;
+}
+
+void CLevel::ResetLevel()
+{
+	while (m_vecEnemies.size() > 0)
+	{
+		IEnemy* pEnemy = m_vecEnemies[m_vecEnemies.size() - 1];
+
+		m_vecEnemies.pop_back();
+
+		delete pEnemy;
+		pEnemy = 0;
+	}
+
+	while (m_vecpBarrierBlocks.size() > 0)
+	{
+		CBarrierBlock* pBarrier = m_vecpBarrierBlocks[m_vecpBarrierBlocks.size() - 1];
+		m_vecpBarrierBlocks.pop_back();
+
+		delete pBarrier;
+		pBarrier = nullptr;
+	}
+
+	while (m_vecpLifeCounters.size() > 0)
+	{
+		CLifeCount* pLifeCount = m_vecpLifeCounters[m_vecpLifeCounters.size() - 1];
+		m_vecpLifeCounters.pop_back();
+
+		delete pLifeCount;
+		pLifeCount = nullptr;
+	}
+
+	while (m_vecpExplosions.empty() == false)
+	{
+		CExplosion* pTempExplosion = m_vecpExplosions.back();
+		m_vecpExplosions.pop_back();
+
+		delete pTempExplosion;
+		pTempExplosion = 0;
+	}
 }
 
 bool
@@ -977,7 +1026,6 @@ CLevel::ProcessBulletBlockBarrierCollision(float _fDeltaTick)
 				m_vecpExplosions.push_back(Explosion);
 
 				delete pBlock;
-
 				m_vecpBarrierBlocks[i] = nullptr;
 
 				//delete pEnemy;
@@ -1044,33 +1092,7 @@ CLevel::ProcessCheckForWin()
 		}
 	}
 
-	while (m_vecEnemies.size() > 0)
-	{
-		IEnemy* pEnemy = m_vecEnemies[m_vecEnemies.size() - 1];
-
-		m_vecEnemies.pop_back();
-
-		delete pEnemy;
-		pEnemy = 0;
-	}
-
-	while (m_vecpBarrierBlocks.size() > 0)
-	{
-		CBarrierBlock* pBarrier = m_vecpBarrierBlocks[m_vecpBarrierBlocks.size() - 1];
-		m_vecpBarrierBlocks.pop_back();
-
-		delete pBarrier;
-		pBarrier = nullptr;
-	}
-
-	while (m_vecpLifeCounters.size() > 0)
-	{
-		CLifeCount* pLifeCount = m_vecpLifeCounters[m_vecpLifeCounters.size() - 1];
-		m_vecpLifeCounters.pop_back();
-
-		delete pLifeCount;
-		pLifeCount = nullptr;
-	}
+	ResetLevel();
 
 	m_pPlayer->SetHealth(3);
 	CLevel::Initialise(m_iWidth, m_iHeight);

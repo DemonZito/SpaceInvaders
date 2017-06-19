@@ -15,7 +15,7 @@
 //Library Includes
 #include <windows.h>
 #include <windowsx.h>
-//#include <vld.h>
+#include <vld.h>
 
 //Local Includes
 #include "Game.h"
@@ -162,6 +162,7 @@ BOOL CALLBACK HighscoreDlgProc(HWND _hwnd,
 		{
 			rGame.GetHSMenu()->AddHighScore(ReadFromEditBox(g_hDlgHighscore, IDC_EDIT1), rGame.GetLevel()->GetScore());
 			ShowWindow(_hwnd, SW_HIDE);
+			rGame.GetLevel()->ResetLevel();
 			rGame.ChangeGameState(HIGHSCORE);
 			rGame.GetLevel()->SetLoseState(false);
 

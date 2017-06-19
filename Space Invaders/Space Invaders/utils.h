@@ -43,8 +43,9 @@ std::string ToString(const T& _value)
 
 inline std::string ReadFromEditBox(HWND _hDlg, int _iResourceID)
 {
-	LPTSTR _pcValue;
-	
+	wchar_t _pcValue[10];
+	//TCHAR buff[1024];
+
 	ZeroMemory(_pcValue, 10);
 	GetDlgItemText(_hDlg, _iResourceID, _pcValue, 10);
 

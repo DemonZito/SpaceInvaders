@@ -63,6 +63,8 @@ public:
 
 	void SetPlayerBulletSpeed(int _fPlayerBulletSpeed);
 
+	void ResetLevel();
+
 protected:
 	bool ProcessBulletWallCollision();
 

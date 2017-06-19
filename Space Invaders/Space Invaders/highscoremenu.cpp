@@ -36,12 +36,27 @@ CHighScoreMenu::CHighScoreMenu()
 
 CHighScoreMenu::~CHighScoreMenu()
 {
+	delete m_pStartButton;
+	m_pStartButton = 0;
 }
 
 bool CHighScoreMenu::Initialise(int _iWidth, int _iHeight)
 {
 	m_iWidth = _iWidth;
 	m_iHeight = _iHeight;
+
+	std::ifstream LoadFile;
+	LoadFile.open("Resources\\HighScores.txt");
+
+	for (int i = 0; i < 10; i++)
+	{
+		std::string tempName;
+		getline(LoadFile, tempName, ':');
+		m_vecHighNames.push_back(tempName);
+		std::string tempNum;
+		getline(LoadFile, tempNum, '\n');
+		m_vecHighscores.push_back(std::stoi((tempNum)));
+	}
 
 	return true;
 }
@@ -117,7 +132,7 @@ std::string ExePath() {
 void
 CHighScoreMenu::DrawHighScore()
 {
-	std::fstream LoadFile;
+	std::ifstream LoadFile;
 	LoadFile.open("Resources\\HighScores.txt");
 
 	std::string Score;
@@ -143,17 +158,52 @@ CHighScoreMenu::DrawHighScore()
 	LoadFile.close();
 }
 
+std::fstream& GotoLine(std::fstream& file, unsigned int num) {
+	file.seekg(std::ios::beg);
+	
+	return file;
+}
+
 void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iHighscore)
 {
+	std::ofstream ClearFile;
+	ClearFile.open("Resources\\HighScores.txt", std::ios::trunc);
+	ClearFile.close();
+
+
 	std::fstream LoadFile;
-	LoadFile.open("Resources\\HighScores.txt");
+	LoadFile.open("Resources\\HighScores.txt", std::ios::app);
+	std::string line;
 
-	std::string line = "";
+	bool bHighScoreInserted = false;
 
-	while (getline(LoadFile, line) && line != "");
-	
-	LoadFile << "2222";
-	
+	for (int i = 0; i < 10; i++)
+	{
+		if (m_vecHighscores.at(i) < _iHighscore && bHighScoreInserted == false)
+		{
+			std::vector<int>::iterator it;
+
+			it = m_vecHighscores.begin();
+			it = m_vecHighscores.insert(it, _iHighscore);
+
+			std::vector<std::string>::iterator it2;
+
+			it2 = m_vecHighNames.begin();
+			it2 = m_vecHighNames.insert(it2, _strHighscoreName);
+			
+			m_vecHighscores.pop_back();
+			m_vecHighNames.pop_back();
+
+			LoadFile << _strHighscoreName << ": " << _iHighscore << "\n";
+			bHighScoreInserted = true;
+		}
+		else
+		{
+			LoadFile << m_vecHighNames.at(i) << ": " << m_vecHighscores.at(i) << "\n";
+		}
+
+		//getline(LoadFile, line);
+	}
 
 	LoadFile.close();
 }

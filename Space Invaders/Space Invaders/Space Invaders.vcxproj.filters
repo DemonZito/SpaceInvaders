@@ -219,6 +219,24 @@
     <Image Include="Sprites\CloudsMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Sprites\Title.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\TitleMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\ButtonUp.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\ButtonUpMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\ButtonDown.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Sprites\ButtonDownMask.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\HighScores.txt">

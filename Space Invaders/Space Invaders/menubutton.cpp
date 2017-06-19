@@ -21,10 +21,12 @@
 
 
 
-CMenuButton::CMenuButton(const float _iX, const float _iY)
+CMenuButton::CMenuButton(const float _iX, const float _iY, int _iSpriteIDB, int _iSpriteMaskIDB)
 {
 	m_fX = _iX;
 	m_fY = _iY;
+	m_iSpriteIDB = _iSpriteIDB;
+	m_iSpriteMaskIDB = _iSpriteMaskIDB;
 }
 
 
@@ -35,9 +37,8 @@ CMenuButton::~CMenuButton()
 bool
 CMenuButton::Initialise(float _fDeltaTick)
 {
-	VALIDATE(CEntity::Initialise(IDB_DEADEXPLOSION, IDB_DEADEXPLOSIONMASK));
-	CEntity::m_pSprite->SetDestSizeW(50);
-	CEntity::m_pSprite->SetDestSizeH(50);
+	VALIDATE(CEntity::Initialise(m_iSpriteIDB, m_iSpriteMaskIDB));
+
 	CEntity::Process(_fDeltaTick);
 	return (true);
 }
@@ -46,4 +47,12 @@ void
 CMenuButton::Draw()
 {
 	CEntity::Draw();
+}
+
+bool CMenuButton::ChangeSprite(int _iSpriteIDB, int _iSpriteMaskIDB)
+{
+	m_iSpriteIDB = _iSpriteIDB;
+	m_iSpriteMaskIDB = _iSpriteMaskIDB;
+	VALIDATE(m_pSprite->Initialise(m_iSpriteIDB, m_iSpriteMaskIDB));
+	return true;
 }

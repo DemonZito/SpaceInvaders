@@ -37,7 +37,6 @@ public:
 	bool checkIfStartSelected(const int _iX, const int _iY);
 	bool checkIfQuitSelected(const int _iX, const int _iY);
 
-
 	void DrawCredits();
 	void DrawHighScore();
 
@@ -48,8 +47,12 @@ private:
 	int m_iWidth;
 	int m_iHeight;
 
+	bool m_bQuitClicked;
+	bool m_bStartClicked;
+
 	CMenuButton* m_pStartButton;
 	CMenuButton* m_pQuitButton;
+	CMenuButton* m_pTitle;
 
 };
 

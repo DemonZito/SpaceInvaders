@@ -18,6 +18,7 @@
 
 // Local Includes
 #include "utils.h"
+#include "resource.h"
 #include "menubutton.h"
 #include "Game.h"
 #include "backbuffer.h"
@@ -29,6 +30,10 @@ CMainMenu::CMainMenu()
 {
 	m_pStartButton = nullptr;
 	m_pQuitButton = nullptr;
+	m_pTitle = nullptr;
+
+	m_bStartClicked = false;
+	m_bQuitClicked = false;
 }
 
 
@@ -48,6 +53,7 @@ void CMainMenu::Draw()
 {
 	m_pStartButton->Draw();
 	m_pQuitButton->Draw();
+	m_pTitle->Draw();
 	DrawHighScore();
 	DrawCredits();
 }
@@ -57,13 +63,19 @@ bool CMainMenu::Process(float _fDeltaTick)
 
 	if (m_pStartButton == nullptr)
 	{
-		m_pStartButton = new CMenuButton(300 , 200);
+		m_pStartButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 70, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pStartButton->Initialise(_fDeltaTick));
+	}
+
+	if (m_pTitle == nullptr)
+	{
+		m_pTitle = new CMenuButton(m_iWidth / 2, m_iHeight / 2 - 200, IDB_TITLE, IDB_TITLEMASK);
+		VALIDATE(m_pTitle->Initialise(_fDeltaTick));
 	}
 
 	if (m_pQuitButton == nullptr)
 	{
-		m_pQuitButton = new CMenuButton(500, 200);
+		m_pQuitButton = new CMenuButton(m_iWidth / 2, m_iHeight / 2 + 150, IDB_BUTTONUP, IDB_BUTTONUPMASK);
 		VALIDATE(m_pQuitButton->Initialise(_fDeltaTick));
 	}
 
@@ -78,14 +90,24 @@ bool CMainMenu::checkIfStartSelected(const int _iX, const int _iY)
 	float fButtonX = m_pStartButton->GetX();
 	float fButtonY = m_pStartButton->GetY();
 
-	if (_iY < fButtonY + fButtonH 
-		&& _iY > fButtonY
-		&& _iX < fButtonX + fButtonW
-		&& _iX > fButtonX)
+	if (_iY < fButtonY + fButtonH /2
+		&& _iY > fButtonY - fButtonH / 2
+		&& _iX < fButtonX + fButtonW / 2
+		&& _iX > fButtonX - fButtonW / 2)
 	{
+		if(m_bStartClicked == false)
+		{
+			m_pStartButton->ChangeSprite(IDB_BUTTONDOWN, IDB_BUTTONDOWNMASK);
+			m_bStartClicked = true;
+		}
 		return true;
 	}
 	else {
+		if (m_bStartClicked == true)
+		{
+			m_pStartButton->ChangeSprite(IDB_BUTTONUP, IDB_BUTTONUPMASK);
+			m_bStartClicked = false;
+		}
 		return false;
 	}
 }
@@ -98,14 +120,24 @@ bool CMainMenu::checkIfQuitSelected(const int _iX, const int _iY)
 	float fButtonX = m_pQuitButton->GetX();
 	float fButtonY = m_pQuitButton->GetY();
 
-	if (_iY < fButtonY + fButtonH
-		&& _iY > fButtonY
-		&& _iX < fButtonX + fButtonW
-		&& _iX > fButtonX)
+	if (_iY < fButtonY + fButtonH / 2
+		&& _iY > fButtonY - fButtonH / 2
+		&& _iX < fButtonX + fButtonW / 2
+		&& _iX > fButtonX - fButtonW / 2)
 	{
+		if (m_bQuitClicked == false)
+		{
+			m_pQuitButton->ChangeSprite(IDB_BUTTONDOWN, IDB_BUTTONDOWNMASK);
+			m_bQuitClicked = true;
+		}
 		return true;
 	}
 	else {
+		if (m_bQuitClicked == true)
+		{
+			m_pQuitButton->ChangeSprite(IDB_BUTTONUP, IDB_BUTTONUPMASK);
+			m_bQuitClicked = false;
+		}
 		return false;
 	}
 }

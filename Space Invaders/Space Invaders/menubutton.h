@@ -24,12 +24,18 @@
 class CMenuButton : public CEntity
 {
 public:
-	CMenuButton(const float _iX, const float _iY);
+	CMenuButton(const float _iX, const float _iY, int _iSpriteIDB, int _iSpriteMaskIDB);
 	~CMenuButton();
 
 	virtual bool Initialise(float _fDeltaTick);
 
 	virtual void Draw();
+
+	virtual bool ChangeSprite(int _iSpriteIDB, int _iSpriteMaskIDB);
+
+private:
+	int m_iSpriteIDB;
+	int m_iSpriteMaskIDB;
 };
 
 #endif    // __MENUBUTTON_H__

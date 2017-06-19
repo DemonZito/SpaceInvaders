@@ -204,6 +204,10 @@
     <Image Include="Sprites\BarrierBlockMask.bmp" />
     <Image Include="Sprites\Bullets.bmp" />
     <Image Include="Sprites\BulletsMask.bmp" />
+    <Image Include="Sprites\ButtonDown.bmp" />
+    <Image Include="Sprites\ButtonDownMask.bmp" />
+    <Image Include="Sprites\ButtonUp.bmp" />
+    <Image Include="Sprites\ButtonUpMask.bmp" />
     <Image Include="Sprites\Clouds.bmp" />
     <Image Include="Sprites\CloudsMask.bmp" />
     <Image Include="Sprites\DeadExplosion.bmp" />
@@ -214,6 +218,8 @@
     <Image Include="Sprites\LifeMask.bmp" />
     <Image Include="Sprites\Player.bmp" />
     <Image Include="Sprites\PlayerMask.bmp" />
+    <Image Include="Sprites\Title.bmp" />
+    <Image Include="Sprites\TitleMask.bmp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\HighScores.txt" />

@@ -40,6 +40,8 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 {
 	static int s_iCurMouseX;
 	static int s_iCurMouseY;
+	static bool s_bStartSelected;
+	static bool s_bQuitSelected;
 
 	switch (_uiMsg)
 	{
@@ -65,12 +67,28 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 	{
 		if (rGame.GetGameState() == false && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
-			rGame.startGame(true);
+			s_bStartSelected = true;
 		}
 		else if (rGame.GetGameState() == false && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
+			s_bQuitSelected = true;
+		}
+		return (0);
+	}
+		break;
+	case WM_LBUTTONUP:
+	{
+		if (s_bStartSelected == true && rGame.GetGameState() == false && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
+			rGame.startGame(true);
+		}
+		else if (s_bQuitSelected == true && rGame.GetGameState() == false && rGame.GetMenu()->checkIfQuitSelected(s_iCurMouseX, s_iCurMouseY) == true)
+		{
 			PostQuitMessage(0);
 		}
+
+		s_bStartSelected = false;
+		s_bQuitSelected = false;
 		return (0);
 	}
 		break;

@@ -206,6 +206,8 @@
     <ResourceCompile Include="Breakout.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Resources\GoonIcon.ico" />
+    <Image Include="Resources\GoonIconSmall.ico" />
     <Image Include="Sprites\Background.bmp" />
     <Image Include="Sprites\BackgroundMask.bmp" />
     <Image Include="Sprites\BarrierBlock.bmp" />

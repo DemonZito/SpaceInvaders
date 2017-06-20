@@ -15,7 +15,6 @@
 //Library Includes
 #include <windows.h>
 #include <windowsx.h>
-#include <vld.h>
 
 //Local Includes
 #include "Game.h"
@@ -311,12 +310,12 @@ CreateAndRegisterWindow(HINSTANCE _hInstance, int _iWidth, int _iHeight, const w
 	winclass.cbClsExtra = 0;
 	winclass.cbWndExtra = 0;
 	winclass.hInstance = _hInstance;
-	winclass.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	winclass.hIcon = LoadIcon(_hInstance, MAKEINTRESOURCE(IDI_ICON1));
 	winclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	winclass.hbrBackground = static_cast<HBRUSH> (GetStockObject(NULL_BRUSH));
 	winclass.lpszMenuName = NULL;
 	winclass.lpszClassName = WINDOW_CLASS_NAME;
-	winclass.hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	winclass.hIconSm = LoadIcon(_hInstance , MAKEINTRESOURCE(IDI_ICON2));
 
 	if (!RegisterClassEx(&winclass))
 	{
@@ -355,7 +354,7 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 	static bool s_bScoreChecked = false;
 
 
-	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Breakout");
+	HWND hwnd = CreateAndRegisterWindow(_hInstance, kiWidth, kiHeight, L"Space Invaders - Attack of the Goons");
 	
 	g_hDlgDebug = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG1), hwnd, DebugDlgProc);
 	g_hDlgHighscore = CreateDialog(_hInstance, MAKEINTRESOURCE(IDD_DIALOG2), hwnd, HighscoreDlgProc);

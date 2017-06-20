@@ -243,6 +243,12 @@
     <Image Include="Sprites\ButtonDownMask.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\GoonIcon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\GoonIconSmall.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resources\HighScores.txt">

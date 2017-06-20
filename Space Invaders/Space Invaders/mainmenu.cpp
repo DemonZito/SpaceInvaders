@@ -75,6 +75,7 @@ void CMainMenu::Draw()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 	
+	//alligns the button's text when the button is pressed
 	if (m_bStartClicked == false)
 	{
 		TextOutA(hdc, kiX - 18, kiY + 43, "Start", 5);

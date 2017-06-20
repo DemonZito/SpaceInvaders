@@ -57,7 +57,6 @@ public:
 	CPlayer* GetPaddle() const;
 	std::vector<IEnemy*> GetEnemies() const;
 	int GetBricksRemaining() const;
-	//void SetPlayerBulletSpeed(int _fPlayerBulletSpeed);
 	void ResetLevel();
 	void SetScore(int _i);
 
@@ -74,13 +73,9 @@ protected:
 	bool ProcessEnemyBodiesBarrierBlockCollision(float _fDeltaTick);
 
 	bool ProcessEnemyBulletBarrierBlockCollision(float _fDeltaTick);
-	//void ProcessPlayerWallCollison();
-	//	bool ProcessBulletEnemyCollision();
 
 	void ProcessCheckForLose();
 	void ProcessCheckForWin();
-
-	void ProcessBulletBounds();
 
 	void UpdateScoreText();
 	
@@ -130,7 +125,6 @@ private:
 	int m_iScore;
 	float m_fSpeedModifier;
 	bool m_bLoseState;
-	//float m_iAlienSpeed;
 
 	//Debug values
 	int m_fAlienShootMod;

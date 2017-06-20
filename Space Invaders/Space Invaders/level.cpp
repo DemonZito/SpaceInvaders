@@ -28,7 +28,7 @@
 #include "utils.h"
 #include "backbuffer.h"
 #include "framecounter.h"
-#include "CsmallInvader.h"
+#include "SmallInvader.h"
 #include "MediumInvader.h"
 #include "BigInvader.h"
 
@@ -402,13 +402,10 @@ CLevel::Process(float _fDeltaTick)
 	if (bBulletExists == true)
 	{
 		bBulletExists = ProcessBulletWallCollision();
-		//ProcessPaddleWallCollison();
 
 		if (bBulletExists == true)
 		{
-			//ProcessBallPaddleCollision();
 			bBulletExists = ProcessBulletEnemyCollision(_fDeltaTick);
-			ProcessBulletBounds();
 			ProcessCheckForWin();
 		}
 
@@ -436,7 +433,6 @@ CLevel::Process(float _fDeltaTick)
 	if (s_iShootFrameBuffer <= 0 && m_fAlienShootMod != -1)
 	{
 		s_iShootFrameBuffer = rand() % (m_fAlienShootMod);
-		//s_iShootFrameBuffer = rand() % (5000 - m_fAlienShootMod * 10) + 500;
 		if (AlienShoot((rand() % 12), _fDeltaTick) == false) {
 			s_iShootFrameBuffer = 1;
 		}
@@ -586,7 +582,7 @@ CLevel::ProcessBulletWallCollision()
 	float fHalfBallW = fBallW / 2;
 	float fHalfBallH = fBallH / 2;
 
-	if (fBallY < fHalfBallH) //represents the situation when the bullet has hit the top wall.
+	if (fBallY < fHalfBallH - 100) //represents the situation when the bullet has hit the top wall.
 	{
 		m_pPlayer->DeleteBullet();
 		m_pBullet = nullptr;
@@ -1077,36 +1073,8 @@ CLevel::ProcessCheckForWin()
 	ResetLevel();
 	Sleep(1000);
 
-	//m_pPlayer->SetHealth(3);
 	CLevel::Initialise(m_iWidth, m_iHeight);
 	m_fSpeedModifier *= 0.7f;
-}
-
-void
-CLevel::ProcessBulletBounds()
-{
-	if (m_pBullet->GetX() < 0)
-	{
-		m_pBullet->SetX(0);
-	}
-	else if (m_pBullet->GetX() > m_iWidth)
-	{
-		m_pBullet->SetX(static_cast<float>(m_iWidth));
-	}
-
-	if (m_pBullet->GetY() < 0)
-	{
-		m_pBullet->SetY(0.0f);
-	}
-	else if (m_pBullet->GetY() > m_iHeight)
-	{
-
-		delete m_pBullet;
-		//m_pPlayer->SetBullet(nullptr);
-		m_pPlayer->DeleteBullet();
-
-		bBulletExists = false;
-	}
 }
 
 int

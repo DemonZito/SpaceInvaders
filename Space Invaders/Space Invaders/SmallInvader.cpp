@@ -19,7 +19,7 @@
 #include "utils.h"
 
 // This Include
-#include "CsmallInvader.h"
+#include "SmallInvader.h"
 #include "EnemyBullet.h"
 
 // Static Variables

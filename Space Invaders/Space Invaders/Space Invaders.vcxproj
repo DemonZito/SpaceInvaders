@@ -155,7 +155,7 @@
     <ClCompile Include="BigInvader.cpp" />
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="clouds.cpp" />
-    <ClCompile Include="CsmallInvader.cpp" />
+    <ClCompile Include="SmallInvader.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="clock.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
@@ -182,7 +182,7 @@
     <ClInclude Include="BigInvader.h" />
     <ClInclude Include="bullet.h" />
     <ClInclude Include="clouds.h" />
-    <ClInclude Include="CsmallInvader.h" />
+    <ClInclude Include="SmallInvader.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="clock.h" />
     <ClInclude Include="EnemyBullet.h" />

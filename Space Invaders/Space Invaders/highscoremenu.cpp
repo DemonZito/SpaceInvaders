@@ -241,10 +241,10 @@ void CHighScoreMenu::AddHighScore(std::string _strHighscoreName, int _iLineToWri
 	{
 		if (i == _iLineToWrite)
 		{
-			LoadFile << _strHighscoreName << "          -          " << m_vecHighscores.at(i) << "\n";		}
+			LoadFile << _strHighscoreName << "-" << m_vecHighscores.at(i) << "\n";		}
 		else
 		{
-			LoadFile << m_vecHighNames.at(i) << "-          " << m_vecHighscores.at(i) << "\n";
+			LoadFile << m_vecHighNames.at(i) << "-" << m_vecHighscores.at(i) << "\n";
 		}
 
 		//getline(LoadFile, line);

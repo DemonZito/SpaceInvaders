@@ -154,12 +154,44 @@ CHighScoreMenu::DrawHighScore()
 	int kiX = m_iWidth / 4 + 140;
 	int kiY = m_iHeight / 8;
 
-	while (getline(LoadFile, line) && line != "")
+	/*while (getline(LoadFile, line) && line != "")
 	{
 		kiY += 26;
 		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
 		SetBkMode(hdc, TRANSPARENT);
 		TextOutA(hdc, kiX, kiY, line.c_str(), static_cast<int>(line.size()));
+	}*/
+
+	for (int i = 0; i < 10; i++)
+	{
+		kiY += 26;
+		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+		SetBkMode(hdc, TRANSPARENT);
+		TextOutA(hdc, kiX, kiY, m_vecHighNames.at(i).c_str(), static_cast<int>(m_vecHighNames.at(i).size()));
+	}
+
+	kiY = m_iHeight / 8;
+
+	for (int i = 0; i < 10; i++)
+	{
+		kiY += 26;
+		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+		SetBkMode(hdc, TRANSPARENT);
+		TextOutA(hdc, kiX + 19*6, kiY, "-" , 1);
+	}
+
+	kiY = m_iHeight / 8;
+
+	for (int i = 0; i < 10; i++)
+	{
+		kiY += 26;
+		HDC hdc = CGame::GetInstance().GetBackBuffer()->GetBFDC();
+		SetBkMode(hdc, TRANSPARENT);
+		std::stringstream ss;
+		ss << m_vecHighscores.at(i);
+		std::string str = ss.str();
+
+		TextOutA(hdc, kiX + (19 * 10), kiY, str.c_str(), static_cast<int>(str.size()));
 	}
 
 	LoadFile.close();

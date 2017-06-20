@@ -1,5 +1,6 @@
 skillz          -          20050
 lol          -          4690
+abcdefghi          -          2190
 hst          -          1280
 DEBBY          -          860
 DEB          -          670
@@ -7,4 +8,3 @@ gottem          -          660
 VAJ          -          650
 JUTTED          -          640
 JUTTED2          -          640
-EARU          -          630

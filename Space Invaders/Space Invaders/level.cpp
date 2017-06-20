@@ -65,6 +65,7 @@ CLevel::CLevel()
 	m_pPlayer = nullptr;
 	m_fpsCounter = nullptr;
 	m_bLoseState = false;
+	//m_iAlienSpeed = 1.0f;
 }
 
 CLevel::~CLevel()
@@ -199,6 +200,7 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 		pEnemy->SetY(static_cast<float>(iCurrentY));
 
 		pEnemy->SetSpeed(m_fSpeedModifier);
+		pEnemy->m_pAnim->SetSpeed(m_fSpeedModifier);
 
 		iCurrentX += static_cast<int>(pEnemy->GetWidth()) + kiGap;
 
@@ -218,6 +220,15 @@ CLevel::Initialise(int _iWidth, int _iHeight)
 
 		m_vecEnemies.push_back(pEnemy);
 	}
+
+	/*for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
+	{
+		if (m_vecEnemies.at(i) != nullptr)
+		{
+			m_vecEnemies.at(i)->SetSpeed(m_fSpeedModifier);
+			m_vecEnemies.at(i)->m_pAnim->SetSpeed(m_fSpeedModifier);
+		}
+	}*/
 
 	if (m_fpsCounter == nullptr)
 	{
@@ -249,7 +260,7 @@ CLevel::AlienShoot(int _iStack, float _fDeltaTick)
 			{
 				
 				m_vecEnemies.at(j)->shoot(&m_vecpEnemyBullets);
-				m_vecpEnemyBullets.back()->Initialise(m_vecEnemies.at(j)->GetX(), m_vecEnemies.at(j)->GetY() + 15, 260.0, m_fDeltaTick);
+				m_vecpEnemyBullets.back()->Initialise(m_vecEnemies.at(j)->GetX(), m_vecEnemies.at(j)->GetY() + 15, 520.0, m_fDeltaTick);
 				
 				return true;
 			}
@@ -1064,7 +1075,7 @@ CLevel::ProcessCheckForWin()
 	}
 
 	ResetLevel();
-	Sleep(2000);
+	Sleep(1000);
 
 	//m_pPlayer->SetHealth(3);
 	CLevel::Initialise(m_iWidth, m_iHeight);
@@ -1194,14 +1205,14 @@ CLevel::SetMotherShipSpeed(float Speed)
 void
 CLevel::SetEnemySpeed(float Speed)
 {
-	m_iAlienSpeed = Speed;
+	m_fSpeedModifier = Speed;
 
 	for (unsigned int i = 0; i < m_vecEnemies.size(); ++i)
 	{
 		if (m_vecEnemies.at(i) != nullptr)
 		{
-			m_vecEnemies.at(i)->SetSpeed(m_iAlienSpeed);
-			m_vecEnemies.at(i)->m_pAnim->SetSpeed(m_iAlienSpeed);
+			m_vecEnemies.at(i)->SetSpeed(m_fSpeedModifier);
+			m_vecEnemies.at(i)->m_pAnim->SetSpeed(m_fSpeedModifier);
 		}
 	}
 }

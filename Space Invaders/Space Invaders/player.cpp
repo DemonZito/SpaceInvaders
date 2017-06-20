@@ -51,7 +51,7 @@ CPlayer::Initialise(const int _iScreenWidth)
 	CEntity::m_pSprite->SetDestSizeW(50);
 	CEntity::m_pSprite->SetDestSizeH(50);
 	m_iScreenWidth = _iScreenWidth;
-	m_iBulletSpeed = -260.0;
+	m_iBulletSpeed = -520.0;
     return (true);
 }
 

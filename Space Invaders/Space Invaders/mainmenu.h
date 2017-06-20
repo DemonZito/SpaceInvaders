@@ -45,7 +45,6 @@ private:
 	CMainMenu(const CMainMenu& _kr);
 	CMainMenu& operator= (const CMainMenu& _kr);
 
-	bool checkIfButtonSelected(CMenuButton* _pMenuButton, bool _bCheckDown, const int _iX, const int _iY);
 	void DrawCredits();
 
 	int m_iWidth;

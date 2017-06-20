@@ -32,7 +32,7 @@ CMainMenu::CMainMenu()
 	m_pQuitButton = nullptr;
 	m_pTitle = nullptr;
 
-	m_bHighScoreClicked = nullptr;
+	m_bHighScoreClicked = false;
 	m_bStartClicked = false;
 	m_bQuitClicked = false;
 }
@@ -44,7 +44,7 @@ CMainMenu::~CMainMenu()
 	m_pStartButton = 0;
 
 	delete m_pHighScoreButton;
-	m_pQuitButton = 0;
+	m_pHighScoreButton = 0;
 
 	delete m_pQuitButton;
 	m_pQuitButton = 0;
@@ -84,7 +84,7 @@ void CMainMenu::Draw()
 
 bool CMainMenu::Process(float _fDeltaTick)
 {
-
+	
 	if (m_pStartButton == nullptr)
 	{
 		m_pStartButton = new CMenuButton(static_cast<float>(m_iWidth / 2), static_cast<float>(m_iHeight / 2 + 55), IDB_BUTTONUP, IDB_BUTTONUPMASK);

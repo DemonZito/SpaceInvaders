@@ -73,7 +73,14 @@ void CHighScoreMenu::Draw()
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
 
-	TextOutA(hdc, kiX - 25, kiY + 107, "Return", 6);
+	if (m_bStartClicked == false)
+	{
+		TextOutA(hdc, kiX - 24, kiY + 107, "Return", 6);
+	}
+	else
+	{
+		TextOutA(hdc, kiX - 20, kiY + 113, "Return", 6);
+	}
 }
 
 bool CHighScoreMenu::Process(float _fDeltaTick)

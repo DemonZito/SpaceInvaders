@@ -74,12 +74,33 @@ void CMainMenu::Draw()
 	int kiX = m_iWidth / 2;
 	int kiY = m_iHeight / 2;
 	SetBkMode(hdc, TRANSPARENT);
+	
+	if (m_bStartClicked == false)
+	{
+		TextOutA(hdc, kiX - 18, kiY + 43, "Start", 5);
+	}
+	else
+	{
+		TextOutA(hdc, kiX - 14, kiY + 47, "Start", 5);
+	}
 
-	TextOutA(hdc, kiX - 18, kiY + 43, "Start", 5);
+	if (m_bHighScoreClicked == false)
+	{
+		TextOutA(hdc, kiX - 40, kiY + 107, "High Scores", 11);
+	}
+	else
+	{
+		TextOutA(hdc, kiX - 36, kiY + 113, "High Scores", 11);
+	}
 
-	TextOutA(hdc, kiX - 40, kiY + 107, "High Scores", 11);
-
-	TextOutA(hdc, kiX - 20, kiY + 173, "Quit", 5);
+	if (m_bQuitClicked == false)
+	{
+		TextOutA(hdc, kiX - 20, kiY + 173, "Quit", 5);
+	}
+	else
+	{
+		TextOutA(hdc, kiX - 16, kiY + 180, "Quit", 5);
+	}
 }
 
 bool CMainMenu::Process(float _fDeltaTick)

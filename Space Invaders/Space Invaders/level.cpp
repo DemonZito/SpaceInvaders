@@ -1185,6 +1185,13 @@ CLevel::DrawFPS()
 }
 
 void
+CLevel::SetMotherShipSpeed(float Speed)
+{
+	m_pMotherShip->SetSpeed(Speed);
+	m_pMotherShip->m_pAnim->SetSpeed(Speed);
+}
+
+void
 CLevel::SetEnemySpeed(float Speed)
 {
 	m_iAlienSpeed = Speed;

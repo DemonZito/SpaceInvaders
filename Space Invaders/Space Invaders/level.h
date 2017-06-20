@@ -52,6 +52,7 @@ public:
 
 	void SetAlienShootSpeed(int _fAlienShootMod);
 	void SetEnemySpeed(float Speed);
+	void SetMotherShipSpeed(float Speed);
 	int GetScore();
 	CPlayer* GetPaddle() const;
 	std::vector<IEnemy*> GetEnemies() const;

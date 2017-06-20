@@ -103,6 +103,7 @@ WindowProc(HWND _hWnd, UINT _uiMsg, WPARAM _wParam, LPARAM _lParam)
 		if (buttonDown == START && rGame.GetGameState() == MAINMENU && rGame.GetMenu()->checkIfStartSelected(s_iCurMouseX, s_iCurMouseY) == true)
 		{
 			//set all the radio buttons to their default state
+			CheckRadioButton(g_hDlgDebug, IDC_RADIO1, IDC_RADIO2, IDC_RADIO2);
 			CheckRadioButton(g_hDlgDebug, IDC_RADIO13, IDC_RADIO15, IDC_RADIO14);
 			CheckRadioButton(g_hDlgDebug, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
 			CheckRadioButton(g_hDlgDebug, IDC_RADIO10, IDC_RADIO12, IDC_RADIO11);
@@ -201,6 +202,21 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 		{
 			switch (LOWORD(_wparam))
 			{
+			case IDC_RADIO1:
+			{
+				CheckRadioButton(_hwnd, IDC_RADIO1, IDC_RADIO2, IDC_RADIO1);
+				rGame.GetInstance().GetLevel()->SetMotherShipSpeed(0.0f);
+				return TRUE;
+				break;
+			}
+			case IDC_RADIO2:
+			{
+				CheckRadioButton(_hwnd, IDC_RADIO1, IDC_RADIO2, IDC_RADIO2);
+				rGame.GetInstance().GetLevel()->SetMotherShipSpeed(1.0f);
+
+				return TRUE;
+				break;
+			}
 			case IDC_RADIO13:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO13, IDC_RADIO15, IDC_RADIO13);

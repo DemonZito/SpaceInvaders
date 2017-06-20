@@ -243,7 +243,7 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO4:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO4, IDC_RADIO6, IDC_RADIO4);
-				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-26.0);
+				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-52.0);
 
 				return TRUE;
 				break;
@@ -251,7 +251,7 @@ BOOL CALLBACK DebugDlgProc(HWND _hwnd,
 			case IDC_RADIO5:
 			{
 				CheckRadioButton(_hwnd, IDC_RADIO4, IDC_RADIO6, IDC_RADIO5);
-				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-260.0);
+				rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-520.0);
 
 				return TRUE;
 				break;
@@ -404,9 +404,7 @@ WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance, LPSTR _lpCmdline, int _i
 					rGame.GetInstance().GetLevel()->GetPlayer()->SetBulletSpeed(-260.0);
 					rGame.GetInstance().GetLevel()->SetAlienShootSpeed(500);
 					rGame.GetInstance().GetLevel()->SetEnemySpeed(1);
-
-
-					
+			
 					rGame.GetLevel()->SetLoseState(false);
 					s_bScoreChecked = true;
 				}
